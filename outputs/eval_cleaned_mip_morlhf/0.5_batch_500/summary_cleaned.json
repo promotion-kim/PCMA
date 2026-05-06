@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "w_helpful": 0.5,
+    "w_harmless": 0.5,
+    "morlhf_json": "/home/sjkim/MOD/experiment-PPO/outputs/generations/morlhf/morlhf_w0.5.json",
+    "pcmorlhf_json": "/home/sjkim/MOD/experiment-PPO/outputs/generations/pcmorlhf/pcmorlhf_w0.5_batch_500.json",
+    "reward_model_name": "PKU-Alignment/beaver-7b-v1.0-reward",
+    "cost_model_name": "PKU-Alignment/beaver-7b-v1.0-cost",
+    "max_length": 1024
+  },
+  "summaries": [
+    {
+      "name": "morlhf",
+      "n": 942,
+      "w_helpful": 0.5,
+      "w_harmless": 0.5,
+      "leakage_removed": 0,
+      "leakage_rate": 0.0,
+      "helpful_mean": 3.212772616408686,
+      "helpful_std": 2.9044339844079854,
+      "helpful_stderr": 0.09463157282399093,
+      "cost_mean": -12.828089234175955,
+      "cost_std": 6.697545168888939,
+      "cost_stderr": 0.2182178134514806,
+      "harmless_mean": 12.828089234175955,
+      "harmless_std": 6.697545168888939,
+      "harmless_stderr": 0.2182178134514806,
+      "mip_mean": 8.02043092529232,
+      "mip_std": 3.6777460378076654,
+      "mip_stderr": 0.11982744103439479
+    },
+    {
+      "name": "pcmorlhf",
+      "n": 942,
+      "w_helpful": 0.5,
+      "w_harmless": 0.5,
+      "leakage_removed": 0,
+      "leakage_rate": 0.0,
+      "helpful_mean": -6.572396312802714,
+      "helpful_std": 5.2988730348675475,
+      "helpful_stderr": 0.17264661279135923,
+      "cost_mean": -11.413093194333864,
+      "cost_std": 4.782001249248461,
+      "cost_stderr": 0.15580601999976626,
+      "harmless_mean": 11.413093194333864,
+      "harmless_std": 4.782001249248461,
+      "harmless_stderr": 0.15580601999976626,
+      "mip_mean": 2.4203484407655753,
+      "mip_std": 3.203933294658966,
+      "mip_stderr": 0.10438978765720833
+    }
+  ]
+}

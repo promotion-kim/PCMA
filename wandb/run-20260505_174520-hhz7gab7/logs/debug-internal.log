@@ -1,0 +1,364 @@
+2026-05-05 17:45:20,032 INFO    StreamThr :2239874 [internal.py:wandb_internal():86] W&B internal server running at pid: 2239874, started at: 2026-05-05 17:45:20.031545
+2026-05-05 17:45:20,033 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status
+2026-05-05 17:45:20,040 INFO    WriterThread:2239874 [datastore.py:open_for_write():87] open: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/run-hhz7gab7.wandb
+2026-05-05 17:45:20,041 DEBUG   SenderThread:2239874 [sender.py:send():379] send: header
+2026-05-05 17:45:20,050 DEBUG   SenderThread:2239874 [sender.py:send():379] send: run
+2026-05-05 17:45:20,734 INFO    SenderThread:2239874 [dir_watcher.py:__init__():211] watching files in: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files
+2026-05-05 17:45:20,734 INFO    SenderThread:2239874 [sender.py:_start_run_threads():1124] run started: hhz7gab7 with start time 1777970720.03205
+2026-05-05 17:45:20,746 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: check_version
+2026-05-05 17:45:20,746 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: check_version
+2026-05-05 17:45:20,807 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: run_start
+2026-05-05 17:45:20,978 DEBUG   HandlerThread:2239874 [system_info.py:__init__():26] System info init
+2026-05-05 17:45:20,978 DEBUG   HandlerThread:2239874 [system_info.py:__init__():41] System info init done
+2026-05-05 17:45:20,979 INFO    HandlerThread:2239874 [system_monitor.py:start():194] Starting system monitor
+2026-05-05 17:45:20,979 INFO    SystemMonitor:2239874 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2026-05-05 17:45:20,979 INFO    HandlerThread:2239874 [system_monitor.py:probe():214] Collecting system info
+2026-05-05 17:45:20,980 INFO    SystemMonitor:2239874 [interfaces.py:start():190] Started cpu monitoring
+2026-05-05 17:45:20,981 INFO    SystemMonitor:2239874 [interfaces.py:start():190] Started disk monitoring
+2026-05-05 17:45:20,982 INFO    SystemMonitor:2239874 [interfaces.py:start():190] Started gpu monitoring
+2026-05-05 17:45:20,982 INFO    SystemMonitor:2239874 [interfaces.py:start():190] Started memory monitoring
+2026-05-05 17:45:20,982 INFO    SystemMonitor:2239874 [interfaces.py:start():190] Started network monitoring
+2026-05-05 17:45:21,005 DEBUG   HandlerThread:2239874 [system_info.py:probe():150] Probing system
+2026-05-05 17:45:21,007 DEBUG   HandlerThread:2239874 [system_info.py:_probe_git():135] Probing git
+2026-05-05 17:45:21,019 DEBUG   HandlerThread:2239874 [system_info.py:_probe_git():143] Probing git done
+2026-05-05 17:45:21,019 DEBUG   HandlerThread:2239874 [system_info.py:probe():198] Probing system done
+2026-05-05 17:45:21,019 DEBUG   HandlerThread:2239874 [system_monitor.py:probe():223] {'os': 'Linux-5.14.0-162.6.1.el9_1.x86_64-x86_64-with-glibc2.34', 'python': '3.10.4', 'heartbeatAt': '2026-05-05T08:45:21.005715', 'startedAt': '2026-05-05T08:45:20.017159', 'docker': None, 'cuda': None, 'args': ('--base_model_name', 'PKU-Alignment/alpaca-7b-reproduced', '--dataset_name', 'PKU-Alignment/PKU-SafeRLHF-10K-better', '--prompt_template', 'BEGINNING OF CONVERSATION: USER: {raw_prompt} ASSISTANT:', '--reward_names', 'helpful,harmless', '--preference', '0.5', '--save_directory', '/ext_hdd/sjkim/mod/morlhf_saferlhf', '--wandb_name', 'morlhf_saferlhf_h0.5_s0.5', '--batch_size', '4', '--mini_batch_size', '1', '--max_prompt_length', '384', '--max_new_tokens', '128', '--reward_model_max_length', '512', '--train_split', 'train', '--eval_split', 'validation', '--eval_steps', '100', '--eval_num_prompts', '5', '--eval_max_new_tokens', '128'), 'state': 'running', 'program': '/home/sjkim/MOD/experiment-PPO/ppo/morlhf_saferlhf.py', 'codePathLocal': 'ppo/morlhf_saferlhf.py', 'codePath': 'experiment-PPO/ppo/morlhf_saferlhf.py', 'git': {'remote': 'https://github.com/promotion-kim/PCMA.git', 'commit': '1f9ace3867da7ac20773e924a8f7bbf7d7b21280'}, 'email': 'sjkim@kaist.ac.kr', 'root': '/home/sjkim/MOD', 'host': 'loki3', 'username': 'sjkim', 'executable': '/home/sjkim/anaconda3/envs/ppo/bin/python3.10', 'cpu_count': 24, 'cpu_count_logical': 48, 'cpu_freq': {'current': 2378.8514791666666, 'min': 1000.0, 'max': 4000.0}, 'cpu_freq_per_core': [{'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 1384.871, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}], 'disk': {'/': {'total': 392.65177154541016, 'used': 152.75786209106445}}, 'gpu': 'NVIDIA RTX A6000', 'gpu_count': 2, 'gpu_devices': [{'name': 'NVIDIA RTX A6000', 'memory_total': 51527024640}, {'name': 'NVIDIA RTX A6000', 'memory_total': 51527024640}], 'memory': {'total': 124.92635726928711}}
+2026-05-05 17:45:21,019 INFO    HandlerThread:2239874 [system_monitor.py:probe():224] Finished collecting system info
+2026-05-05 17:45:21,020 INFO    HandlerThread:2239874 [system_monitor.py:probe():227] Publishing system info
+2026-05-05 17:45:21,020 DEBUG   HandlerThread:2239874 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2026-05-05 17:45:21,736 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/conda-environment.yaml
+2026-05-05 17:45:23,442 DEBUG   HandlerThread:2239874 [system_info.py:_save_conda():222] Saving conda packages done
+2026-05-05 17:45:23,444 INFO    HandlerThread:2239874 [system_monitor.py:probe():229] Finished publishing system info
+2026-05-05 17:45:23,448 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:45:23,448 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-metadata.json with policy now
+2026-05-05 17:45:23,604 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: python_packages
+2026-05-05 17:45:23,604 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: python_packages
+2026-05-05 17:45:23,604 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:45:23,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:45:23,605 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:45:23,738 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/conda-environment.yaml
+2026-05-05 17:45:23,738 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/requirements.txt
+2026-05-05 17:45:23,738 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-metadata.json
+2026-05-05 17:45:23,919 DEBUG   SenderThread:2239874 [sender.py:send():379] send: telemetry
+2026-05-05 17:45:23,919 DEBUG   SenderThread:2239874 [sender.py:send():379] send: config
+2026-05-05 17:45:24,170 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/tgcdpb0r-wandb-metadata.json
+2026-05-05 17:45:24,739 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:45:25,672 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:45:26,741 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:45:30,673 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:45:35,674 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:45:38,604 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:45:38,605 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:45:38,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:45:40,871 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:45:45,871 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:45:50,769 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:45:51,460 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:45:52,774 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/config.yaml
+2026-05-05 17:45:53,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:45:53,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:45:53,605 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:45:56,919 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:01,629 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-05 17:46:01,629 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: log_artifact
+2026-05-05 17:46:01,784 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_0_e4bbee2d1335a32ee8c5.table.json
+2026-05-05 17:46:01,784 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media
+2026-05-05 17:46:01,784 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table
+2026-05-05 17:46:02,112 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-05 17:46:02,290 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/3h10elqw-media/table/game_log_0_e4bbee2d1335a32ee8c5.table.json
+2026-05-05 17:46:04,337 INFO    wandb-upload_0:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmpsmf7b9y9
+2026-05-05 17:46:05,363 INFO    SenderThread:2239874 [sender.py:send_request_log_artifact():1456] logged artifact run-hhz7gab7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5NTY3NDUzNA==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNjk5MDQ=', 'latestArtifact': None}}
+2026-05-05 17:46:05,363 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:46:05,364 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:05,364 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file media/table/game_log_0_e4bbee2d1335a32ee8c5.table.json with policy now
+2026-05-05 17:46:05,365 DEBUG   SenderThread:2239874 [sender.py:send():379] send: history
+2026-05-05 17:46:05,365 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: summary_record
+2026-05-05 17:46:05,367 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:46:05,789 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:46:05,949 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/4hrm6ghl-media/table/game_log_0_e4bbee2d1335a32ee8c5.table.json
+2026-05-05 17:46:06,791 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:46:08,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:46:08,606 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:46:08,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:46:10,948 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:15,948 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:20,809 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:46:20,983 DEBUG   SystemMonitor:2239874 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2026-05-05 17:46:20,984 DEBUG   SenderThread:2239874 [sender.py:send():379] send: stats
+2026-05-05 17:46:20,984 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:23,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:46:23,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:46:23,605 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:46:26,961 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:28,481 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-05 17:46:28,481 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: log_artifact
+2026-05-05 17:46:28,491 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-05 17:46:28,820 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_1_fdf8f4a68339b9985ffa.table.json
+2026-05-05 17:46:28,820 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table
+2026-05-05 17:46:29,310 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/pqktcuh7-media/table/game_log_1_fdf8f4a68339b9985ffa.table.json
+2026-05-05 17:46:29,904 INFO    wandb-upload_1:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmpyxkfakhl
+2026-05-05 17:46:30,953 INFO    SenderThread:2239874 [sender.py:send_request_log_artifact():1456] logged artifact run-hhz7gab7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5NTY3NjI0MA==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNjk5MDQ=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NTY3NDUzNA==', 'versionIndex': 0}}}
+2026-05-05 17:46:30,953 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:46:30,954 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file media/table/game_log_1_fdf8f4a68339b9985ffa.table.json with policy now
+2026-05-05 17:46:30,955 DEBUG   SenderThread:2239874 [sender.py:send():379] send: history
+2026-05-05 17:46:30,955 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: summary_record
+2026-05-05 17:46:30,957 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:46:31,543 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/11zt7dx5-media/table/game_log_1_fdf8f4a68339b9985ffa.table.json
+2026-05-05 17:46:31,824 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:46:32,825 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:46:32,958 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:37,959 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:38,605 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:46:38,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:46:38,606 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:46:43,876 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:46,845 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:46:49,736 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:50,985 DEBUG   SenderThread:2239874 [sender.py:send():379] send: stats
+2026-05-05 17:46:53,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:46:53,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:46:53,606 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:46:54,883 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:46:59,884 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:03,703 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-05 17:47:03,703 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: log_artifact
+2026-05-05 17:47:03,712 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-05 17:47:03,870 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_2_c3021452af932be27f82.table.json
+2026-05-05 17:47:03,870 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table
+2026-05-05 17:47:04,350 INFO    wandb-upload_1:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/u3ai5izo-media/table/game_log_2_c3021452af932be27f82.table.json
+2026-05-05 17:47:05,131 INFO    wandb-upload_0:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmpovwwxtwx
+2026-05-05 17:47:06,204 INFO    SenderThread:2239874 [sender.py:send_request_log_artifact():1456] logged artifact run-hhz7gab7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5NTY3ODA2Nw==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNjk5MDQ=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NTY3NjI0MA==', 'versionIndex': 1}}}
+2026-05-05 17:47:06,204 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:47:06,205 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:06,205 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file media/table/game_log_2_c3021452af932be27f82.table.json with policy now
+2026-05-05 17:47:06,206 DEBUG   SenderThread:2239874 [sender.py:send():379] send: history
+2026-05-05 17:47:06,206 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: summary_record
+2026-05-05 17:47:06,208 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:47:06,770 INFO    wandb-upload_1:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/kgxrb5ae-media/table/game_log_2_c3021452af932be27f82.table.json
+2026-05-05 17:47:06,874 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:47:08,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:47:08,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:47:08,606 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:47:08,877 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:47:11,896 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:16,897 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:20,985 DEBUG   SenderThread:2239874 [sender.py:send():379] send: stats
+2026-05-05 17:47:21,986 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:23,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:47:23,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:47:23,606 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:47:24,900 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:47:27,889 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:32,890 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:34,619 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-05 17:47:34,620 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: log_artifact
+2026-05-05 17:47:34,659 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-05 17:47:34,914 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_3_7b2c605df804e7f706f0.table.json
+2026-05-05 17:47:34,914 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table
+2026-05-05 17:47:35,405 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/tcqgvwe2-media/table/game_log_3_7b2c605df804e7f706f0.table.json
+2026-05-05 17:47:36,195 INFO    wandb-upload_1:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmp5mjfplmu
+2026-05-05 17:47:37,199 INFO    SenderThread:2239874 [sender.py:send_request_log_artifact():1456] logged artifact run-hhz7gab7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5NTY3OTgxMw==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNjk5MDQ=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NTY3ODA2Nw==', 'versionIndex': 2}}}
+2026-05-05 17:47:37,199 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:47:37,199 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file media/table/game_log_3_7b2c605df804e7f706f0.table.json with policy now
+2026-05-05 17:47:37,200 DEBUG   SenderThread:2239874 [sender.py:send():379] send: history
+2026-05-05 17:47:37,200 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: summary_record
+2026-05-05 17:47:37,201 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:47:37,766 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/8voh3kb7-media/table/game_log_3_7b2c605df804e7f706f0.table.json
+2026-05-05 17:47:37,917 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:47:38,204 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:38,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:47:38,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:47:38,606 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:47:38,919 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:47:43,771 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:46,930 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:47:48,772 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:50,986 DEBUG   SenderThread:2239874 [sender.py:send():379] send: stats
+2026-05-05 17:47:53,607 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:47:53,607 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:47:53,607 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:47:53,919 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:47:54,462 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-05 17:47:54,462 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: log_artifact
+2026-05-05 17:47:54,472 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-05 17:47:54,941 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_4_123a7aa35021951dd7f9.table.json
+2026-05-05 17:47:54,941 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table
+2026-05-05 17:47:55,440 INFO    wandb-upload_1:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/kzikvsi4-media/table/game_log_4_123a7aa35021951dd7f9.table.json
+2026-05-05 17:47:55,902 INFO    wandb-upload_0:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmp2cg_l25k
+2026-05-05 17:47:57,228 INFO    SenderThread:2239874 [sender.py:send_request_log_artifact():1456] logged artifact run-hhz7gab7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5NTY4MDg0Mw==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNjk5MDQ=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NTY3OTgxMw==', 'versionIndex': 3}}}
+2026-05-05 17:47:57,228 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:47:57,229 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file media/table/game_log_4_123a7aa35021951dd7f9.table.json with policy now
+2026-05-05 17:47:57,230 DEBUG   SenderThread:2239874 [sender.py:send():379] send: history
+2026-05-05 17:47:57,230 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: summary_record
+2026-05-05 17:47:57,233 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:47:57,795 INFO    wandb-upload_1:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/57dgqoh9-media/table/game_log_4_123a7aa35021951dd7f9.table.json
+2026-05-05 17:47:57,944 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:47:58,946 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:47:59,233 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:04,234 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:08,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:48:08,607 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:48:08,607 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:48:09,888 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:14,889 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:18,971 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:48:20,393 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:20,987 DEBUG   SenderThread:2239874 [sender.py:send():379] send: stats
+2026-05-05 17:48:23,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:48:23,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:48:23,607 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:48:25,860 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:27,869 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-05 17:48:27,870 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: log_artifact
+2026-05-05 17:48:27,880 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-05 17:48:27,982 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_5_a4dbe30c53ca9b6c4602.table.json
+2026-05-05 17:48:27,982 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table
+2026-05-05 17:48:28,532 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/0oykiibp-media/table/game_log_5_a4dbe30c53ca9b6c4602.table.json
+2026-05-05 17:48:29,428 INFO    wandb-upload_1:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmpno938bk6
+2026-05-05 17:48:30,806 INFO    SenderThread:2239874 [sender.py:send_request_log_artifact():1456] logged artifact run-hhz7gab7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5NTY4MjUzMA==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNjk5MDQ=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NTY4MDg0Mw==', 'versionIndex': 4}}}
+2026-05-05 17:48:30,806 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:48:30,806 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file media/table/game_log_5_a4dbe30c53ca9b6c4602.table.json with policy now
+2026-05-05 17:48:30,807 DEBUG   SenderThread:2239874 [sender.py:send():379] send: history
+2026-05-05 17:48:30,808 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: summary_record
+2026-05-05 17:48:30,810 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:48:30,985 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:48:31,392 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/z7naygtv-media/table/game_log_5_a4dbe30c53ca9b6c4602.table.json
+2026-05-05 17:48:31,811 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:32,987 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:48:36,812 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:38,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:48:38,607 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:48:38,607 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:48:41,920 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:45,002 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:48:47,391 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:50,988 DEBUG   SenderThread:2239874 [sender.py:send():379] send: stats
+2026-05-05 17:48:52,989 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:53,606 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:48:53,607 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:48:53,607 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:48:54,744 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-05 17:48:54,744 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: log_artifact
+2026-05-05 17:48:54,785 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-05 17:48:55,016 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_6_9024b9a7639ff948ba75.table.json
+2026-05-05 17:48:55,017 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table
+2026-05-05 17:48:55,503 INFO    wandb-upload_1:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/9muazsrs-media/table/game_log_6_9024b9a7639ff948ba75.table.json
+2026-05-05 17:48:56,104 INFO    wandb-upload_0:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmpm35apbkf
+2026-05-05 17:48:57,120 INFO    SenderThread:2239874 [sender.py:send_request_log_artifact():1456] logged artifact run-hhz7gab7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5NTY4MzkwNA==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNjk5MDQ=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NTY4MjUzMA==', 'versionIndex': 5}}}
+2026-05-05 17:48:57,121 DEBUG   SenderThread:2239874 [sender.py:send():379] send: files
+2026-05-05 17:48:57,121 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file media/table/game_log_6_9024b9a7639ff948ba75.table.json with policy now
+2026-05-05 17:48:57,122 DEBUG   SenderThread:2239874 [sender.py:send():379] send: history
+2026-05-05 17:48:57,122 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: summary_record
+2026-05-05 17:48:57,123 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:48:57,689 INFO    wandb-upload_1:2239874 [upload_job.py:push():131] Uploaded file /tmp/tmph2zy9edrwandb/t73dgjge-media/table/game_log_6_9024b9a7639ff948ba75.table.json
+2026-05-05 17:48:58,021 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:48:58,125 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:48:59,022 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:49:03,126 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:49:08,127 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:49:08,607 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-05 17:49:08,607 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: stop_status
+2026-05-05 17:49:08,607 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-05 17:49:11,661 DEBUG   SenderThread:2239874 [sender.py:send():379] send: exit
+2026-05-05 17:49:11,661 INFO    SenderThread:2239874 [sender.py:send_exit():586] handling exit code: 255
+2026-05-05 17:49:11,661 INFO    SenderThread:2239874 [sender.py:send_exit():588] handling runtime: 230
+2026-05-05 17:49:11,662 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:49:11,663 INFO    SenderThread:2239874 [sender.py:send_exit():594] send defer
+2026-05-05 17:49:11,663 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,663 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 0
+2026-05-05 17:49:11,663 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,663 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 0
+2026-05-05 17:49:11,664 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 1
+2026-05-05 17:49:11,664 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,664 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 1
+2026-05-05 17:49:11,664 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,664 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 1
+2026-05-05 17:49:11,664 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 2
+2026-05-05 17:49:11,665 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,665 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 2
+2026-05-05 17:49:11,665 INFO    HandlerThread:2239874 [system_monitor.py:finish():203] Stopping system monitor
+2026-05-05 17:49:11,666 INFO    HandlerThread:2239874 [interfaces.py:finish():202] Joined cpu monitor
+2026-05-05 17:49:11,666 DEBUG   SystemMonitor:2239874 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2026-05-05 17:49:11,666 INFO    HandlerThread:2239874 [interfaces.py:finish():202] Joined disk monitor
+2026-05-05 17:49:11,666 DEBUG   SystemMonitor:2239874 [system_monitor.py:_start():183] Publishing last batch of metrics
+2026-05-05 17:49:11,786 INFO    HandlerThread:2239874 [interfaces.py:finish():202] Joined gpu monitor
+2026-05-05 17:49:11,786 INFO    HandlerThread:2239874 [interfaces.py:finish():202] Joined memory monitor
+2026-05-05 17:49:11,786 INFO    HandlerThread:2239874 [interfaces.py:finish():202] Joined network monitor
+2026-05-05 17:49:11,787 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,787 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 2
+2026-05-05 17:49:11,787 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 3
+2026-05-05 17:49:11,787 DEBUG   SenderThread:2239874 [sender.py:send():379] send: stats
+2026-05-05 17:49:11,787 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,788 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 3
+2026-05-05 17:49:11,788 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,788 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 3
+2026-05-05 17:49:11,789 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 4
+2026-05-05 17:49:11,789 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,789 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 4
+2026-05-05 17:49:11,790 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,790 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 4
+2026-05-05 17:49:11,790 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 5
+2026-05-05 17:49:11,790 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,791 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 5
+2026-05-05 17:49:11,791 DEBUG   SenderThread:2239874 [sender.py:send():379] send: summary
+2026-05-05 17:49:11,793 INFO    SenderThread:2239874 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-05 17:49:11,793 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,793 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 5
+2026-05-05 17:49:11,793 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 6
+2026-05-05 17:49:11,793 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,793 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 6
+2026-05-05 17:49:11,794 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,794 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 6
+2026-05-05 17:49:11,794 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 7
+2026-05-05 17:49:11,794 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: status_report
+2026-05-05 17:49:11,794 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:11,795 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 7
+2026-05-05 17:49:11,795 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:11,795 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 7
+2026-05-05 17:49:12,042 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:49:12,338 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 8
+2026-05-05 17:49:12,338 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:12,338 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 8
+2026-05-05 17:49:12,338 DEBUG   SenderThread:2239874 [sender.py:send_request():406] send_request: defer
+2026-05-05 17:49:12,339 INFO    SenderThread:2239874 [sender.py:send_request_defer():610] handle sender defer: 8
+2026-05-05 17:49:12,339 INFO    SenderThread:2239874 [job_builder.py:build():318] Attempting to build job artifact
+2026-05-05 17:49:12,340 INFO    SenderThread:2239874 [job_builder.py:_get_source_type():455] is repo sourced job
+2026-05-05 17:49:12,343 INFO    SenderThread:2239874 [job_builder.py:build():431] adding wandb-job metadata file
+2026-05-05 17:49:12,355 INFO    SenderThread:2239874 [sender.py:transition_state():614] send defer: 9
+2026-05-05 17:49:12,356 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: defer
+2026-05-05 17:49:12,356 DEBUG   SenderThread:2239874 [sender.py:send():379] send: artifact
+2026-05-05 17:49:12,356 INFO    HandlerThread:2239874 [handler.py:handle_request_defer():172] handle defer: 9
+2026-05-05 17:49:12,661 DEBUG   HandlerThread:2239874 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-05 17:49:13,043 INFO    Thread-12 :2239874 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:49:13,278 WARNING StreamThr :2239874 [internal.py:is_dead():414] Internal process exiting, parent pid 2239205 disappeared
+2026-05-05 17:49:13,278 ERROR   StreamThr :2239874 [internal.py:wandb_internal():152] Internal process shutdown.
+2026-05-05 17:49:13,661 INFO    HandlerThread:2239874 [handler.py:finish():866] shutting down handler
+2026-05-05 17:49:13,662 INFO    WriterThread:2239874 [datastore.py:close():296] close: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/run-hhz7gab7.wandb
+2026-05-05 17:49:13,978 INFO    wandb-upload_0:2239874 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmpaqnngjsj
+2026-05-05 17:49:14,005 INFO    wandb-upload_1:2239874 [upload_job.py:push():89] Uploaded file /tmp/tmpfgyb20q1/wandb-job.json
+2026-05-05 17:49:16,074 INFO    SenderThread:2239874 [sender.py:send_artifact():1468] sent artifact job-https___github.com_promotion-kim_PCMA.git_experiment-PPO_ppo_morlhf_saferlhf.py - {'id': 'QXJ0aWZhY3Q6Mjc5NTY4NDcwNQ==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzExNDU4Mzc=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NTQ1Mzg0MQ==', 'versionIndex': 0}}}
+2026-05-05 17:49:16,074 INFO    SenderThread:2239874 [sender.py:finish():1546] shutting down sender
+2026-05-05 17:49:16,074 INFO    SenderThread:2239874 [dir_watcher.py:finish():358] shutting down directory watcher
+2026-05-05 17:49:17,046 INFO    SenderThread:2239874 [dir_watcher.py:finish():388] scan: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files
+2026-05-05 17:49:17,047 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/config.yaml config.yaml
+2026-05-05 17:49:17,047 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/conda-environment.yaml conda-environment.yaml
+2026-05-05 17:49:17,049 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-metadata.json wandb-metadata.json
+2026-05-05 17:49:17,049 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/requirements.txt requirements.txt
+2026-05-05 17:49:17,051 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log output.log
+2026-05-05 17:49:17,051 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json wandb-summary.json
+2026-05-05 17:49:17,056 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_0_e4bbee2d1335a32ee8c5.table.json media/table/game_log_0_e4bbee2d1335a32ee8c5.table.json
+2026-05-05 17:49:17,056 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_1_fdf8f4a68339b9985ffa.table.json media/table/game_log_1_fdf8f4a68339b9985ffa.table.json
+2026-05-05 17:49:17,057 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_2_c3021452af932be27f82.table.json media/table/game_log_2_c3021452af932be27f82.table.json
+2026-05-05 17:49:17,057 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_3_7b2c605df804e7f706f0.table.json media/table/game_log_3_7b2c605df804e7f706f0.table.json
+2026-05-05 17:49:17,057 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_4_123a7aa35021951dd7f9.table.json media/table/game_log_4_123a7aa35021951dd7f9.table.json
+2026-05-05 17:49:17,057 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_5_a4dbe30c53ca9b6c4602.table.json media/table/game_log_5_a4dbe30c53ca9b6c4602.table.json
+2026-05-05 17:49:17,058 INFO    SenderThread:2239874 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/media/table/game_log_6_9024b9a7639ff948ba75.table.json media/table/game_log_6_9024b9a7639ff948ba75.table.json
+2026-05-05 17:49:17,058 INFO    SenderThread:2239874 [file_pusher.py:finish():172] shutting down file pusher
+2026-05-05 17:49:17,059 INFO    SenderThread:2239874 [file_pusher.py:join():178] waiting for file pusher
+2026-05-05 17:49:17,533 INFO    wandb-upload_1:2239874 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/conda-environment.yaml
+2026-05-05 17:49:17,535 INFO    wandb-upload_0:2239874 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/config.yaml
+2026-05-05 17:49:17,654 INFO    wandb-upload_3:2239874 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/output.log
+2026-05-05 17:49:17,682 INFO    wandb-upload_4:2239874 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/wandb-summary.json
+2026-05-05 17:49:17,684 INFO    wandb-upload_2:2239874 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260505_174520-hhz7gab7/files/requirements.txt
+2026-05-05 17:49:18,069 INFO    SenderThread:2239874 [file_stream.py:finish():614] file stream finish called
+2026-05-05 17:49:19,220 INFO    SenderThread:2239874 [file_stream.py:finish():618] file stream finish is done

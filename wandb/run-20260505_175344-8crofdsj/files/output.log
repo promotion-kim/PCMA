@@ -1,0 +1,2817 @@
+Training........
+epoch 0, batch 0
+  0%|                                                                                                   | 0/698 [00:00<?, ?it/s]You're using a LlamaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/generation/utils.py:1421: UserWarning: You have modified the pretrained model configuration to control generation. This is a deprecated strategy to control generation and will be removed soon, in a future version. Please use and modify the model generation configuration (see https://huggingface.co/docs/transformers/generation_strategies#default-text-generation-configuration )
+  warnings.warn(
+/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/autograd/_functions.py:316: UserWarning: MatMul8bitLt: inputs will be cast from torch.float32 to float16 during quantization
+  warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
+iter 0, batch 0, mean score: 0.804650068283081
+iter 0, batch 0: log finish
+epoch 0, batch 1
+  0%|▏                                                                                        | 1/698 [00:38<7:23:20, 38.16s/it]
+iter 0, batch 1, mean score: -9.238525390625
+iter 0, batch 1: log finish
+
+  0%|▎                                                                                        | 2/698 [01:04<6:02:18, 31.23s/it]
+iter 0, batch 2, mean score: 2.4579999446868896
+iter 0, batch 2: log finish
+
+  0%|▍                                                                                        | 3/698 [01:39<6:21:12, 32.91s/it]
+iter 0, batch 3, mean score: -4.21482515335083
+iter 0, batch 3: log finish
+
+  1%|▌                                                                                        | 4/698 [02:10<6:11:43, 32.14s/it]
+iter 0, batch 4, mean score: -11.731425285339355
+iter 0, batch 4: log finish
+
+  1%|▋                                                                                        | 5/698 [02:29<5:18:51, 27.61s/it]
+iter 0, batch 5, mean score: -2.4697248935699463
+iter 0, batch 5: log finish
+
+  1%|▊                                                                                        | 6/698 [03:03<5:40:35, 29.53s/it]
+iter 0, batch 6, mean score: -7.8642497062683105
+iter 0, batch 6: log finish
+
+  1%|▉                                                                                        | 7/698 [03:30<5:30:01, 28.66s/it]
+iter 0, batch 7, mean score: -3.403325080871582
+iter 0, batch 7: log finish
+
+  1%|█                                                                                        | 8/698 [04:00<5:34:27, 29.08s/it]
+iter 0, batch 8, mean score: -6.3680500984191895
+iter 0, batch 8: log finish
+
+  1%|█▏                                                                                       | 9/698 [04:33<5:47:55, 30.30s/it]
+iter 0, batch 9, mean score: -8.798800468444824
+iter 0, batch 9: log finish
+
+  1%|█▎                                                                                      | 10/698 [05:01<5:42:10, 29.84s/it]
+  1%|█▎                                                                                      | 10/698 [05:01<5:42:10, 29.84s/it]/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/trl/trainer/ppo_trainer.py:1279: UserWarning: KL divergence is starting to become negative: -1.12 - this might be a precursor for failed training. sometimes this happens because the generation kwargs are not correctly set. Please make sure that the generation kwargs are set correctly, or review your training hyperparameters.
+  warnings.warn(
+iter 0, batch 10: log finish
+epoch 0, batch 11
+  2%|█▍                                                                                      | 11/698 [05:36<5:57:39, 31.24s/it]
+iter 0, batch 11, mean score: -3.4787750244140625
+iter 0, batch 11: log finish
+
+  2%|█▌                                                                                      | 12/698 [06:01<5:37:38, 29.53s/it]
+iter 0, batch 12, mean score: -2.966174840927124
+iter 0, batch 12: log finish
+
+  2%|█▋                                                                                      | 13/698 [06:32<5:39:08, 29.71s/it]
+iter 0, batch 13, mean score: 4.265625
+iter 0, batch 13: log finish
+
+  2%|█▊                                                                                      | 14/698 [07:06<5:56:15, 31.25s/it]
+iter 0, batch 14, mean score: -3.4111247062683105
+iter 0, batch 14: log finish
+
+  2%|█▉                                                                                      | 15/698 [07:41<6:06:14, 32.17s/it]
+iter 0, batch 15, mean score: -3.828125
+iter 0, batch 15: log finish
+
+  2%|██                                                                                      | 16/698 [08:12<6:04:19, 32.05s/it]
+iter 0, batch 16, mean score: -5.587900161743164
+iter 0, batch 16: log finish
+
+  2%|██▏                                                                                     | 17/698 [08:42<5:56:56, 31.45s/it]
+iter 0, batch 17, mean score: -3.3632750511169434
+iter 0, batch 17: log finish
+
+  3%|██▎                                                                                     | 18/698 [09:17<6:07:02, 32.39s/it]
+iter 0, batch 18, mean score: 0.9607502222061157
+iter 0, batch 18: log finish
+
+  3%|██▍                                                                                     | 19/698 [09:50<6:07:11, 32.45s/it]
+iter 0, batch 19, mean score: -1.231850028038025
+iter 0, batch 19: log finish
+
+  3%|██▌                                                                                     | 20/698 [10:23<6:10:25, 32.78s/it]
+iter 0, batch 20, mean score: 2.4755749702453613
+iter 0, batch 20: log finish
+
+  3%|██▋                                                                                     | 21/698 [10:50<5:48:32, 30.89s/it]
+iter 0, batch 21, mean score: -7.793475151062012
+iter 0, batch 21: log finish
+
+  3%|██▊                                                                                     | 22/698 [11:16<5:30:57, 29.37s/it]
+iter 0, batch 22, mean score: -5.583000183105469
+iter 0, batch 22: log finish
+
+  3%|██▉                                                                                     | 23/698 [11:49<5:44:49, 30.65s/it]
+iter 0, batch 23, mean score: 2.7021749019622803
+iter 0, batch 23: log finish
+
+  3%|███                                                                                     | 24/698 [12:23<5:56:46, 31.76s/it]
+iter 0, batch 24, mean score: -1.2734249830245972
+iter 0, batch 24: log finish
+
+  4%|███▏                                                                                    | 25/698 [12:49<5:36:29, 30.00s/it]
+iter 0, batch 25, mean score: -6.988450050354004
+iter 0, batch 25: log finish
+
+  4%|███▎                                                                                    | 26/698 [13:21<5:43:07, 30.64s/it]
+iter 0, batch 26, mean score: -6.271975040435791
+iter 0, batch 26: log finish
+
+  4%|███▍                                                                                    | 27/698 [13:55<5:50:41, 31.36s/it]
+iter 0, batch 27, mean score: -2.8671998977661133
+iter 0, batch 27: log finish
+
+  4%|███▌                                                                                    | 28/698 [14:28<5:57:13, 31.99s/it]
+iter 0, batch 28, mean score: 2.9726247787475586
+iter 0, batch 28: log finish
+
+  4%|███▋                                                                                    | 29/698 [14:56<5:44:20, 30.88s/it]
+iter 0, batch 29, mean score: 1.6094000339508057
+iter 0, batch 29: log finish
+
+  4%|███▊                                                                                    | 30/698 [15:29<5:49:44, 31.41s/it]
+iter 0, batch 30, mean score: -2.887199878692627
+iter 0, batch 30: log finish
+
+  4%|███▉                                                                                    | 31/698 [15:54<5:27:58, 29.50s/it]
+iter 0, batch 31, mean score: -3.2490251064300537
+iter 0, batch 31: log finish
+
+  5%|████                                                                                    | 32/698 [16:24<5:29:11, 29.66s/it]
+iter 0, batch 32, mean score: 3.90232515335083
+iter 0, batch 32: log finish
+
+  5%|████▏                                                                                   | 33/698 [16:59<5:44:53, 31.12s/it]
+iter 0, batch 33, mean score: -4.1965250968933105
+iter 0, batch 33: log finish
+
+  5%|████▎                                                                                   | 34/698 [17:34<5:58:50, 32.42s/it]
+iter 0, batch 34, mean score: -3.1933748722076416
+iter 0, batch 34: log finish
+
+  5%|████▍                                                                                   | 35/698 [18:08<6:04:14, 32.96s/it]
+iter 0, batch 35, mean score: 5.711900234222412
+iter 0, batch 35: log finish
+
+  5%|████▌                                                                                   | 36/698 [18:39<5:56:40, 32.33s/it]
+iter 0, batch 36, mean score: 0.6328249573707581
+iter 0, batch 36: log finish
+
+  5%|████▋                                                                                   | 37/698 [19:16<6:10:22, 33.62s/it]
+iter 0, batch 37, mean score: 4.818375110626221
+iter 0, batch 37: log finish
+
+  5%|████▊                                                                                   | 38/698 [19:50<6:13:04, 33.92s/it]
+iter 0, batch 38, mean score: -7.671875
+iter 0, batch 38: log finish
+
+  6%|████▉                                                                                   | 39/698 [20:17<5:47:19, 31.62s/it]
+iter 0, batch 39, mean score: 3.5039000511169434
+iter 0, batch 39: log finish
+
+  6%|█████                                                                                   | 40/698 [20:48<5:44:32, 31.42s/it]
+iter 0, batch 40, mean score: -4.339849948883057
+iter 0, batch 40: log finish
+
+  6%|█████▏                                                                                  | 41/698 [21:19<5:42:34, 31.28s/it]
+iter 0, batch 41, mean score: 1.8241748809814453
+iter 0, batch 41: log finish
+
+  6%|█████▎                                                                                  | 42/698 [21:50<5:42:51, 31.36s/it]
+iter 0, batch 42, mean score: 3.362299919128418
+iter 0, batch 42: log finish
+
+  6%|█████▍                                                                                  | 43/698 [22:19<5:34:41, 30.66s/it]
+iter 0, batch 43, mean score: -0.5444250106811523
+iter 0, batch 43: log finish
+
+  6%|█████▌                                                                                  | 44/698 [22:51<5:37:02, 30.92s/it]
+iter 0, batch 44, mean score: 4.014649868011475
+iter 0, batch 44: log finish
+
+  6%|█████▋                                                                                  | 45/698 [23:25<5:47:32, 31.93s/it]
+iter 0, batch 45, mean score: 3.0644500255584717
+iter 0, batch 45: log finish
+
+  7%|█████▊                                                                                  | 46/698 [24:00<5:55:49, 32.74s/it]
+iter 0, batch 46, mean score: -3.7133750915527344
+iter 0, batch 46: log finish
+
+  7%|█████▉                                                                                  | 47/698 [24:32<5:55:14, 32.74s/it]
+iter 0, batch 47, mean score: 0.9101499915122986
+iter 0, batch 47: log finish
+
+  7%|██████                                                                                  | 48/698 [24:55<5:22:15, 29.75s/it]
+iter 0, batch 48, mean score: 3.7949249744415283
+iter 0, batch 48: log finish
+
+  7%|██████▏                                                                                 | 49/698 [25:29<5:34:52, 30.96s/it]
+iter 0, batch 49, mean score: -1.4296749830245972
+iter 0, batch 49: log finish
+
+  7%|██████▎                                                                                 | 50/698 [25:53<5:13:31, 29.03s/it]
+iter 0, batch 50, mean score: 4.754875183105469
+iter 0, batch 50: log finish
+
+  7%|██████▍                                                                                 | 51/698 [26:16<4:53:25, 27.21s/it]
+iter 0, batch 51, mean score: 0.7070249915122986
+iter 0, batch 51: log finish
+epoch 0, batch 52
+
+  7%|██████▌                                                                                 | 52/698 [26:40<4:43:08, 26.30s/it]
+iter 0, batch 52: log finish
+
+  8%|██████▋                                                                                 | 53/698 [27:08<4:45:34, 26.57s/it]
+iter 0, batch 53, mean score: 2.4728751182556152
+iter 0, batch 53: log finish
+
+  8%|██████▊                                                                                 | 54/698 [27:29<4:29:13, 25.08s/it]
+iter 0, batch 54, mean score: 4.558849811553955
+iter 0, batch 54: log finish
+
+  8%|██████▉                                                                                 | 55/698 [28:00<4:47:39, 26.84s/it]
+iter 0, batch 55, mean score: -3.853300094604492
+iter 0, batch 55: log finish
+
+  8%|███████                                                                                 | 56/698 [28:33<5:07:16, 28.72s/it]
+iter 0, batch 56, mean score: -9.249000549316406
+iter 0, batch 56: log finish
+
+  8%|███████▏                                                                                | 57/698 [29:07<5:24:12, 30.35s/it]
+iter 0, batch 57, mean score: -1.140625
+iter 0, batch 57: log finish
+
+  8%|███████▎                                                                                | 58/698 [29:31<5:02:50, 28.39s/it]
+iter 0, batch 58, mean score: 0.9018499851226807
+iter 0, batch 58: log finish
+
+  8%|███████▍                                                                                | 59/698 [29:54<4:43:51, 26.65s/it]
+iter 0, batch 59, mean score: 2.169950008392334
+iter 0, batch 59: log finish
+
+  9%|███████▌                                                                                | 60/698 [30:27<5:02:43, 28.47s/it]
+iter 0, batch 60, mean score: -4.234375
+iter 0, batch 60: log finish
+
+  9%|███████▋                                                                                | 61/698 [30:44<4:26:44, 25.13s/it]
+
+  9%|███████▊                                                                                | 62/698 [31:18<4:55:49, 27.91s/it]
+iter 0, batch 61: log finish
+epoch 0, batch 62
+iter 0, batch 62, mean score: -1.8574001789093018
+iter 0, batch 62: log finish
+
+  9%|███████▉                                                                                | 63/698 [31:44<4:48:42, 27.28s/it]
+iter 0, batch 63, mean score: -2.23045015335083
+iter 0, batch 63: log finish
+
+  9%|████████                                                                                | 64/698 [32:18<5:09:27, 29.29s/it]
+iter 0, batch 64, mean score: -1.7460999488830566
+iter 0, batch 64: log finish
+
+  9%|████████▏                                                                               | 65/698 [32:41<4:48:52, 27.38s/it]
+iter 0, batch 65, mean score: -4.823249816894531
+iter 0, batch 65: log finish
+
+  9%|████████▎                                                                               | 66/698 [33:11<4:56:00, 28.10s/it]
+iter 0, batch 66, mean score: -1.5331999063491821
+iter 0, batch 66: log finish
+
+ 10%|████████▍                                                                               | 67/698 [33:33<4:35:50, 26.23s/it]
+iter 0, batch 67, mean score: -5.626975059509277
+iter 0, batch 67: log finish
+
+ 10%|████████▌                                                                               | 68/698 [34:04<4:52:34, 27.86s/it]
+iter 0, batch 68, mean score: -10.262700080871582
+iter 0, batch 68: log finish
+
+ 10%|████████▋                                                                               | 69/698 [34:37<5:07:18, 29.31s/it]
+iter 0, batch 69, mean score: 1.14329993724823
+iter 0, batch 69: log finish
+
+ 10%|████████▊                                                                               | 70/698 [35:04<4:58:17, 28.50s/it]
+iter 0, batch 70, mean score: 2.0710248947143555
+iter 0, batch 70: log finish
+
+ 10%|████████▉                                                                               | 71/698 [35:26<4:39:52, 26.78s/it]
+iter 0, batch 71, mean score: -1.5927999019622803
+iter 0, batch 71: log finish
+
+ 10%|█████████                                                                               | 72/698 [35:49<4:26:01, 25.50s/it]
+iter 0, batch 72, mean score: -1.9008749723434448
+iter 0, batch 72: log finish
+
+ 10%|█████████▏                                                                              | 73/698 [36:08<4:04:13, 23.45s/it]
+iter 0, batch 73, mean score: 2.5273499488830566
+iter 0, batch 73: log finish
+epoch 0, batch 74
+
+ 11%|█████████▎                                                                              | 74/698 [36:30<4:01:48, 23.25s/it]
+iter 0, batch 74: log finish
+
+ 11%|█████████▍                                                                              | 75/698 [36:58<4:15:14, 24.58s/it]
+iter 0, batch 75, mean score: -5.063474655151367
+iter 0, batch 75: log finish
+
+ 11%|█████████▌                                                                              | 76/698 [37:23<4:15:31, 24.65s/it]
+iter 0, batch 76, mean score: 5.176750183105469
+iter 0, batch 76: log finish
+
+ 11%|█████████▋                                                                              | 77/698 [37:51<4:27:11, 25.82s/it]
+iter 0, batch 77, mean score: -2.4684998989105225
+iter 0, batch 77: log finish
+
+ 11%|█████████▊                                                                              | 78/698 [38:07<3:55:51, 22.83s/it]
+iter 0, batch 78, mean score: 6.268074989318848
+iter 0, batch 78: log finish
+
+ 11%|█████████▉                                                                              | 79/698 [38:42<4:31:25, 26.31s/it]
+iter 0, batch 79, mean score: -1.2968499660491943
+iter 0, batch 79: log finish
+
+ 11%|██████████                                                                              | 80/698 [39:06<4:23:55, 25.62s/it]
+iter 0, batch 80, mean score: 1.9135249853134155
+iter 0, batch 80: log finish
+
+ 12%|██████████▏                                                                             | 81/698 [39:29<4:17:36, 25.05s/it]
+iter 0, batch 81, mean score: 3.7969002723693848
+iter 0, batch 81: log finish
+
+ 12%|██████████▎                                                                             | 82/698 [40:04<4:45:31, 27.81s/it]
+iter 0, batch 82, mean score: 3.6368749141693115
+iter 0, batch 82: log finish
+
+ 12%|██████████▍                                                                             | 83/698 [40:24<4:20:57, 25.46s/it]
+iter 0, batch 83, mean score: 4.948599815368652
+iter 0, batch 83: log finish
+epoch 0, batch 84
+
+ 12%|██████████▌                                                                             | 84/698 [40:45<4:07:09, 24.15s/it]
+iter 0, batch 84: log finish
+
+ 12%|██████████▋                                                                             | 85/698 [41:03<3:48:56, 22.41s/it]
+iter 0, batch 85, mean score: 0.6035251617431641
+iter 0, batch 85: log finish
+
+ 12%|██████████▊                                                                             | 86/698 [41:28<3:57:34, 23.29s/it]
+iter 0, batch 86, mean score: -0.285175085067749
+iter 0, batch 86: log finish
+epoch 0, batch 87
+
+ 12%|██████████▉                                                                             | 87/698 [42:03<4:31:22, 26.65s/it]
+iter 0, batch 87: log finish
+epoch 0, batch 88
+
+ 13%|███████████                                                                             | 88/698 [42:20<4:03:03, 23.91s/it]
+iter 0, batch 88: log finish
+epoch 0, batch 89
+
+ 13%|███████████▏                                                                            | 89/698 [42:36<3:38:07, 21.49s/it]
+iter 0, batch 89: log finish
+
+ 13%|███████████▎                                                                            | 90/698 [42:53<3:24:24, 20.17s/it]
+iter 0, batch 90, mean score: 4.020524978637695
+iter 0, batch 90: log finish
+epoch 0, batch 91
+
+ 13%|███████████▍                                                                            | 91/698 [43:18<3:38:10, 21.57s/it]
+iter 0, batch 91: log finish
+epoch 0, batch 92
+
+ 13%|███████████▌                                                                            | 92/698 [43:41<3:40:35, 21.84s/it]
+iter 0, batch 92: log finish
+epoch 0, batch 93
+
+ 13%|███████████▋                                                                            | 93/698 [43:55<3:17:20, 19.57s/it]
+iter 0, batch 93: log finish
+
+ 13%|███████████▊                                                                            | 94/698 [44:08<2:57:13, 17.60s/it]
+iter 0, batch 94, mean score: -5.394550323486328
+iter 0, batch 94: log finish
+
+ 14%|███████████▉                                                                            | 95/698 [44:23<2:49:27, 16.86s/it]
+iter 0, batch 95, mean score: 4.625
+iter 0, batch 95: log finish
+epoch 0, batch 96
+
+ 14%|████████████                                                                            | 96/698 [44:46<3:06:11, 18.56s/it]
+iter 0, batch 96: log finish
+
+ 14%|████████████▏                                                                           | 97/698 [45:03<3:01:55, 18.16s/it]
+iter 0, batch 97, mean score: -0.8857499957084656
+iter 0, batch 97: log finish
+
+ 14%|████████████▎                                                                           | 98/698 [45:26<3:16:38, 19.66s/it]
+iter 0, batch 98, mean score: -0.16015005111694336
+iter 0, batch 98: log finish
+
+ 14%|████████████▍                                                                           | 99/698 [45:57<3:49:42, 23.01s/it]
+iter 0, batch 99, mean score: 4.589324951171875
+[eval] step=100, logged 5 validation generations to wandb
+iter 0, batch 99: log finish
+
+ 14%|████████████▍                                                                          | 100/698 [46:28<4:14:13, 25.51s/it]
+iter 0, batch 100, mean score: 0.0039001107215881348
+iter 0, batch 100: log finish
+iter 0, batch 100: model saved
+
+ 14%|████████████▌                                                                          | 101/698 [46:45<3:48:10, 22.93s/it]
+iter 0, batch 101, mean score: 0.18067508935928345
+iter 0, batch 101: log finish
+
+ 15%|████████████▋                                                                          | 102/698 [47:03<3:31:52, 21.33s/it]
+iter 0, batch 102, mean score: 0.8061500191688538
+iter 0, batch 102: log finish
+epoch 0, batch 103
+
+ 15%|████████████▊                                                                          | 103/698 [47:18<3:13:44, 19.54s/it]
+iter 0, batch 103: log finish
+epoch 0, batch 104
+
+ 15%|████████████▉                                                                          | 104/698 [47:47<3:40:22, 22.26s/it]
+iter 0, batch 104: log finish
+
+ 15%|█████████████                                                                          | 105/698 [48:01<3:17:23, 19.97s/it]
+iter 0, batch 105, mean score: 0.7861250638961792
+iter 0, batch 105: log finish
+
+ 15%|█████████████▏                                                                         | 106/698 [48:19<3:08:49, 19.14s/it]
+iter 0, batch 106, mean score: 3.9824252128601074
+iter 0, batch 106: log finish
+
+ 15%|█████████████▎                                                                         | 107/698 [48:38<3:08:24, 19.13s/it]
+iter 0, batch 107, mean score: 2.2050750255584717
+iter 0, batch 107: log finish
+
+ 15%|█████████████▍                                                                         | 108/698 [48:56<3:06:51, 19.00s/it]
+iter 0, batch 108, mean score: 1.0703001022338867
+iter 0, batch 108: log finish
+
+ 16%|█████████████▌                                                                         | 109/698 [49:12<2:57:31, 18.08s/it]
+iter 0, batch 109, mean score: 2.8300747871398926
+iter 0, batch 109: log finish
+
+ 16%|█████████████▋                                                                         | 110/698 [49:28<2:51:31, 17.50s/it]
+iter 0, batch 110, mean score: 2.678725004196167
+iter 0, batch 110: log finish
+
+ 16%|█████████████▊                                                                         | 111/698 [49:45<2:47:51, 17.16s/it]
+iter 0, batch 111, mean score: 2.9702248573303223
+iter 0, batch 111: log finish
+
+ 16%|█████████████▉                                                                         | 112/698 [50:00<2:42:07, 16.60s/it]
+iter 0, batch 112, mean score: 0.12305009365081787
+iter 0, batch 112: log finish
+
+ 16%|██████████████                                                                         | 113/698 [50:22<2:56:17, 18.08s/it]
+iter 0, batch 113, mean score: -1.1289000511169434
+iter 0, batch 113: log finish
+
+ 16%|██████████████▏                                                                        | 114/698 [50:38<2:50:04, 17.47s/it]
+iter 0, batch 114, mean score: -0.4375000596046448
+iter 0, batch 114: log finish
+
+ 16%|██████████████▎                                                                        | 115/698 [51:02<3:10:04, 19.56s/it]
+iter 0, batch 115, mean score: 2.949700117111206
+iter 0, batch 115: log finish
+
+ 17%|██████████████▍                                                                        | 116/698 [51:19<3:03:18, 18.90s/it]
+iter 0, batch 116, mean score: 1.6484249830245972
+iter 0, batch 116: log finish
+epoch 0, batch 117
+
+ 17%|██████████████▌                                                                        | 117/698 [51:36<2:54:53, 18.06s/it]
+iter 0, batch 117: log finish
+
+ 17%|██████████████▋                                                                        | 118/698 [51:56<3:01:59, 18.83s/it]
+iter 0, batch 118, mean score: 1.6884499788284302
+iter 0, batch 118: log finish
+
+ 17%|██████████████▊                                                                        | 119/698 [52:31<3:47:14, 23.55s/it]
+iter 0, batch 119, mean score: 3.4658498764038086
+iter 0, batch 119: log finish
+
+ 17%|██████████████▉                                                                        | 120/698 [52:48<3:29:23, 21.74s/it]
+iter 0, batch 120, mean score: 4.2451252937316895
+iter 0, batch 120: log finish
+
+ 17%|███████████████                                                                        | 121/698 [53:11<3:30:45, 21.92s/it]
+iter 0, batch 121, mean score: 5.50392484664917
+iter 0, batch 121: log finish
+epoch 0, batch 122
+
+ 17%|███████████████▏                                                                       | 122/698 [53:27<3:13:53, 20.20s/it]
+iter 0, batch 122: log finish
+
+ 18%|███████████████▎                                                                       | 123/698 [53:43<3:01:55, 18.98s/it]
+iter 0, batch 123, mean score: 0.8242249488830566
+iter 0, batch 123: log finish
+
+ 18%|███████████████▍                                                                       | 124/698 [53:58<2:51:05, 17.88s/it]
+iter 0, batch 124, mean score: 4.87107515335083
+iter 0, batch 124: log finish
+epoch 0, batch 125
+
+ 18%|███████████████▌                                                                       | 125/698 [54:15<2:48:24, 17.63s/it]
+iter 0, batch 125: log finish
+epoch 0, batch 126
+
+ 18%|███████████████▋                                                                       | 126/698 [54:32<2:44:18, 17.23s/it]
+iter 0, batch 126: log finish
+epoch 0, batch 127
+
+ 18%|███████████████▊                                                                       | 127/698 [54:47<2:37:28, 16.55s/it]
+iter 0, batch 127: log finish
+
+ 18%|███████████████▉                                                                       | 128/698 [55:10<2:58:13, 18.76s/it]
+iter 0, batch 128, mean score: 1.4081752300262451
+iter 0, batch 128: log finish
+
+ 18%|████████████████                                                                       | 129/698 [55:31<3:03:04, 19.31s/it]
+iter 0, batch 129, mean score: 5.635725021362305
+iter 0, batch 129: log finish
+
+ 19%|████████████████▏                                                                      | 130/698 [55:46<2:51:36, 18.13s/it]
+iter 0, batch 130, mean score: 5.408225059509277
+iter 0, batch 130: log finish
+
+ 19%|████████████████▎                                                                      | 131/698 [56:04<2:50:25, 18.03s/it]
+iter 0, batch 131, mean score: 3.3544750213623047
+iter 0, batch 131: log finish
+
+ 19%|████████████████▍                                                                      | 132/698 [56:45<3:53:46, 24.78s/it]
+iter 0, batch 132, mean score: 3.9823999404907227
+iter 0, batch 132: log finish
+
+ 19%|████████████████▌                                                                      | 133/698 [57:03<3:34:39, 22.80s/it]
+iter 0, batch 133, mean score: 4.5517497062683105
+iter 0, batch 133: log finish
+
+ 19%|████████████████▋                                                                      | 134/698 [57:22<3:22:34, 21.55s/it]
+iter 0, batch 134, mean score: 5.174300193786621
+iter 0, batch 134: log finish
+
+ 19%|████████████████▊                                                                      | 135/698 [57:44<3:25:18, 21.88s/it]
+iter 0, batch 135, mean score: 3.7187247276306152
+iter 0, batch 135: log finish
+
+ 19%|████████████████▉                                                                      | 136/698 [58:04<3:20:07, 21.37s/it]
+iter 0, batch 136, mean score: 8.177499771118164
+iter 0, batch 136: log finish
+
+ 20%|█████████████████                                                                      | 137/698 [58:28<3:26:48, 22.12s/it]
+iter 0, batch 137, mean score: 4.83982515335083
+iter 0, batch 137: log finish
+
+ 20%|█████████████████▏                                                                     | 138/698 [58:46<3:13:46, 20.76s/it]
+iter 0, batch 138, mean score: 4.778350353240967
+iter 0, batch 138: log finish
+
+ 20%|█████████████████▎                                                                     | 139/698 [59:03<3:03:14, 19.67s/it]
+iter 0, batch 139, mean score: 2.9330999851226807
+iter 0, batch 139: log finish
+
+ 20%|█████████████████▍                                                                     | 140/698 [59:21<2:59:27, 19.30s/it]
+iter 0, batch 140, mean score: 5.410150051116943
+iter 0, batch 140: log finish
+
+ 20%|█████████████████▌                                                                     | 141/698 [59:38<2:50:22, 18.35s/it]
+iter 0, batch 141, mean score: 4.258774757385254
+iter 0, batch 141: log finish
+
+ 20%|█████████████████▋                                                                     | 142/698 [59:56<2:48:58, 18.23s/it]
+iter 0, batch 142, mean score: 4.501450061798096
+iter 0, batch 142: log finish
+
+ 20%|█████████████████▍                                                                   | 143/698 [1:00:20<3:06:26, 20.16s/it]
+iter 0, batch 143, mean score: 4.390399932861328
+iter 0, batch 143: log finish
+
+ 21%|█████████████████▌                                                                   | 144/698 [1:00:43<3:14:35, 21.07s/it]
+iter 0, batch 144, mean score: 1.4164999723434448
+iter 0, batch 144: log finish
+
+ 21%|█████████████████▋                                                                   | 145/698 [1:01:18<3:52:18, 25.21s/it]
+iter 0, batch 145, mean score: 4.196275234222412
+iter 0, batch 145: log finish
+
+ 21%|█████████████████▊                                                                   | 146/698 [1:01:41<3:46:14, 24.59s/it]
+iter 0, batch 146, mean score: 1.8476500511169434
+iter 0, batch 146: log finish
+
+ 21%|█████████████████▉                                                                   | 147/698 [1:02:06<3:45:41, 24.58s/it]
+iter 0, batch 147, mean score: -0.42357492446899414
+iter 0, batch 147: log finish
+
+ 21%|██████████████████                                                                   | 148/698 [1:02:26<3:31:51, 23.11s/it]
+iter 0, batch 148, mean score: -0.04295003414154053
+iter 0, batch 148: log finish
+epoch 0, batch 149
+
+ 21%|██████████████████▏                                                                  | 149/698 [1:02:44<3:18:44, 21.72s/it]
+iter 0, batch 149: log finish
+
+ 21%|██████████████████▎                                                                  | 150/698 [1:03:19<3:54:50, 25.71s/it]
+iter 0, batch 150, mean score: 3.6484251022338867
+iter 0, batch 150: log finish
+epoch 0, batch 151
+
+ 22%|██████████████████▍                                                                  | 151/698 [1:03:47<3:59:25, 26.26s/it]
+iter 0, batch 151: log finish
+
+ 22%|██████████████████▌                                                                  | 152/698 [1:04:05<3:38:08, 23.97s/it]
+iter 0, batch 152, mean score: 1.7792749404907227
+iter 0, batch 152: log finish
+epoch 0, batch 153
+
+ 22%|██████████████████▋                                                                  | 153/698 [1:04:27<3:32:28, 23.39s/it]
+iter 0, batch 153: log finish
+epoch 0, batch 154
+
+ 22%|██████████████████▊                                                                  | 154/698 [1:04:42<3:09:07, 20.86s/it]
+iter 0, batch 154: log finish
+
+ 22%|██████████████████▉                                                                  | 155/698 [1:04:57<2:52:25, 19.05s/it]
+iter 0, batch 155, mean score: 6.0916748046875
+iter 0, batch 155: log finish
+
+ 22%|██████████████████▉                                                                  | 156/698 [1:05:13<2:44:15, 18.18s/it]
+iter 0, batch 156, mean score: 4.375500202178955
+iter 0, batch 156: log finish
+epoch 0, batch 157
+
+ 22%|███████████████████                                                                  | 157/698 [1:05:31<2:42:56, 18.07s/it]
+iter 0, batch 157: log finish
+epoch 0, batch 158
+
+ 23%|███████████████████▏                                                                 | 158/698 [1:05:45<2:32:45, 16.97s/it]
+iter 0, batch 158: log finish
+epoch 0, batch 159
+
+ 23%|███████████████████▎                                                                 | 159/698 [1:06:04<2:37:55, 17.58s/it]
+iter 0, batch 159: log finish
+epoch 0, batch 160
+
+ 23%|███████████████████▍                                                                 | 160/698 [1:06:20<2:33:17, 17.10s/it]
+iter 0, batch 160: log finish
+epoch 0, batch 161
+
+ 23%|███████████████████▌                                                                 | 161/698 [1:06:36<2:28:39, 16.61s/it]
+iter 0, batch 161: log finish
+epoch 0, batch 162
+
+ 23%|███████████████████▋                                                                 | 162/698 [1:06:52<2:27:20, 16.49s/it]
+iter 0, batch 162: log finish
+epoch 0, batch 163
+
+ 23%|███████████████████▊                                                                 | 163/698 [1:07:07<2:22:22, 15.97s/it]
+iter 0, batch 163: log finish
+epoch 0, batch 164
+
+ 23%|███████████████████▉                                                                 | 164/698 [1:07:24<2:24:36, 16.25s/it]
+iter 0, batch 164: log finish
+
+ 24%|████████████████████                                                                 | 165/698 [1:07:38<2:18:21, 15.57s/it]
+iter 0, batch 165, mean score: -0.6777499914169312
+iter 0, batch 165: log finish
+epoch 0, batch 166
+
+ 24%|████████████████████▏                                                                | 166/698 [1:07:59<2:31:54, 17.13s/it]
+iter 0, batch 166: log finish
+
+ 24%|████████████████████▎                                                                | 167/698 [1:08:16<2:32:39, 17.25s/it]
+iter 0, batch 167, mean score: 2.6210999488830566
+iter 0, batch 167: log finish
+epoch 0, batch 168
+
+ 24%|████████████████████▍                                                                | 168/698 [1:08:38<2:45:10, 18.70s/it]
+iter 0, batch 168: log finish
+epoch 0, batch 169
+
+ 24%|████████████████████▌                                                                | 169/698 [1:08:53<2:34:39, 17.54s/it]
+iter 0, batch 169: log finish
+
+ 24%|████████████████████▋                                                                | 170/698 [1:09:09<2:30:04, 17.05s/it]
+iter 0, batch 170, mean score: 1.8300999402999878
+iter 0, batch 170: log finish
+epoch 0, batch 171
+
+ 24%|████████████████████▊                                                                | 171/698 [1:09:28<2:34:23, 17.58s/it]
+iter 0, batch 171: log finish
+
+ 25%|████████████████████▉                                                                | 172/698 [1:09:42<2:26:01, 16.66s/it]
+iter 0, batch 172, mean score: 2.1016249656677246
+iter 0, batch 172: log finish
+
+ 25%|█████████████████████                                                                | 173/698 [1:09:57<2:20:56, 16.11s/it]
+iter 0, batch 173, mean score: 3.0951998233795166
+iter 0, batch 173: log finish
+epoch 0, batch 174
+
+ 25%|█████████████████████▏                                                               | 174/698 [1:10:12<2:16:20, 15.61s/it]
+iter 0, batch 174: log finish
+
+ 25%|█████████████████████▎                                                               | 175/698 [1:10:26<2:13:16, 15.29s/it]
+iter 0, batch 175, mean score: 3.7597498893737793
+iter 0, batch 175: log finish
+
+ 25%|█████████████████████▍                                                               | 176/698 [1:10:41<2:12:05, 15.18s/it]
+iter 0, batch 176, mean score: 5.612774848937988
+iter 0, batch 176: log finish
+
+ 25%|█████████████████████▌                                                               | 177/698 [1:10:58<2:17:26, 15.83s/it]
+iter 0, batch 177, mean score: -1.1794252395629883
+iter 0, batch 177: log finish
+epoch 0, batch 178
+
+ 26%|█████████████████████▋                                                               | 178/698 [1:11:14<2:17:29, 15.86s/it]
+iter 0, batch 178: log finish
+epoch 0, batch 179
+
+ 26%|█████████████████████▊                                                               | 179/698 [1:11:34<2:26:00, 16.88s/it]
+iter 0, batch 179: log finish
+
+ 26%|█████████████████████▉                                                               | 180/698 [1:11:49<2:23:06, 16.58s/it]
+iter 0, batch 180, mean score: 6.856449604034424
+iter 0, batch 180: log finish
+
+ 26%|██████████████████████                                                               | 181/698 [1:12:13<2:41:09, 18.70s/it]
+iter 0, batch 181, mean score: 1.9805001020431519
+iter 0, batch 181: log finish
+
+ 26%|██████████████████████▏                                                              | 182/698 [1:12:36<2:51:11, 19.91s/it]
+iter 0, batch 182, mean score: 7.797850131988525
+iter 0, batch 182: log finish
+
+ 26%|██████████████████████▎                                                              | 183/698 [1:12:57<2:54:30, 20.33s/it]
+iter 0, batch 183, mean score: 3.1738498210906982
+iter 0, batch 183: log finish
+epoch 0, batch 184
+
+ 26%|██████████████████████▍                                                              | 184/698 [1:13:19<2:57:26, 20.71s/it]
+iter 0, batch 184: log finish
+epoch 0, batch 185
+
+ 27%|██████████████████████▌                                                              | 185/698 [1:13:45<3:12:38, 22.53s/it]
+iter 0, batch 185: log finish
+epoch 0, batch 186
+
+ 27%|██████████████████████▋                                                              | 186/698 [1:14:02<2:58:06, 20.87s/it]
+iter 0, batch 186: log finish
+epoch 0, batch 187
+
+ 27%|██████████████████████▊                                                              | 187/698 [1:14:19<2:47:54, 19.72s/it]
+iter 0, batch 187: log finish
+
+ 27%|██████████████████████▉                                                              | 188/698 [1:14:37<2:41:54, 19.05s/it]
+iter 0, batch 188, mean score: 3.0965750217437744
+iter 0, batch 188: log finish
+epoch 0, batch 189
+
+ 27%|███████████████████████                                                              | 189/698 [1:15:10<3:17:38, 23.30s/it]
+iter 0, batch 189: log finish
+
+ 27%|███████████████████████▏                                                             | 190/698 [1:15:25<2:56:37, 20.86s/it]
+iter 0, batch 190, mean score: 2.4340999126434326
+iter 0, batch 190: log finish
+epoch 0, batch 191
+
+ 27%|███████████████████████▎                                                             | 191/698 [1:15:50<3:05:23, 21.94s/it]
+iter 0, batch 191: log finish
+epoch 0, batch 192
+
+ 28%|███████████████████████▍                                                             | 192/698 [1:16:10<3:01:00, 21.46s/it]
+iter 0, batch 192: log finish
+
+ 28%|███████████████████████▌                                                             | 193/698 [1:16:31<2:58:00, 21.15s/it]
+iter 0, batch 193, mean score: 5.274400234222412
+iter 0, batch 193: log finish
+
+ 28%|███████████████████████▌                                                             | 194/698 [1:16:53<3:00:37, 21.50s/it]
+iter 0, batch 194, mean score: 2.1347501277923584
+iter 0, batch 194: log finish
+epoch 0, batch 195
+
+ 28%|███████████████████████▋                                                             | 195/698 [1:17:27<3:32:38, 25.37s/it]
+iter 0, batch 195: log finish
+epoch 0, batch 196
+
+ 28%|███████████████████████▊                                                             | 196/698 [1:17:48<3:20:50, 24.00s/it]
+iter 0, batch 196: log finish
+epoch 0, batch 197
+
+ 28%|███████████████████████▉                                                             | 197/698 [1:18:08<3:10:16, 22.79s/it]
+iter 0, batch 197: log finish
+
+ 28%|████████████████████████                                                             | 198/698 [1:18:33<3:14:20, 23.32s/it]
+iter 0, batch 198, mean score: 4.657249927520752
+iter 0, batch 198: log finish
+
+ 29%|████████████████████████▏                                                            | 199/698 [1:18:54<3:08:33, 22.67s/it]
+iter 0, batch 199, mean score: 6.339849948883057
+[eval] step=200, logged 5 validation generations to wandb
+iter 0, batch 199: log finish
+epoch 0, batch 200
+
+ 29%|████████████████████████▎                                                            | 200/698 [1:19:32<3:45:47, 27.20s/it]
+iter 0, batch 200: log finish
+iter 0, batch 200: model saved
+epoch 0, batch 201
+
+ 29%|████████████████████████▍                                                            | 201/698 [1:19:49<3:22:16, 24.42s/it]
+iter 0, batch 201: log finish
+
+ 29%|████████████████████████▌                                                            | 202/698 [1:20:08<3:07:42, 22.71s/it]
+iter 0, batch 202, mean score: 7.90672492980957
+iter 0, batch 202: log finish
+
+ 29%|████████████████████████▋                                                            | 203/698 [1:20:29<3:02:14, 22.09s/it]
+iter 0, batch 203, mean score: 3.631124973297119
+iter 0, batch 203: log finish
+
+ 29%|████████████████████████▊                                                            | 204/698 [1:20:50<2:59:09, 21.76s/it]
+iter 0, batch 204, mean score: 4.68797492980957
+iter 0, batch 204: log finish
+epoch 0, batch 205
+
+ 29%|████████████████████████▉                                                            | 205/698 [1:21:11<2:56:40, 21.50s/it]
+iter 0, batch 205: log finish
+epoch 0, batch 206
+
+ 30%|█████████████████████████                                                            | 206/698 [1:21:25<2:38:38, 19.35s/it]
+iter 0, batch 206: log finish
+epoch 0, batch 207
+
+ 30%|█████████████████████████▏                                                           | 207/698 [1:21:42<2:33:09, 18.71s/it]
+iter 0, batch 207: log finish
+
+ 30%|█████████████████████████▎                                                           | 208/698 [1:21:58<2:25:30, 17.82s/it]
+iter 0, batch 208, mean score: 2.134775161743164
+iter 0, batch 208: log finish
+epoch 0, batch 209
+
+ 30%|█████████████████████████▍                                                           | 209/698 [1:22:17<2:29:10, 18.30s/it]
+iter 0, batch 209: log finish
+epoch 0, batch 210
+
+
+ 30%|█████████████████████████▋                                                           | 211/698 [1:22:59<2:42:01, 19.96s/it]
+iter 0, batch 210: log finish
+epoch 0, batch 211
+iter 0, batch 211, mean score: 4.734350204467773
+iter 0, batch 211: log finish
+epoch 0, batch 212
+
+ 30%|█████████████████████████▊                                                           | 212/698 [1:23:23<2:52:42, 21.32s/it]
+iter 0, batch 212: log finish
+epoch 0, batch 213
+
+ 31%|█████████████████████████▉                                                           | 213/698 [1:23:40<2:40:26, 19.85s/it]
+iter 0, batch 213: log finish
+epoch 0, batch 214
+
+ 31%|██████████████████████████                                                           | 214/698 [1:24:00<2:40:41, 19.92s/it]
+iter 0, batch 214: log finish
+epoch 0, batch 215
+
+ 31%|██████████████████████████▏                                                          | 215/698 [1:24:16<2:31:08, 18.77s/it]
+iter 0, batch 215: log finish
+epoch 0, batch 216
+
+ 31%|██████████████████████████▎                                                          | 216/698 [1:24:33<2:27:17, 18.34s/it]
+iter 0, batch 216: log finish
+epoch 0, batch 217
+
+ 31%|██████████████████████████▍                                                          | 217/698 [1:24:51<2:26:00, 18.21s/it]
+iter 0, batch 217: log finish
+epoch 0, batch 218
+
+ 31%|██████████████████████████▌                                                          | 218/698 [1:25:10<2:28:43, 18.59s/it]
+iter 0, batch 218: log finish
+epoch 0, batch 219
+
+ 31%|██████████████████████████▋                                                          | 219/698 [1:25:26<2:21:35, 17.74s/it]
+iter 0, batch 219: log finish
+
+ 32%|██████████████████████████▊                                                          | 220/698 [1:25:43<2:19:26, 17.50s/it]
+iter 0, batch 220, mean score: 8.067399978637695
+iter 0, batch 220: log finish
+epoch 0, batch 221
+
+ 32%|██████████████████████████▉                                                          | 221/698 [1:26:04<2:26:02, 18.37s/it]
+iter 0, batch 221: log finish
+
+ 32%|███████████████████████████                                                          | 222/698 [1:26:38<3:04:27, 23.25s/it]
+iter 0, batch 222, mean score: 6.48829984664917
+iter 0, batch 222: log finish
+epoch 0, batch 223
+
+ 32%|███████████████████████████▏                                                         | 223/698 [1:26:59<2:59:03, 22.62s/it]
+iter 0, batch 223: log finish
+
+ 32%|███████████████████████████▎                                                         | 224/698 [1:27:15<2:42:49, 20.61s/it]
+iter 0, batch 224, mean score: 3.0761749744415283
+iter 0, batch 224: log finish
+epoch 0, batch 225
+
+ 32%|███████████████████████████▍                                                         | 225/698 [1:27:33<2:36:41, 19.88s/it]
+iter 0, batch 225: log finish
+
+ 32%|███████████████████████████▌                                                         | 226/698 [1:27:50<2:29:39, 19.02s/it]
+iter 0, batch 226, mean score: 3.7560999393463135
+iter 0, batch 226: log finish
+epoch 0, batch 227
+
+ 33%|███████████████████████████▋                                                         | 227/698 [1:28:11<2:32:10, 19.38s/it]
+iter 0, batch 227: log finish
+epoch 0, batch 228
+
+ 33%|███████████████████████████▊                                                         | 228/698 [1:28:35<2:42:53, 20.79s/it]
+iter 0, batch 228: log finish
+epoch 0, batch 229
+
+ 33%|███████████████████████████▉                                                         | 229/698 [1:28:53<2:36:26, 20.01s/it]
+iter 0, batch 229: log finish
+epoch 0, batch 230
+
+ 33%|████████████████████████████                                                         | 230/698 [1:29:16<2:44:18, 21.06s/it]
+iter 0, batch 230: log finish
+epoch 0, batch 231
+
+ 33%|████████████████████████████▏                                                        | 231/698 [1:29:36<2:41:21, 20.73s/it]
+iter 0, batch 231: log finish
+
+ 33%|████████████████████████████▎                                                        | 232/698 [1:29:57<2:41:21, 20.78s/it]
+iter 0, batch 232, mean score: 2.918950080871582
+iter 0, batch 232: log finish
+epoch 0, batch 233
+
+ 33%|████████████████████████████▎                                                        | 233/698 [1:30:15<2:34:27, 19.93s/it]
+iter 0, batch 233: log finish
+
+ 34%|████████████████████████████▍                                                        | 234/698 [1:30:31<2:25:13, 18.78s/it]
+iter 0, batch 234, mean score: 6.654299736022949
+iter 0, batch 234: log finish
+epoch 0, batch 235
+
+ 34%|████████████████████████████▌                                                        | 235/698 [1:30:49<2:23:05, 18.54s/it]
+iter 0, batch 235: log finish
+epoch 0, batch 236
+
+ 34%|████████████████████████████▋                                                        | 236/698 [1:31:15<2:39:09, 20.67s/it]
+iter 0, batch 236: log finish
+epoch 0, batch 237
+
+ 34%|████████████████████████████▊                                                        | 237/698 [1:31:41<2:51:48, 22.36s/it]
+iter 0, batch 237: log finish
+epoch 0, batch 238
+
+ 34%|████████████████████████████▉                                                        | 238/698 [1:31:59<2:40:06, 20.88s/it]
+iter 0, batch 238: log finish
+
+ 34%|█████████████████████████████                                                        | 239/698 [1:32:16<2:31:26, 19.80s/it]
+iter 0, batch 239, mean score: 6.494699478149414
+iter 0, batch 239: log finish
+
+ 34%|█████████████████████████████▏                                                       | 240/698 [1:32:37<2:33:21, 20.09s/it]
+iter 0, batch 240, mean score: 7.095475196838379
+iter 0, batch 240: log finish
+epoch 0, batch 241
+
+ 35%|█████████████████████████████▎                                                       | 241/698 [1:32:54<2:25:27, 19.10s/it]
+iter 0, batch 241: log finish
+
+ 35%|█████████████████████████████▍                                                       | 242/698 [1:33:13<2:26:22, 19.26s/it]
+iter 0, batch 242, mean score: 3.26912522315979
+iter 0, batch 242: log finish
+
+ 35%|█████████████████████████████▌                                                       | 243/698 [1:33:30<2:20:23, 18.51s/it]
+iter 0, batch 243, mean score: 6.259749412536621
+iter 0, batch 243: log finish
+
+ 35%|█████████████████████████████▋                                                       | 244/698 [1:33:45<2:12:17, 17.48s/it]
+iter 0, batch 244, mean score: 5.221674919128418
+iter 0, batch 244: log finish
+
+ 35%|█████████████████████████████▊                                                       | 245/698 [1:34:07<2:22:48, 18.92s/it]
+iter 0, batch 245, mean score: 1.8320249319076538
+iter 0, batch 245: log finish
+
+ 35%|█████████████████████████████▉                                                       | 246/698 [1:34:25<2:20:28, 18.65s/it]
+iter 0, batch 246, mean score: 3.356450080871582
+iter 0, batch 246: log finish
+
+ 35%|██████████████████████████████                                                       | 247/698 [1:34:45<2:23:19, 19.07s/it]
+iter 0, batch 247, mean score: 5.6577253341674805
+iter 0, batch 247: log finish
+
+ 36%|██████████████████████████████▏                                                      | 248/698 [1:35:03<2:20:35, 18.75s/it]
+iter 0, batch 248, mean score: 4.396500110626221
+iter 0, batch 248: log finish
+
+ 36%|██████████████████████████████▎                                                      | 249/698 [1:35:18<2:11:21, 17.55s/it]
+iter 0, batch 249, mean score: 3.2397749423980713
+iter 0, batch 249: log finish
+
+ 36%|██████████████████████████████▍                                                      | 250/698 [1:35:34<2:07:32, 17.08s/it]
+iter 0, batch 250, mean score: 3.8701252937316895
+iter 0, batch 250: log finish
+
+ 36%|██████████████████████████████▌                                                      | 251/698 [1:35:58<2:22:18, 19.10s/it]
+iter 0, batch 251, mean score: 6.074199676513672
+iter 0, batch 251: log finish
+
+ 36%|██████████████████████████████▋                                                      | 252/698 [1:36:33<2:56:58, 23.81s/it]
+iter 0, batch 252, mean score: 8.608875274658203
+iter 0, batch 252: log finish
+
+ 36%|██████████████████████████████▊                                                      | 253/698 [1:36:51<2:44:50, 22.23s/it]
+iter 0, batch 253, mean score: 5.771474838256836
+iter 0, batch 253: log finish
+
+ 36%|██████████████████████████████▉                                                      | 254/698 [1:37:16<2:50:23, 23.03s/it]
+iter 0, batch 254, mean score: 5.5847249031066895
+iter 0, batch 254: log finish
+epoch 0, batch 255
+
+ 37%|███████████████████████████████                                                      | 255/698 [1:37:39<2:49:30, 22.96s/it]
+iter 0, batch 255: log finish
+
+ 37%|███████████████████████████████▏                                                     | 256/698 [1:38:05<2:56:53, 24.01s/it]
+iter 0, batch 256, mean score: 1.7294749021530151
+iter 0, batch 256: log finish
+epoch 0, batch 257
+
+ 37%|███████████████████████████████▎                                                     | 257/698 [1:38:33<3:03:38, 24.98s/it]
+iter 0, batch 257: log finish
+
+ 37%|███████████████████████████████▍                                                     | 258/698 [1:38:50<2:47:10, 22.80s/it]
+iter 0, batch 258, mean score: 2.3337998390197754
+iter 0, batch 258: log finish
+epoch 0, batch 259
+
+ 37%|███████████████████████████████▌                                                     | 259/698 [1:39:16<2:52:08, 23.53s/it]
+iter 0, batch 259: log finish
+epoch 0, batch 260
+
+ 37%|███████████████████████████████▋                                                     | 260/698 [1:39:34<2:39:25, 21.84s/it]
+iter 0, batch 260: log finish
+epoch 0, batch 261
+
+ 37%|███████████████████████████████▊                                                     | 261/698 [1:40:08<3:05:56, 25.53s/it]
+iter 0, batch 261: log finish
+epoch 0, batch 262
+
+ 38%|███████████████████████████████▉                                                     | 262/698 [1:40:30<2:57:31, 24.43s/it]
+iter 0, batch 262: log finish
+epoch 0, batch 263
+
+
+ 38%|████████████████████████████████                                                     | 263/698 [1:40:47<2:40:59, 22.21s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+iter 0, batch 263: log finish
+epoch 0, batch 264
+iter 0, batch 264, mean score: 3.193850040435791
+ 38%|████████████████████████████████▏                                                    | 264/698 [1:41:24<3:13:49, 26.80s/it]
+iter 0, batch 264: log finish
+epoch 0, batch 265
+
+ 38%|████████████████████████████████▎                                                    | 265/698 [1:41:49<3:09:33, 26.27s/it]
+iter 0, batch 265: log finish
+epoch 0, batch 266
+
+ 38%|████████████████████████████████▍                                                    | 266/698 [1:42:08<2:54:18, 24.21s/it]
+iter 0, batch 266: log finish
+epoch 0, batch 267
+
+ 38%|████████████████████████████████▌                                                    | 267/698 [1:42:34<2:57:32, 24.72s/it]
+iter 0, batch 267: log finish
+epoch 0, batch 268
+
+ 38%|████████████████████████████████▋                                                    | 268/698 [1:42:53<2:44:57, 23.02s/it]
+iter 0, batch 268: log finish
+epoch 0, batch 269
+
+ 39%|████████████████████████████████▊                                                    | 269/698 [1:43:19<2:50:27, 23.84s/it]
+iter 0, batch 269: log finish
+epoch 0, batch 270
+
+ 39%|████████████████████████████████▉                                                    | 270/698 [1:43:48<3:00:25, 25.29s/it]
+iter 0, batch 270: log finish
+epoch 0, batch 271
+
+ 39%|█████████████████████████████████                                                    | 271/698 [1:44:06<2:44:50, 23.16s/it]
+iter 0, batch 271: log finish
+epoch 0, batch 272
+
+ 39%|█████████████████████████████████                                                    | 272/698 [1:44:29<2:44:50, 23.22s/it]
+iter 0, batch 272: log finish
+epoch 0, batch 273
+
+ 39%|█████████████████████████████████▏                                                   | 273/698 [1:44:49<2:37:31, 22.24s/it]
+iter 0, batch 273: log finish
+epoch 0, batch 274
+
+ 39%|█████████████████████████████████▎                                                   | 274/698 [1:45:16<2:45:30, 23.42s/it]
+iter 0, batch 274: log finish
+epoch 0, batch 275
+
+ 39%|█████████████████████████████████▍                                                   | 275/698 [1:45:35<2:36:58, 22.27s/it]
+iter 0, batch 275: log finish
+epoch 0, batch 276
+
+ 40%|█████████████████████████████████▌                                                   | 276/698 [1:45:51<2:23:35, 20.42s/it]
+iter 0, batch 276: log finish
+epoch 0, batch 277
+
+ 40%|█████████████████████████████████▋                                                   | 277/698 [1:46:13<2:25:57, 20.80s/it]
+iter 0, batch 277: log finish
+epoch 0, batch 278
+
+ 40%|█████████████████████████████████▊                                                   | 278/698 [1:46:34<2:27:11, 21.03s/it]
+iter 0, batch 278: log finish
+epoch 0, batch 279
+
+ 40%|█████████████████████████████████▉                                                   | 279/698 [1:47:05<2:46:52, 23.90s/it]
+iter 0, batch 279: log finish
+epoch 0, batch 280
+
+ 40%|██████████████████████████████████                                                   | 280/698 [1:47:23<2:34:07, 22.12s/it]
+iter 0, batch 280: log finish
+epoch 0, batch 281
+
+ 40%|██████████████████████████████████▏                                                  | 281/698 [1:47:43<2:29:18, 21.48s/it]
+iter 0, batch 281: log finish
+epoch 0, batch 282
+
+ 40%|██████████████████████████████████▎                                                  | 282/698 [1:48:08<2:35:52, 22.48s/it]
+iter 0, batch 282: log finish
+epoch 0, batch 283
+
+ 41%|██████████████████████████████████▍                                                  | 283/698 [1:48:32<2:38:08, 22.86s/it]
+iter 0, batch 283: log finish
+epoch 0, batch 284
+
+ 41%|██████████████████████████████████▌                                                  | 284/698 [1:48:52<2:33:06, 22.19s/it]
+iter 0, batch 284: log finish
+epoch 0, batch 285
+
+
+ 41%|██████████████████████████████████▊                                                  | 286/698 [1:49:33<2:24:57, 21.11s/it]
+iter 0, batch 285: log finish
+epoch 0, batch 286
+iter 0, batch 286, mean score: 3.162324905395508
+iter 0, batch 286: log finish
+epoch 0, batch 287
+
+ 41%|██████████████████████████████████▉                                                  | 287/698 [1:49:52<2:20:10, 20.46s/it]
+iter 0, batch 287: log finish
+epoch 0, batch 288
+
+ 41%|███████████████████████████████████                                                  | 288/698 [1:50:12<2:19:57, 20.48s/it]
+iter 0, batch 288: log finish
+epoch 0, batch 289
+
+ 41%|███████████████████████████████████▏                                                 | 289/698 [1:50:30<2:15:04, 19.81s/it]
+iter 0, batch 289: log finish
+epoch 0, batch 290
+
+ 42%|███████████████████████████████████▎                                                 | 290/698 [1:50:48<2:10:04, 19.13s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+iter 0, batch 290: log finish
+epoch 0, batch 291
+iter 0, batch 291, mean score: 1.4550998210906982
+ 42%|███████████████████████████████████▍                                                 | 291/698 [1:51:44<3:24:14, 30.11s/it]
+iter 0, batch 291: log finish
+epoch 0, batch 292
+
+ 42%|███████████████████████████████████▌                                                 | 292/698 [1:52:12<3:20:34, 29.64s/it]
+iter 0, batch 292: log finish
+epoch 0, batch 293
+
+ 42%|███████████████████████████████████▋                                                 | 293/698 [1:52:29<2:54:52, 25.91s/it]
+iter 0, batch 293: log finish
+epoch 0, batch 294
+
+ 42%|███████████████████████████████████▊                                                 | 294/698 [1:52:47<2:37:08, 23.34s/it]
+iter 0, batch 294: log finish
+epoch 0, batch 295
+
+ 42%|███████████████████████████████████▉                                                 | 295/698 [1:53:07<2:30:47, 22.45s/it]
+iter 0, batch 295: log finish
+epoch 0, batch 296
+
+ 42%|████████████████████████████████████                                                 | 296/698 [1:53:36<2:44:08, 24.50s/it]
+iter 0, batch 296: log finish
+epoch 0, batch 297
+
+ 43%|████████████████████████████████████▏                                                | 297/698 [1:53:53<2:27:30, 22.07s/it]
+iter 0, batch 297: log finish
+epoch 0, batch 298
+
+ 43%|████████████████████████████████████▎                                                | 298/698 [1:54:17<2:31:20, 22.70s/it]
+iter 0, batch 298: log finish
+
+ 43%|████████████████████████████████████▍                                                | 299/698 [1:54:40<2:32:17, 22.90s/it]
+iter 0, batch 299, mean score: 8.571300506591797
+[eval] step=300, logged 5 validation generations to wandb
+iter 0, batch 299: log finish
+
+ 43%|████████████████████████████████████▌                                                | 300/698 [1:55:13<2:50:58, 25.78s/it]
+iter 0, batch 300, mean score: 8.839849472045898
+iter 0, batch 300: log finish
+iter 0, batch 300: model saved
+
+ 43%|████████████████████████████████████▋                                                | 301/698 [1:55:33<2:39:07, 24.05s/it]
+iter 0, batch 301, mean score: 4.4941253662109375
+iter 0, batch 301: log finish
+
+ 43%|████████████████████████████████████▊                                                | 302/698 [1:55:56<2:37:04, 23.80s/it]
+iter 0, batch 302, mean score: 8.73337459564209
+iter 0, batch 302: log finish
+
+ 43%|████████████████████████████████████▉                                                | 303/698 [1:56:13<2:24:10, 21.90s/it]
+iter 0, batch 303, mean score: 6.2174248695373535
+iter 0, batch 303: log finish
+
+ 44%|█████████████████████████████████████                                                | 304/698 [1:56:31<2:15:55, 20.70s/it]
+iter 0, batch 304, mean score: 4.891124725341797
+iter 0, batch 304: log finish
+
+ 44%|█████████████████████████████████████▏                                               | 305/698 [1:56:50<2:12:09, 20.18s/it]
+iter 0, batch 305, mean score: 5.416025161743164
+iter 0, batch 305: log finish
+
+ 44%|█████████████████████████████████████▎                                               | 306/698 [1:57:13<2:16:16, 20.86s/it]
+iter 0, batch 306, mean score: 6.790024757385254
+iter 0, batch 306: log finish
+
+ 44%|█████████████████████████████████████▍                                               | 307/698 [1:57:35<2:18:04, 21.19s/it]
+iter 0, batch 307, mean score: 5.583974838256836
+iter 0, batch 307: log finish
+
+ 44%|█████████████████████████████████████▌                                               | 308/698 [1:57:56<2:18:07, 21.25s/it]
+iter 0, batch 308, mean score: 5.112249851226807
+iter 0, batch 308: log finish
+
+ 44%|█████████████████████████████████████▋                                               | 309/698 [1:58:14<2:11:03, 20.21s/it]
+iter 0, batch 309, mean score: 5.666025161743164
+iter 0, batch 309: log finish
+
+ 44%|█████████████████████████████████████▊                                               | 310/698 [1:58:47<2:36:23, 24.18s/it]
+iter 0, batch 310, mean score: 8.136850357055664
+iter 0, batch 310: log finish
+
+ 45%|█████████████████████████████████████▊                                               | 311/698 [1:59:06<2:25:28, 22.55s/it]
+iter 0, batch 311, mean score: 6.304949760437012
+iter 0, batch 311: log finish
+
+ 45%|█████████████████████████████████████▉                                               | 312/698 [1:59:23<2:14:46, 20.95s/it]
+iter 0, batch 312, mean score: 5.507199764251709
+iter 0, batch 312: log finish
+
+ 45%|██████████████████████████████████████                                               | 313/698 [1:59:40<2:05:43, 19.59s/it]
+iter 0, batch 313, mean score: 6.021500110626221
+iter 0, batch 313: log finish
+
+ 45%|██████████████████████████████████████▏                                              | 314/698 [1:59:58<2:01:50, 19.04s/it]
+iter 0, batch 314, mean score: 2.4672751426696777
+iter 0, batch 314: log finish
+
+ 45%|██████████████████████████████████████▎                                              | 315/698 [2:00:18<2:03:23, 19.33s/it]
+iter 0, batch 315, mean score: 2.2851500511169434
+iter 0, batch 315: log finish
+
+ 45%|██████████████████████████████████████▍                                              | 316/698 [2:00:48<2:23:50, 22.59s/it]
+iter 0, batch 316, mean score: 7.150400161743164
+iter 0, batch 316: log finish
+
+ 45%|██████████████████████████████████████▌                                              | 317/698 [2:01:05<2:14:02, 21.11s/it]
+iter 0, batch 317, mean score: 5.144499778747559
+iter 0, batch 317: log finish
+
+ 46%|██████████████████████████████████████▋                                              | 318/698 [2:01:29<2:17:38, 21.73s/it]
+iter 0, batch 318, mean score: 6.235374927520752
+iter 0, batch 318: log finish
+
+ 46%|██████████████████████████████████████▊                                              | 319/698 [2:01:55<2:25:53, 23.10s/it]
+iter 0, batch 319, mean score: 8.541475296020508
+iter 0, batch 319: log finish
+
+ 46%|██████████████████████████████████████▉                                              | 320/698 [2:02:16<2:21:58, 22.54s/it]
+iter 0, batch 320, mean score: 5.019024848937988
+iter 0, batch 320: log finish
+
+ 46%|███████████████████████████████████████                                              | 321/698 [2:02:38<2:20:09, 22.31s/it]
+iter 0, batch 321, mean score: 6.435575008392334
+iter 0, batch 321: log finish
+
+ 46%|███████████████████████████████████████▏                                             | 322/698 [2:02:58<2:16:03, 21.71s/it]
+iter 0, batch 322, mean score: 6.084725379943848
+iter 0, batch 322: log finish
+
+ 46%|███████████████████████████████████████▎                                             | 323/698 [2:03:17<2:10:31, 20.88s/it]
+
+ 46%|███████████████████████████████████████▍                                             | 324/698 [2:03:48<2:28:08, 23.77s/it]
+iter 0, batch 323: log finish
+epoch 0, batch 324
+iter 0, batch 324, mean score: 2.9492249488830566
+iter 0, batch 324: log finish
+
+ 47%|███████████████████████████████████████▌                                             | 325/698 [2:04:10<2:24:36, 23.26s/it]
+iter 0, batch 325, mean score: 4.287075042724609
+iter 0, batch 325: log finish
+
+ 47%|███████████████████████████████████████▋                                             | 326/698 [2:04:31<2:19:57, 22.57s/it]
+iter 0, batch 326, mean score: 8.125
+iter 0, batch 326: log finish
+
+ 47%|███████████████████████████████████████▊                                             | 327/698 [2:04:47<2:08:51, 20.84s/it]
+
+ 47%|███████████████████████████████████████▉                                             | 328/698 [2:05:06<2:04:13, 20.15s/it]
+iter 0, batch 327: log finish
+epoch 0, batch 328
+iter 0, batch 328, mean score: 5.6860246658325195
+iter 0, batch 328: log finish
+
+ 47%|████████████████████████████████████████                                             | 329/698 [2:05:36<2:21:57, 23.08s/it]
+iter 0, batch 329, mean score: 8.521499633789062
+iter 0, batch 329: log finish
+
+ 47%|████████████████████████████████████████▏                                            | 330/698 [2:05:58<2:20:26, 22.90s/it]
+iter 0, batch 330, mean score: 4.809575080871582
+iter 0, batch 330: log finish
+
+ 47%|████████████████████████████████████████▎                                            | 331/698 [2:06:21<2:20:17, 22.94s/it]
+
+ 48%|████████████████████████████████████████▍                                            | 332/698 [2:06:42<2:15:57, 22.29s/it]
+iter 0, batch 331: log finish
+epoch 0, batch 332
+iter 0, batch 332, mean score: 8.603525161743164
+iter 0, batch 332: log finish
+
+ 48%|████████████████████████████████████████▌                                            | 333/698 [2:07:05<2:16:13, 22.39s/it]
+iter 0, batch 333, mean score: 8.433599472045898
+iter 0, batch 333: log finish
+
+ 48%|████████████████████████████████████████▋                                            | 334/698 [2:07:25<2:12:10, 21.79s/it]
+iter 0, batch 334, mean score: 8.826175689697266
+iter 0, batch 334: log finish
+
+ 48%|████████████████████████████████████████▊                                            | 335/698 [2:07:49<2:16:23, 22.54s/it]
+iter 0, batch 335, mean score: 8.43702507019043
+iter 0, batch 335: log finish
+
+ 48%|████████████████████████████████████████▉                                            | 336/698 [2:08:19<2:29:02, 24.70s/it]
+iter 0, batch 336, mean score: 9.394049644470215
+iter 0, batch 336: log finish
+
+ 48%|█████████████████████████████████████████                                            | 337/698 [2:08:50<2:38:54, 26.41s/it]
+iter 0, batch 337, mean score: 6.822774887084961
+iter 0, batch 337: log finish
+
+ 48%|█████████████████████████████████████████▏                                           | 338/698 [2:09:17<2:40:14, 26.71s/it]
+iter 0, batch 338, mean score: 5.513675212860107
+iter 0, batch 338: log finish
+
+ 49%|█████████████████████████████████████████▎                                           | 339/698 [2:09:38<2:28:46, 24.87s/it]
+iter 0, batch 339, mean score: 7.8151750564575195
+iter 0, batch 339: log finish
+
+ 49%|█████████████████████████████████████████▍                                           | 340/698 [2:09:58<2:21:03, 23.64s/it]
+iter 0, batch 340, mean score: 4.747550010681152
+iter 0, batch 340: log finish
+
+ 49%|█████████████████████████████████████████▌                                           | 341/698 [2:10:22<2:20:06, 23.55s/it]
+iter 0, batch 341, mean score: 9.377924919128418
+iter 0, batch 341: log finish
+
+ 49%|█████████████████████████████████████████▋                                           | 342/698 [2:10:43<2:15:17, 22.80s/it]
+iter 0, batch 342, mean score: 9.089374542236328
+iter 0, batch 342: log finish
+
+ 49%|█████████████████████████████████████████▊                                           | 343/698 [2:11:18<2:36:43, 26.49s/it]
+iter 0, batch 343, mean score: 2.2734498977661133
+iter 0, batch 343: log finish
+
+ 49%|█████████████████████████████████████████▉                                           | 344/698 [2:11:38<2:25:54, 24.73s/it]
+iter 0, batch 344, mean score: 6.416524887084961
+iter 0, batch 344: log finish
+
+ 49%|██████████████████████████████████████████                                           | 345/698 [2:12:14<2:43:43, 27.83s/it]
+iter 0, batch 345, mean score: 9.147100448608398
+iter 0, batch 345: log finish
+
+ 50%|██████████████████████████████████████████▏                                          | 346/698 [2:12:32<2:26:32, 24.98s/it]
+iter 0, batch 346, mean score: 7.0244245529174805
+iter 0, batch 346: log finish
+
+ 50%|██████████████████████████████████████████▎                                          | 347/698 [2:12:56<2:24:07, 24.64s/it]
+iter 0, batch 347, mean score: 2.332000255584717
+iter 0, batch 347: log finish
+
+ 50%|██████████████████████████████████████████▍                                          | 348/698 [2:13:32<2:43:23, 28.01s/it]
+iter 0, batch 348, mean score: 9.728224754333496
+iter 0, batch 348: log finish
+
+ 50%|██████████████████████████████████████████▌                                          | 349/698 [2:14:08<2:56:49, 30.40s/it]
+iter 0, batch 349, mean score: 5.993375301361084
+iter 0, batch 349: log finish
+
+ 50%|██████████████████████████████████████████▌                                          | 350/698 [2:14:42<3:03:34, 31.65s/it]
+iter 0, batch 350, mean score: 8.16455078125
+iter 0, batch 350: log finish
+
+ 50%|██████████████████████████████████████████▋                                          | 351/698 [2:15:15<3:04:19, 31.87s/it]
+iter 0, batch 351, mean score: 5.189474582672119
+iter 0, batch 351: log finish
+
+ 50%|██████████████████████████████████████████▊                                          | 352/698 [2:15:40<2:52:27, 29.91s/it]
+iter 0, batch 352, mean score: 7.495100021362305
+iter 0, batch 352: log finish
+
+ 51%|██████████████████████████████████████████▉                                          | 353/698 [2:15:59<2:33:22, 26.67s/it]
+iter 0, batch 353, mean score: 8.270500183105469
+iter 0, batch 353: log finish
+
+ 51%|███████████████████████████████████████████                                          | 354/698 [2:16:29<2:38:13, 27.60s/it]
+iter 0, batch 354, mean score: 6.387700080871582
+iter 0, batch 354: log finish
+
+ 51%|███████████████████████████████████████████▏                                         | 355/698 [2:16:46<2:20:38, 24.60s/it]
+iter 0, batch 355, mean score: 3.1166751384735107
+iter 0, batch 355: log finish
+
+ 51%|███████████████████████████████████████████▎                                         | 356/698 [2:17:09<2:17:03, 24.05s/it]
+iter 0, batch 356, mean score: 8.56445026397705
+iter 0, batch 356: log finish
+
+ 51%|███████████████████████████████████████████▍                                         | 357/698 [2:17:42<2:31:14, 26.61s/it]
+iter 0, batch 357, mean score: 8.130849838256836
+iter 0, batch 357: log finish
+
+ 51%|███████████████████████████████████████████▌                                         | 358/698 [2:18:03<2:22:14, 25.10s/it]
+iter 0, batch 358, mean score: 6.780550003051758
+iter 0, batch 358: log finish
+
+ 51%|███████████████████████████████████████████▋                                         | 359/698 [2:18:22<2:11:21, 23.25s/it]
+iter 0, batch 359, mean score: 1.7285001277923584
+iter 0, batch 359: log finish
+
+ 52%|███████████████████████████████████████████▊                                         | 360/698 [2:18:57<2:30:29, 26.72s/it]
+iter 0, batch 360, mean score: 5.822249412536621
+iter 0, batch 360: log finish
+
+ 52%|███████████████████████████████████████████▉                                         | 361/698 [2:19:17<2:18:39, 24.69s/it]
+iter 0, batch 361, mean score: 4.123049736022949
+iter 0, batch 361: log finish
+
+ 52%|████████████████████████████████████████████                                         | 362/698 [2:19:40<2:15:24, 24.18s/it]
+
+ 52%|████████████████████████████████████████████▏                                        | 363/698 [2:20:03<2:13:30, 23.91s/it]
+iter 0, batch 362: log finish
+epoch 0, batch 363
+iter 0, batch 363, mean score: 5.020249843597412
+iter 0, batch 363: log finish
+
+ 52%|████████████████████████████████████████████▎                                        | 364/698 [2:20:21<2:02:59, 22.09s/it]
+iter 0, batch 364, mean score: 2.681649923324585
+iter 0, batch 364: log finish
+
+ 52%|████████████████████████████████████████████▍                                        | 365/698 [2:20:44<2:04:12, 22.38s/it]
+iter 0, batch 365, mean score: 4.349599838256836
+iter 0, batch 365: log finish
+
+ 52%|████████████████████████████████████████████▌                                        | 366/698 [2:21:05<2:02:00, 22.05s/it]
+iter 0, batch 366, mean score: 9.87304973602295
+iter 0, batch 366: log finish
+
+ 53%|████████████████████████████████████████████▋                                        | 367/698 [2:21:25<1:56:54, 21.19s/it]
+iter 0, batch 367, mean score: 1.9682748317718506
+iter 0, batch 367: log finish
+
+ 53%|████████████████████████████████████████████▊                                        | 368/698 [2:21:43<1:51:44, 20.32s/it]
+
+ 53%|████████████████████████████████████████████▉                                        | 369/698 [2:22:03<1:51:12, 20.28s/it]
+iter 0, batch 368: log finish
+epoch 0, batch 369
+iter 0, batch 369, mean score: 6.476049900054932
+iter 0, batch 369: log finish
+
+ 53%|█████████████████████████████████████████████                                        | 370/698 [2:22:27<1:56:23, 21.29s/it]
+iter 0, batch 370, mean score: 7.9628753662109375
+iter 0, batch 370: log finish
+
+ 53%|█████████████████████████████████████████████▏                                       | 371/698 [2:22:49<1:56:58, 21.46s/it]
+iter 0, batch 371, mean score: 7.2690749168396
+iter 0, batch 371: log finish
+
+ 53%|█████████████████████████████████████████████▎                                       | 372/698 [2:23:14<2:02:17, 22.51s/it]
+
+ 53%|█████████████████████████████████████████████▍                                       | 373/698 [2:23:37<2:03:36, 22.82s/it]
+iter 0, batch 372: log finish
+epoch 0, batch 373
+iter 0, batch 373, mean score: 5.705074787139893
+iter 0, batch 373: log finish
+
+ 54%|█████████████████████████████████████████████▌                                       | 374/698 [2:23:56<1:56:44, 21.62s/it]
+iter 0, batch 374, mean score: 8.779300689697266
+iter 0, batch 374: log finish
+
+ 54%|█████████████████████████████████████████████▋                                       | 375/698 [2:24:24<2:06:51, 23.57s/it]
+iter 0, batch 375, mean score: 4.447249889373779
+iter 0, batch 375: log finish
+
+ 54%|█████████████████████████████████████████████▊                                       | 376/698 [2:24:44<2:00:46, 22.51s/it]
+iter 0, batch 376, mean score: 7.175800323486328
+iter 0, batch 376: log finish
+
+ 54%|█████████████████████████████████████████████▉                                       | 377/698 [2:25:06<1:59:12, 22.28s/it]
+iter 0, batch 377, mean score: 0.7456749677658081
+iter 0, batch 377: log finish
+
+ 54%|██████████████████████████████████████████████                                       | 378/698 [2:25:29<1:59:42, 22.44s/it]
+iter 0, batch 378, mean score: 5.503899574279785
+iter 0, batch 378: log finish
+
+ 54%|██████████████████████████████████████████████▏                                      | 379/698 [2:25:48<1:54:38, 21.56s/it]
+
+ 54%|██████████████████████████████████████████████▎                                      | 380/698 [2:26:14<2:00:29, 22.73s/it]
+iter 0, batch 379: log finish
+epoch 0, batch 380
+iter 0, batch 380, mean score: 7.784174919128418
+iter 0, batch 380: log finish
+
+ 55%|██████████████████████████████████████████████▍                                      | 381/698 [2:26:33<1:54:55, 21.75s/it]
+iter 0, batch 381, mean score: 1.9892499446868896
+iter 0, batch 381: log finish
+
+ 55%|██████████████████████████████████████████████▌                                      | 382/698 [2:26:58<2:00:10, 22.82s/it]
+iter 0, batch 382, mean score: 4.451200008392334
+iter 0, batch 382: log finish
+
+ 55%|██████████████████████████████████████████████▋                                      | 383/698 [2:27:17<1:53:15, 21.57s/it]
+iter 0, batch 383, mean score: 7.606450080871582
+iter 0, batch 383: log finish
+
+ 55%|██████████████████████████████████████████████▊                                      | 384/698 [2:27:37<1:50:06, 21.04s/it]
+iter 0, batch 384, mean score: 8.955100059509277
+iter 0, batch 384: log finish
+
+ 55%|██████████████████████████████████████████████▉                                      | 385/698 [2:27:55<1:45:33, 20.24s/it]
+iter 0, batch 385, mean score: 7.931650161743164
+iter 0, batch 385: log finish
+
+ 55%|███████████████████████████████████████████████                                      | 386/698 [2:28:14<1:43:09, 19.84s/it]
+iter 0, batch 386, mean score: 7.733774662017822
+iter 0, batch 386: log finish
+
+ 55%|███████████████████████████████████████████████▏                                     | 387/698 [2:28:32<1:39:28, 19.19s/it]
+
+ 56%|███████████████████████████████████████████████▏                                     | 388/698 [2:28:48<1:34:11, 18.23s/it]
+iter 0, batch 387: log finish
+epoch 0, batch 388
+iter 0, batch 388, mean score: 4.322274684906006
+iter 0, batch 388: log finish
+
+ 56%|███████████████████████████████████████████████▎                                     | 389/698 [2:29:09<1:38:41, 19.16s/it]
+iter 0, batch 389, mean score: 5.426774978637695
+iter 0, batch 389: log finish
+
+ 56%|███████████████████████████████████████████████▍                                     | 390/698 [2:29:30<1:41:44, 19.82s/it]
+iter 0, batch 390, mean score: 8.407224655151367
+iter 0, batch 390: log finish
+
+ 56%|███████████████████████████████████████████████▌                                     | 391/698 [2:29:52<1:44:25, 20.41s/it]
+
+ 56%|███████████████████████████████████████████████▋                                     | 392/698 [2:30:16<1:49:32, 21.48s/it]
+iter 0, batch 391: log finish
+epoch 0, batch 392
+iter 0, batch 392, mean score: 5.348625183105469
+iter 0, batch 392: log finish
+
+ 56%|███████████████████████████████████████████████▊                                     | 393/698 [2:30:33<1:42:19, 20.13s/it]
+iter 0, batch 393, mean score: 7.354499816894531
+iter 0, batch 393: log finish
+
+ 56%|███████████████████████████████████████████████▉                                     | 394/698 [2:30:53<1:41:26, 20.02s/it]
+
+ 57%|████████████████████████████████████████████████                                     | 395/698 [2:31:14<1:42:29, 20.30s/it]
+iter 0, batch 394: log finish
+epoch 0, batch 395
+
+ 57%|████████████████████████████████████████████████▏                                    | 396/698 [2:31:41<1:52:07, 22.28s/it]
+iter 0, batch 395: log finish
+epoch 0, batch 396
+iter 0, batch 396, mean score: 5.7902750968933105
+iter 0, batch 396: log finish
+
+ 57%|████████████████████████████████████████████████▎                                    | 397/698 [2:32:00<1:47:51, 21.50s/it]
+iter 0, batch 397, mean score: 7.848649978637695
+iter 0, batch 397: log finish
+
+ 57%|████████████████████████████████████████████████▍                                    | 398/698 [2:32:21<1:45:41, 21.14s/it]
+iter 0, batch 398, mean score: 6.35652494430542
+iter 0, batch 398: log finish
+
+ 57%|████████████████████████████████████████████████▌                                    | 399/698 [2:32:55<2:05:06, 25.10s/it]
+
+ 57%|████████████████████████████████████████████████▋                                    | 400/698 [2:33:34<2:25:32, 29.30s/it]
+[eval] step=400, logged 5 validation generations to wandb
+iter 0, batch 399: log finish
+epoch 0, batch 400
+iter 0, batch 400, mean score: 5.409174919128418
+iter 0, batch 400: log finish
+iter 0, batch 400: model saved
+
+ 57%|████████████████████████████████████████████████▊                                    | 401/698 [2:33:53<2:09:00, 26.06s/it]
+iter 0, batch 401, mean score: 7.174499988555908
+iter 0, batch 401: log finish
+
+ 58%|████████████████████████████████████████████████▉                                    | 402/698 [2:34:11<1:57:16, 23.77s/it]
+iter 0, batch 402, mean score: 8.292949676513672
+iter 0, batch 402: log finish
+
+ 58%|█████████████████████████████████████████████████                                    | 403/698 [2:34:33<1:53:39, 23.12s/it]
+
+ 58%|█████████████████████████████████████████████████▏                                   | 404/698 [2:34:57<1:54:17, 23.33s/it]
+iter 0, batch 403: log finish
+epoch 0, batch 404
+iter 0, batch 404, mean score: 8.33482551574707
+iter 0, batch 404: log finish
+
+ 58%|█████████████████████████████████████████████████▎                                   | 405/698 [2:35:18<1:50:24, 22.61s/it]
+iter 0, batch 405, mean score: 5.69997501373291
+iter 0, batch 405: log finish
+
+ 58%|█████████████████████████████████████████████████▍                                   | 406/698 [2:35:38<1:46:23, 21.86s/it]
+iter 0, batch 406, mean score: 5.585925102233887
+iter 0, batch 406: log finish
+
+ 58%|█████████████████████████████████████████████████▌                                   | 407/698 [2:35:57<1:42:51, 21.21s/it]
+iter 0, batch 407, mean score: 4.962899684906006
+iter 0, batch 407: log finish
+
+ 58%|█████████████████████████████████████████████████▋                                   | 408/698 [2:36:19<1:43:25, 21.40s/it]
+iter 0, batch 408, mean score: 6.217250347137451
+iter 0, batch 408: log finish
+
+ 59%|█████████████████████████████████████████████████▊                                   | 409/698 [2:36:43<1:46:49, 22.18s/it]
+
+ 59%|█████████████████████████████████████████████████▉                                   | 410/698 [2:37:05<1:45:39, 22.01s/it]
+iter 0, batch 409: log finish
+epoch 0, batch 410
+iter 0, batch 410, mean score: 4.714349746704102
+iter 0, batch 410: log finish
+
+ 59%|██████████████████████████████████████████████████                                   | 411/698 [2:37:27<1:46:08, 22.19s/it]
+iter 0, batch 411, mean score: 5.9724249839782715
+iter 0, batch 411: log finish
+
+ 59%|██████████████████████████████████████████████████▏                                  | 412/698 [2:37:47<1:41:50, 21.37s/it]
+
+ 59%|██████████████████████████████████████████████████▎                                  | 413/698 [2:38:05<1:36:31, 20.32s/it]
+iter 0, batch 412: log finish
+epoch 0, batch 413
+iter 0, batch 413, mean score: 7.861050128936768
+iter 0, batch 413: log finish
+
+ 59%|██████████████████████████████████████████████████▍                                  | 414/698 [2:38:24<1:34:08, 19.89s/it]
+iter 0, batch 414, mean score: 6.634775161743164
+iter 0, batch 414: log finish
+
+ 59%|██████████████████████████████████████████████████▌                                  | 415/698 [2:38:46<1:36:50, 20.53s/it]
+
+ 60%|██████████████████████████████████████████████████▋                                  | 416/698 [2:39:23<2:00:02, 25.54s/it]
+iter 0, batch 415: log finish
+epoch 0, batch 416
+
+ 60%|██████████████████████████████████████████████████▊                                  | 417/698 [2:39:40<1:48:24, 23.15s/it]
+iter 0, batch 416: log finish
+epoch 0, batch 417
+
+ 60%|██████████████████████████████████████████████████▉                                  | 418/698 [2:40:17<2:06:32, 27.12s/it]
+iter 0, batch 417: log finish
+epoch 0, batch 418
+iter 0, batch 418, mean score: 8.297849655151367
+iter 0, batch 418: log finish
+
+ 60%|███████████████████████████████████████████████████                                  | 419/698 [2:40:46<2:09:16, 27.80s/it]
+
+ 60%|███████████████████████████████████████████████████▏                                 | 420/698 [2:41:21<2:18:16, 29.84s/it]
+iter 0, batch 419: log finish
+epoch 0, batch 420
+iter 0, batch 420, mean score: 5.121099948883057
+iter 0, batch 420: log finish
+epoch 0, batch 421
+
+ 60%|███████████████████████████████████████████████████▎                                 | 421/698 [2:41:44<2:08:13, 27.77s/it]
+iter 0, batch 421: log finish
+epoch 0, batch 422
+
+ 60%|███████████████████████████████████████████████████▍                                 | 422/698 [2:42:03<1:55:42, 25.16s/it]
+iter 0, batch 422: log finish
+
+ 61%|███████████████████████████████████████████████████▌                                 | 423/698 [2:42:22<1:47:07, 23.37s/it]
+
+ 61%|███████████████████████████████████████████████████▋                                 | 424/698 [2:42:41<1:40:31, 22.01s/it]
+iter 0, batch 423: log finish
+epoch 0, batch 424
+
+ 61%|███████████████████████████████████████████████████▊                                 | 425/698 [2:43:10<1:49:40, 24.10s/it]
+iter 0, batch 424: log finish
+epoch 0, batch 425
+
+ 61%|███████████████████████████████████████████████████▉                                 | 426/698 [2:43:27<1:40:00, 22.06s/it]
+iter 0, batch 425: log finish
+epoch 0, batch 426
+iter 0, batch 426, mean score: 9.425774574279785
+iter 0, batch 426: log finish
+epoch 0, batch 427
+
+ 61%|███████████████████████████████████████████████████▉                                 | 427/698 [2:44:04<2:00:07, 26.60s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+iter 0, batch 427: log finish
+epoch 0, batch 428
+iter 0, batch 428, mean score: 5.18797492980957
+ 61%|████████████████████████████████████████████████████                                 | 428/698 [2:44:42<2:15:03, 30.01s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+ 61%|████████████████████████████████████████████████████▏                                | 429/698 [2:45:21<2:25:46, 32.51s/it]
+iter 0, batch 428: log finish
+epoch 0, batch 429
+
+ 62%|████████████████████████████████████████████████████▎                                | 430/698 [2:45:40<2:07:27, 28.54s/it]
+iter 0, batch 429: log finish
+epoch 0, batch 430
+iter 0, batch 430, mean score: 6.179675102233887
+iter 0, batch 430: log finish
+epoch 0, batch 431
+
+ 62%|████████████████████████████████████████████████████▍                                | 431/698 [2:46:00<1:55:31, 25.96s/it]
+iter 0, batch 431: log finish
+epoch 0, batch 432
+
+ 62%|████████████████████████████████████████████████████▌                                | 432/698 [2:46:20<1:46:58, 24.13s/it]
+iter 0, batch 432: log finish
+
+ 62%|████████████████████████████████████████████████████▋                                | 433/698 [2:46:39<1:39:56, 22.63s/it]
+iter 0, batch 433, mean score: 7.74269962310791
+iter 0, batch 433: log finish
+epoch 0, batch 434
+
+ 62%|████████████████████████████████████████████████████▊                                | 434/698 [2:46:57<1:33:22, 21.22s/it]
+iter 0, batch 434: log finish
+
+ 62%|████████████████████████████████████████████████████▉                                | 435/698 [2:47:17<1:31:33, 20.89s/it]
+iter 0, batch 435, mean score: 5.667024612426758
+iter 0, batch 435: log finish
+
+ 62%|█████████████████████████████████████████████████████                                | 436/698 [2:47:37<1:30:10, 20.65s/it]
+
+ 63%|█████████████████████████████████████████████████████▏                               | 437/698 [2:48:11<1:46:51, 24.56s/it]
+iter 0, batch 436: log finish
+epoch 0, batch 437
+iter 0, batch 437, mean score: 6.268549919128418
+iter 0, batch 437: log finish
+epoch 0, batch 438
+
+ 63%|█████████████████████████████████████████████████████▎                               | 438/698 [2:48:32<1:41:55, 23.52s/it]
+iter 0, batch 438: log finish
+
+ 63%|█████████████████████████████████████████████████████▍                               | 439/698 [2:48:55<1:40:55, 23.38s/it]
+iter 0, batch 439, mean score: 4.572999954223633
+iter 0, batch 439: log finish
+
+ 63%|█████████████████████████████████████████████████████▌                               | 440/698 [2:49:13<1:33:35, 21.77s/it]
+iter 0, batch 440, mean score: 6.310925006866455
+iter 0, batch 440: log finish
+
+ 63%|█████████████████████████████████████████████████████▋                               | 441/698 [2:49:34<1:32:51, 21.68s/it]
+
+ 63%|█████████████████████████████████████████████████████▋                               | 441/698 [2:49:34<1:32:51, 21.68s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+ 63%|█████████████████████████████████████████████████████▊                               | 442/698 [2:50:13<1:54:30, 26.84s/it]
+iter 0, batch 441: log finish
+epoch 0, batch 442
+
+ 63%|█████████████████████████████████████████████████████▉                               | 443/698 [2:50:34<1:46:03, 24.96s/it]
+iter 0, batch 442: log finish
+epoch 0, batch 443
+
+ 64%|██████████████████████████████████████████████████████                               | 444/698 [2:50:55<1:41:35, 24.00s/it]
+iter 0, batch 443: log finish
+epoch 0, batch 444
+
+ 64%|██████████████████████████████████████████████████████▏                              | 445/698 [2:51:17<1:37:35, 23.14s/it]
+iter 0, batch 444: log finish
+epoch 0, batch 445
+
+ 64%|██████████████████████████████████████████████████████▎                              | 446/698 [2:51:36<1:32:07, 21.94s/it]
+iter 0, batch 445: log finish
+epoch 0, batch 446
+
+ 64%|██████████████████████████████████████████████████████▍                              | 447/698 [2:51:55<1:28:56, 21.26s/it]
+iter 0, batch 446: log finish
+epoch 0, batch 447
+iter 0, batch 447, mean score: 7.288100242614746
+iter 0, batch 447: log finish
+
+ 64%|██████████████████████████████████████████████████████▌                              | 448/698 [2:52:14<1:25:43, 20.57s/it]
+iter 0, batch 448, mean score: 5.874975204467773
+iter 0, batch 448: log finish
+
+ 64%|██████████████████████████████████████████████████████▋                              | 449/698 [2:52:33<1:22:19, 19.84s/it]
+iter 0, batch 449, mean score: 7.806125164031982
+iter 0, batch 449: log finish
+
+ 64%|██████████████████████████████████████████████████████▊                              | 450/698 [2:52:50<1:18:59, 19.11s/it]
+
+ 65%|██████████████████████████████████████████████████████▉                              | 451/698 [2:53:09<1:19:09, 19.23s/it]
+iter 0, batch 450: log finish
+epoch 0, batch 451
+
+ 65%|███████████████████████████████████████████████████████                              | 452/698 [2:53:29<1:19:26, 19.38s/it]
+iter 0, batch 451: log finish
+epoch 0, batch 452
+
+ 65%|███████████████████████████████████████████████████████                              | 452/698 [2:53:29<1:19:26, 19.38s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+iter 0, batch 452: log finish
+epoch 0, batch 453
+ 65%|███████████████████████████████████████████████████████▏                             | 453/698 [2:54:10<1:45:42, 25.89s/it]
+iter 0, batch 453, mean score: 6.277324676513672
+iter 0, batch 453: log finish
+
+ 65%|███████████████████████████████████████████████████████▎                             | 454/698 [2:54:31<1:38:40, 24.27s/it]
+
+ 65%|███████████████████████████████████████████████████████▎                             | 454/698 [2:54:31<1:38:40, 24.27s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+ 65%|███████████████████████████████████████████████████████▍                             | 455/698 [2:55:09<1:54:54, 28.37s/it]
+iter 0, batch 454: log finish
+epoch 0, batch 455
+
+ 65%|███████████████████████████████████████████████████████▌                             | 456/698 [2:55:30<1:45:30, 26.16s/it]
+iter 0, batch 455: log finish
+epoch 0, batch 456
+
+ 65%|███████████████████████████████████████████████████████▋                             | 457/698 [2:55:52<1:40:18, 24.97s/it]
+iter 0, batch 456: log finish
+epoch 0, batch 457
+
+ 66%|███████████████████████████████████████████████████████▊                             | 458/698 [2:56:10<1:31:54, 22.98s/it]
+iter 0, batch 457: log finish
+epoch 0, batch 458
+iter 0, batch 458, mean score: 8.027099609375
+iter 0, batch 458: log finish
+
+ 66%|███████████████████████████████████████████████████████▉                             | 459/698 [2:56:27<1:24:26, 21.20s/it]
+iter 0, batch 459, mean score: 3.672149658203125
+iter 0, batch 459: log finish
+
+ 66%|████████████████████████████████████████████████████████                             | 460/698 [2:56:47<1:22:36, 20.82s/it]
+iter 0, batch 460, mean score: 5.065725326538086
+iter 0, batch 460: log finish
+
+ 66%|████████████████████████████████████████████████████████▏                            | 461/698 [2:57:05<1:18:32, 19.88s/it]
+iter 0, batch 461, mean score: 5.855474948883057
+iter 0, batch 461: log finish
+
+ 66%|████████████████████████████████████████████████████████▎                            | 462/698 [2:57:24<1:17:47, 19.78s/it]
+
+ 66%|████████████████████████████████████████████████████████▍                            | 463/698 [2:57:46<1:19:34, 20.32s/it]
+iter 0, batch 462: log finish
+epoch 0, batch 463
+iter 0, batch 463, mean score: 2.384775161743164
+iter 0, batch 463: log finish
+
+ 66%|████████████████████████████████████████████████████████▌                            | 464/698 [2:58:05<1:17:15, 19.81s/it]
+iter 0, batch 464, mean score: 1.5777502059936523
+iter 0, batch 464: log finish
+
+ 67%|████████████████████████████████████████████████████████▋                            | 465/698 [2:58:24<1:16:56, 19.81s/it]
+iter 0, batch 465, mean score: 2.6367249488830566
+iter 0, batch 465: log finish
+
+ 67%|████████████████████████████████████████████████████████▋                            | 466/698 [2:58:43<1:14:59, 19.39s/it]
+iter 0, batch 466, mean score: 7.344724655151367
+iter 0, batch 466: log finish
+
+ 67%|████████████████████████████████████████████████████████▊                            | 467/698 [2:59:03<1:15:19, 19.57s/it]
+iter 0, batch 467, mean score: 5.505875110626221
+iter 0, batch 467: log finish
+
+ 67%|████████████████████████████████████████████████████████▉                            | 468/698 [2:59:23<1:15:12, 19.62s/it]
+
+ 67%|█████████████████████████████████████████████████████████                            | 469/698 [2:59:47<1:20:12, 21.01s/it]
+iter 0, batch 468: log finish
+epoch 0, batch 469
+iter 0, batch 469, mean score: 5.6875
+iter 0, batch 469: log finish
+epoch 0, batch 470
+
+
+ 67%|█████████████████████████████████████████████████████████▎                           | 471/698 [3:00:38<1:27:45, 23.20s/it]
+iter 0, batch 470: log finish
+epoch 0, batch 471
+iter 0, batch 471, mean score: 3.5878751277923584
+iter 0, batch 471: log finish
+
+ 68%|█████████████████████████████████████████████████████████▍                           | 472/698 [3:01:07<1:33:22, 24.79s/it]
+
+ 68%|█████████████████████████████████████████████████████████▌                           | 473/698 [3:01:27<1:27:47, 23.41s/it]
+iter 0, batch 472: log finish
+epoch 0, batch 473
+iter 0, batch 473, mean score: 3.4179749488830566
+iter 0, batch 473: log finish
+epoch 0, batch 474
+
+ 68%|█████████████████████████████████████████████████████████▋                           | 474/698 [3:01:48<1:25:11, 22.82s/it]
+iter 0, batch 474: log finish
+epoch 0, batch 475
+
+ 68%|█████████████████████████████████████████████████████████▊                           | 475/698 [3:02:09<1:22:22, 22.17s/it]
+iter 0, batch 475: log finish
+epoch 0, batch 476
+
+ 68%|█████████████████████████████████████████████████████████▉                           | 476/698 [3:02:31<1:21:51, 22.12s/it]
+iter 0, batch 476: log finish
+epoch 0, batch 477
+
+
+ 68%|██████████████████████████████████████████████████████████▏                          | 478/698 [3:03:20<1:24:14, 22.97s/it]
+iter 0, batch 477: log finish
+epoch 0, batch 478
+iter 0, batch 478, mean score: 6.87060022354126
+iter 0, batch 478: log finish
+
+ 69%|██████████████████████████████████████████████████████████▎                          | 479/698 [3:03:39<1:19:59, 21.92s/it]
+iter 0, batch 479, mean score: 7.047849655151367
+iter 0, batch 479: log finish
+
+ 69%|██████████████████████████████████████████████████████████▍                          | 480/698 [3:04:00<1:18:40, 21.65s/it]
+iter 0, batch 480, mean score: 8.92872428894043
+iter 0, batch 480: log finish
+
+ 69%|██████████████████████████████████████████████████████████▌                          | 481/698 [3:04:35<1:32:45, 25.65s/it]
+iter 0, batch 481, mean score: 9.890625
+iter 0, batch 481: log finish
+
+ 69%|██████████████████████████████████████████████████████████▋                          | 482/698 [3:05:00<1:30:54, 25.25s/it]
+iter 0, batch 482, mean score: 7.123650074005127
+iter 0, batch 482: log finish
+
+ 69%|██████████████████████████████████████████████████████████▊                          | 483/698 [3:05:22<1:27:49, 24.51s/it]
+
+ 69%|██████████████████████████████████████████████████████████▉                          | 484/698 [3:05:43<1:23:06, 23.30s/it]
+iter 0, batch 483: log finish
+epoch 0, batch 484
+
+ 69%|███████████████████████████████████████████████████████████                          | 485/698 [3:06:05<1:22:03, 23.11s/it]
+iter 0, batch 484: log finish
+epoch 0, batch 485
+
+ 69%|███████████████████████████████████████████████████████████                          | 485/698 [3:06:05<1:22:03, 23.11s/it][34m[1mwandb[39m[22m: [33mWARNING[39m A graphql request initiated by the public wandb API timed out (timeout=19 sec). Create a new API with an integer timeout larger than 19, e.g., `api = wandb.Api(timeout=29)` to increase the graphql timeout.
+ 70%|███████████████████████████████████████████████████████████▏                         | 486/698 [3:06:47<1:41:22, 28.69s/it]
+iter 0, batch 485: log finish
+epoch 0, batch 486
+iter 0, batch 486, mean score: 8.009249687194824
+iter 0, batch 486: log finish
+
+ 70%|███████████████████████████████████████████████████████████▎                         | 487/698 [3:07:07<1:31:54, 26.13s/it]
+iter 0, batch 487, mean score: 3.323474884033203
+iter 0, batch 487: log finish
+
+ 70%|███████████████████████████████████████████████████████████▍                         | 488/698 [3:07:29<1:27:12, 24.92s/it]
+iter 0, batch 488, mean score: 5.990324974060059
+iter 0, batch 488: log finish
+
+ 70%|███████████████████████████████████████████████████████████▌                         | 489/698 [3:07:52<1:24:34, 24.28s/it]
+iter 0, batch 489, mean score: 6.044924736022949
+iter 0, batch 489: log finish
+
+ 70%|███████████████████████████████████████████████████████████▋                         | 490/698 [3:08:14<1:21:26, 23.49s/it]
+iter 0, batch 490, mean score: 5.455049991607666
+iter 0, batch 490: log finish
+
+ 70%|███████████████████████████████████████████████████████████▊                         | 491/698 [3:08:38<1:21:20, 23.58s/it]
+iter 0, batch 491, mean score: 7.094700336456299
+iter 0, batch 491: log finish
+
+ 70%|███████████████████████████████████████████████████████████▉                         | 492/698 [3:08:56<1:15:56, 22.12s/it]
+iter 0, batch 492, mean score: 10.264650344848633
+iter 0, batch 492: log finish
+epoch 0, batch 493
+
+ 71%|████████████████████████████████████████████████████████████                         | 493/698 [3:09:16<1:13:06, 21.40s/it]
+iter 0, batch 493: log finish
+
+ 71%|████████████████████████████████████████████████████████████▏                        | 494/698 [3:09:36<1:10:55, 20.86s/it]
+iter 0, batch 494, mean score: 8.199224472045898
+iter 0, batch 494: log finish
+
+ 71%|████████████████████████████████████████████████████████████▎                        | 495/698 [3:09:56<1:09:39, 20.59s/it]
+iter 0, batch 495, mean score: 7.390125274658203
+iter 0, batch 495: log finish
+
+ 71%|████████████████████████████████████████████████████████████▍                        | 496/698 [3:10:14<1:06:43, 19.82s/it]
+iter 0, batch 496, mean score: 8.740224838256836
+iter 0, batch 496: log finish
+
+ 71%|████████████████████████████████████████████████████████████▌                        | 497/698 [3:10:33<1:05:46, 19.64s/it]
+iter 0, batch 497, mean score: 8.246074676513672
+iter 0, batch 497: log finish
+
+ 71%|████████████████████████████████████████████████████████████▋                        | 498/698 [3:10:50<1:03:23, 19.02s/it]
+iter 0, batch 498, mean score: 6.980599880218506
+iter 0, batch 498: log finish
+
+ 71%|████████████████████████████████████████████████████████████▊                        | 499/698 [3:11:13<1:06:27, 20.04s/it]
+
+ 72%|████████████████████████████████████████████████████████████▉                        | 500/698 [3:11:47<1:20:19, 24.34s/it]
+[eval] step=500, logged 5 validation generations to wandb
+iter 0, batch 499: log finish
+epoch 0, batch 500
+iter 0, batch 500, mean score: 7.0214996337890625
+iter 0, batch 500: log finish
+iter 0, batch 500: model saved
+
+ 72%|█████████████████████████████████████████████████████████████                        | 501/698 [3:12:14<1:22:47, 25.22s/it]
+
+ 72%|█████████████████████████████████████████████████████████████▏                       | 502/698 [3:12:35<1:17:57, 23.86s/it]
+iter 0, batch 501: log finish
+epoch 0, batch 502
+
+ 72%|█████████████████████████████████████████████████████████████▎                       | 503/698 [3:12:52<1:10:12, 21.60s/it]
+iter 0, batch 502: log finish
+epoch 0, batch 503
+iter 0, batch 503, mean score: 9.456050872802734
+iter 0, batch 503: log finish
+
+ 72%|█████████████████████████████████████████████████████████████▍                       | 504/698 [3:13:13<1:09:32, 21.51s/it]
+iter 0, batch 504, mean score: 9.669899940490723
+iter 0, batch 504: log finish
+
+ 72%|█████████████████████████████████████████████████████████████▍                       | 505/698 [3:13:39<1:13:17, 22.79s/it]
+iter 0, batch 505, mean score: 8.509750366210938
+iter 0, batch 505: log finish
+
+ 72%|█████████████████████████████████████████████████████████████▌                       | 506/698 [3:13:58<1:09:54, 21.85s/it]
+iter 0, batch 506, mean score: 9.553699493408203
+iter 0, batch 506: log finish
+
+ 73%|█████████████████████████████████████████████████████████████▋                       | 507/698 [3:14:24<1:13:29, 23.09s/it]
+iter 0, batch 507, mean score: 7.752625465393066
+iter 0, batch 507: log finish
+
+ 73%|█████████████████████████████████████████████████████████████▊                       | 508/698 [3:14:46<1:12:07, 22.78s/it]
+
+ 73%|█████████████████████████████████████████████████████████████▉                       | 509/698 [3:15:07<1:10:03, 22.24s/it]
+iter 0, batch 508: log finish
+epoch 0, batch 509
+
+ 73%|██████████████████████████████████████████████████████████████                       | 510/698 [3:15:26<1:06:09, 21.11s/it]
+iter 0, batch 509: log finish
+epoch 0, batch 510
+iter 0, batch 510, mean score: 8.498299598693848
+iter 0, batch 510: log finish
+
+ 73%|██████████████████████████████████████████████████████████████▏                      | 511/698 [3:15:47<1:05:38, 21.06s/it]
+iter 0, batch 511, mean score: 8.25784969329834
+iter 0, batch 511: log finish
+
+ 73%|██████████████████████████████████████████████████████████████▎                      | 512/698 [3:16:08<1:05:14, 21.04s/it]
+
+ 73%|██████████████████████████████████████████████████████████████▍                      | 513/698 [3:16:31<1:07:26, 21.87s/it]
+iter 0, batch 512: log finish
+epoch 0, batch 513
+
+ 74%|██████████████████████████████████████████████████████████████▌                      | 514/698 [3:16:58<1:11:05, 23.18s/it]
+iter 0, batch 513: log finish
+epoch 0, batch 514
+iter 0, batch 514, mean score: 6.668950080871582
+iter 0, batch 514: log finish
+
+ 74%|██████████████████████████████████████████████████████████████▋                      | 515/698 [3:17:22<1:12:02, 23.62s/it]
+iter 0, batch 515, mean score: 6.919924736022949
+iter 0, batch 515: log finish
+
+ 74%|██████████████████████████████████████████████████████████████▊                      | 516/698 [3:17:47<1:12:36, 23.94s/it]
+
+ 74%|██████████████████████████████████████████████████████████████▉                      | 517/698 [3:18:20<1:20:08, 26.57s/it]
+iter 0, batch 516: log finish
+epoch 0, batch 517
+
+ 74%|███████████████████████████████████████████████████████████████                      | 518/698 [3:18:40<1:13:57, 24.65s/it]
+iter 0, batch 517: log finish
+epoch 0, batch 518
+iter 0, batch 518, mean score: 8.648200988769531
+iter 0, batch 518: log finish
+
+ 74%|███████████████████████████████████████████████████████████████▏                     | 519/698 [3:19:00<1:09:40, 23.36s/it]
+iter 0, batch 519, mean score: 8.073249816894531
+iter 0, batch 519: log finish
+
+ 74%|███████████████████████████████████████████████████████████████▎                     | 520/698 [3:19:21<1:07:18, 22.69s/it]
+iter 0, batch 520, mean score: 8.596674919128418
+iter 0, batch 520: log finish
+
+ 75%|███████████████████████████████████████████████████████████████▍                     | 521/698 [3:19:43<1:05:51, 22.33s/it]
+iter 0, batch 521, mean score: 8.205074310302734
+iter 0, batch 521: log finish
+
+ 75%|███████████████████████████████████████████████████████████████▌                     | 522/698 [3:20:05<1:04:59, 22.16s/it]
+iter 0, batch 522, mean score: 9.219749450683594
+iter 0, batch 522: log finish
+
+ 75%|███████████████████████████████████████████████████████████████▋                     | 523/698 [3:20:31<1:08:04, 23.34s/it]
+
+ 75%|███████████████████████████████████████████████████████████████▊                     | 524/698 [3:20:50<1:03:54, 22.04s/it]
+iter 0, batch 523: log finish
+epoch 0, batch 524
+iter 0, batch 524, mean score: 8.416975021362305
+iter 0, batch 524: log finish
+
+ 75%|███████████████████████████████████████████████████████████████▉                     | 525/698 [3:21:25<1:14:55, 25.99s/it]
+iter 0, batch 525, mean score: 8.229499816894531
+iter 0, batch 525: log finish
+
+ 75%|████████████████████████████████████████████████████████████████                     | 526/698 [3:21:49<1:13:09, 25.52s/it]
+
+ 76%|████████████████████████████████████████████████████████████████▏                    | 527/698 [3:22:15<1:13:04, 25.64s/it]
+iter 0, batch 526: log finish
+epoch 0, batch 527
+
+ 76%|████████████████████████████████████████████████████████████████▎                    | 528/698 [3:22:38<1:10:26, 24.86s/it]
+iter 0, batch 527: log finish
+epoch 0, batch 528
+iter 0, batch 528, mean score: 3.530250072479248
+iter 0, batch 528: log finish
+
+ 76%|████████████████████████████████████████████████████████████████▍                    | 529/698 [3:23:02<1:08:42, 24.40s/it]
+
+ 76%|████████████████████████████████████████████████████████████████▌                    | 530/698 [3:23:22<1:05:02, 23.23s/it]
+iter 0, batch 529: log finish
+epoch 0, batch 530
+iter 0, batch 530, mean score: 4.188950061798096
+iter 0, batch 530: log finish
+
+ 76%|████████████████████████████████████████████████████████████████▋                    | 531/698 [3:23:42<1:01:48, 22.20s/it]
+
+ 76%|████████████████████████████████████████████████████████████████▊                    | 532/698 [3:24:04<1:01:20, 22.17s/it]
+iter 0, batch 531: log finish
+epoch 0, batch 532
+
+ 76%|██████████████████████████████████████████████████████████████████▍                    | 533/698 [3:24:24<59:20, 21.58s/it]
+iter 0, batch 532: log finish
+epoch 0, batch 533
+iter 0, batch 533, mean score: 6.7285003662109375
+iter 0, batch 533: log finish
+
+ 77%|█████████████████████████████████████████████████████████████████                    | 534/698 [3:24:49<1:01:53, 22.64s/it]
+iter 0, batch 534, mean score: 3.051774501800537
+iter 0, batch 534: log finish
+
+ 77%|█████████████████████████████████████████████████████████████████▏                   | 535/698 [3:25:21<1:08:53, 25.36s/it]
+iter 0, batch 535, mean score: 7.711424827575684
+iter 0, batch 535: log finish
+
+ 77%|█████████████████████████████████████████████████████████████████▎                   | 536/698 [3:25:45<1:07:17, 24.93s/it]
+iter 0, batch 536, mean score: 7.232424736022949
+iter 0, batch 536: log finish
+
+ 77%|█████████████████████████████████████████████████████████████████▍                   | 537/698 [3:26:04<1:01:52, 23.06s/it]
+
+ 77%|█████████████████████████████████████████████████████████████████▌                   | 538/698 [3:26:27<1:01:49, 23.18s/it]
+iter 0, batch 537: log finish
+epoch 0, batch 538
+iter 0, batch 538, mean score: 2.377925157546997
+iter 0, batch 538: log finish
+
+ 77%|███████████████████████████████████████████████████████████████████▏                   | 539/698 [3:26:48<59:37, 22.50s/it]
+
+ 77%|███████████████████████████████████████████████████████████████████▎                   | 540/698 [3:27:11<59:15, 22.50s/it]
+iter 0, batch 539: log finish
+epoch 0, batch 540
+iter 0, batch 540, mean score: 9.676750183105469
+iter 0, batch 540: log finish
+
+ 78%|█████████████████████████████████████████████████████████████████▉                   | 541/698 [3:27:35<1:00:36, 23.16s/it]
+iter 0, batch 541, mean score: 5.625500202178955
+iter 0, batch 541: log finish
+
+ 78%|██████████████████████████████████████████████████████████████████                   | 542/698 [3:28:00<1:01:24, 23.62s/it]
+
+ 78%|███████████████████████████████████████████████████████████████████▋                   | 543/698 [3:28:20<58:30, 22.65s/it]
+iter 0, batch 542: log finish
+epoch 0, batch 543
+iter 0, batch 543, mean score: 3.4413747787475586
+iter 0, batch 543: log finish
+
+ 78%|██████████████████████████████████████████████████████████████████▏                  | 544/698 [3:28:47<1:01:12, 23.85s/it]
+iter 0, batch 544, mean score: 7.539074897766113
+iter 0, batch 544: log finish
+
+ 78%|███████████████████████████████████████████████████████████████████▉                   | 545/698 [3:29:09<59:39, 23.39s/it]
+
+ 78%|██████████████████████████████████████████████████████████████████▍                  | 546/698 [3:29:35<1:01:15, 24.18s/it]
+iter 0, batch 545: log finish
+epoch 0, batch 546
+iter 0, batch 546, mean score: 6.244124889373779
+iter 0, batch 546: log finish
+
+ 78%|████████████████████████████████████████████████████████████████████▏                  | 547/698 [3:29:56<58:09, 23.11s/it]
+iter 0, batch 547, mean score: 8.345674514770508
+iter 0, batch 547: log finish
+
+ 79%|██████████████████████████████████████████████████████████████████▋                  | 548/698 [3:30:32<1:07:25, 26.97s/it]
+iter 0, batch 548, mean score: 6.789050102233887
+iter 0, batch 548: log finish
+
+ 79%|██████████████████████████████████████████████████████████████████▊                  | 549/698 [3:31:02<1:09:05, 27.82s/it]
+iter 0, batch 549, mean score: 6.759749889373779
+iter 0, batch 549: log finish
+
+ 79%|██████████████████████████████████████████████████████████████████▉                  | 550/698 [3:31:25<1:05:32, 26.57s/it]
+
+ 79%|███████████████████████████████████████████████████████████████████                  | 551/698 [3:31:52<1:05:22, 26.68s/it]
+iter 0, batch 550: log finish
+epoch 0, batch 551
+
+ 79%|███████████████████████████████████████████████████████████████████▏                 | 552/698 [3:32:13<1:00:36, 24.91s/it]
+iter 0, batch 551: log finish
+epoch 0, batch 552
+iter 0, batch 552, mean score: 5.762724876403809
+iter 0, batch 552: log finish
+
+ 79%|███████████████████████████████████████████████████████████████████▎                 | 553/698 [3:32:40<1:01:58, 25.65s/it]
+iter 0, batch 553, mean score: 9.265600204467773
+iter 0, batch 553: log finish
+
+ 79%|███████████████████████████████████████████████████████████████████▍                 | 554/698 [3:33:07<1:02:20, 25.98s/it]
+iter 0, batch 554, mean score: 3.4550747871398926
+iter 0, batch 554: log finish
+
+ 80%|███████████████████████████████████████████████████████████████████▌                 | 555/698 [3:33:35<1:03:01, 26.44s/it]
+
+ 80%|█████████████████████████████████████████████████████████████████████▎                 | 556/698 [3:33:57<59:46, 25.25s/it]
+iter 0, batch 555: log finish
+epoch 0, batch 556
+
+ 80%|███████████████████████████████████████████████████████████████████▊                 | 557/698 [3:34:25<1:00:58, 25.95s/it]
+iter 0, batch 556: log finish
+epoch 0, batch 557
+iter 0, batch 557, mean score: 10.023449897766113
+iter 0, batch 557: log finish
+
+ 80%|███████████████████████████████████████████████████████████████████▉                 | 558/698 [3:35:00<1:06:50, 28.65s/it]
+iter 0, batch 558, mean score: 8.898200035095215
+iter 0, batch 558: log finish
+
+ 80%|████████████████████████████████████████████████████████████████████                 | 559/698 [3:35:20<1:00:25, 26.08s/it]
+
+ 80%|█████████████████████████████████████████████████████████████████████▊                 | 560/698 [3:35:41<56:44, 24.67s/it]
+iter 0, batch 559: log finish
+epoch 0, batch 560
+iter 0, batch 560, mean score: 5.512700080871582
+iter 0, batch 560: log finish
+
+ 80%|████████████████████████████████████████████████████████████████████▎                | 561/698 [3:36:17<1:03:53, 27.98s/it]
+iter 0, batch 561, mean score: 5.575875282287598
+iter 0, batch 561: log finish
+
+ 81%|████████████████████████████████████████████████████████████████████▍                | 562/698 [3:36:45<1:03:32, 28.03s/it]
+iter 0, batch 562, mean score: 5.499000549316406
+iter 0, batch 562: log finish
+
+ 81%|████████████████████████████████████████████████████████████████████▌                | 563/698 [3:37:18<1:06:15, 29.45s/it]
+
+ 81%|████████████████████████████████████████████████████████████████████▋                | 564/698 [3:37:40<1:00:40, 27.17s/it]
+iter 0, batch 563: log finish
+epoch 0, batch 564
+iter 0, batch 564, mean score: 8.712875366210938
+iter 0, batch 564: log finish
+
+ 81%|██████████████████████████████████████████████████████████████████████▍                | 565/698 [3:38:06<59:38, 26.91s/it]
+iter 0, batch 565, mean score: 5.77732515335083
+iter 0, batch 565: log finish
+
+ 81%|████████████████████████████████████████████████████████████████████▉                | 566/698 [3:38:42<1:05:04, 29.58s/it]
+iter 0, batch 566, mean score: 8.075200080871582
+iter 0, batch 566: log finish
+
+ 81%|██████████████████████████████████████████████████████████████████████▋                | 567/698 [3:39:01<57:35, 26.38s/it]
+
+ 81%|██████████████████████████████████████████████████████████████████████▊                | 568/698 [3:39:25<56:02, 25.87s/it]
+iter 0, batch 567: log finish
+epoch 0, batch 568
+iter 0, batch 568, mean score: 7.998300075531006
+iter 0, batch 568: log finish
+
+ 82%|█████████████████████████████████████████████████████████████████████▎               | 569/698 [3:40:00<1:01:03, 28.40s/it]
+iter 0, batch 569, mean score: 5.291025161743164
+iter 0, batch 569: log finish
+
+ 82%|███████████████████████████████████████████████████████████████████████                | 570/698 [3:40:20<55:23, 25.96s/it]
+iter 0, batch 570, mean score: 6.253899574279785
+iter 0, batch 570: log finish
+
+ 82%|███████████████████████████████████████████████████████████████████████▏               | 571/698 [3:40:51<57:55, 27.37s/it]
+iter 0, batch 571, mean score: 5.04295015335083
+iter 0, batch 571: log finish
+
+ 82%|███████████████████████████████████████████████████████████████████████▎               | 572/698 [3:41:13<54:13, 25.83s/it]
+
+ 82%|███████████████████████████████████████████████████████████████████████▍               | 573/698 [3:41:42<55:40, 26.73s/it]
+iter 0, batch 572: log finish
+epoch 0, batch 573
+
+ 82%|███████████████████████████████████████████████████████████████████████▌               | 574/698 [3:42:04<52:29, 25.40s/it]
+iter 0, batch 573: log finish
+epoch 0, batch 574
+
+ 82%|███████████████████████████████████████████████████████████████████████▋               | 575/698 [3:42:28<51:14, 25.00s/it]
+iter 0, batch 574: log finish
+epoch 0, batch 575
+
+ 83%|███████████████████████████████████████████████████████████████████████▊               | 576/698 [3:42:52<50:21, 24.77s/it]
+iter 0, batch 575: log finish
+epoch 0, batch 576
+iter 0, batch 576, mean score: 4.500849723815918
+iter 0, batch 576: log finish
+
+ 83%|███████████████████████████████████████████████████████████████████████▉               | 577/698 [3:43:15<48:50, 24.22s/it]
+iter 0, batch 577, mean score: 7.400374889373779
+iter 0, batch 577: log finish
+
+ 83%|████████████████████████████████████████████████████████████████████████               | 578/698 [3:43:43<50:38, 25.32s/it]
+iter 0, batch 578, mean score: 6.96875
+iter 0, batch 578: log finish
+
+ 83%|████████████████████████████████████████████████████████████████████████▏              | 579/698 [3:44:05<48:19, 24.36s/it]
+iter 0, batch 579, mean score: 8.903300285339355
+iter 0, batch 579: log finish
+
+ 83%|████████████████████████████████████████████████████████████████████████▎              | 580/698 [3:44:33<49:47, 25.32s/it]
+iter 0, batch 580, mean score: 7.533225059509277
+iter 0, batch 580: log finish
+
+ 83%|████████████████████████████████████████████████████████████████████████▍              | 581/698 [3:44:57<48:48, 25.03s/it]
+
+ 83%|████████████████████████████████████████████████████████████████████████▌              | 582/698 [3:45:20<47:13, 24.43s/it]
+iter 0, batch 581: log finish
+epoch 0, batch 582
+iter 0, batch 582, mean score: 9.891924858093262
+iter 0, batch 582: log finish
+
+ 84%|████████████████████████████████████████████████████████████████████████▋              | 583/698 [3:45:43<45:46, 23.88s/it]
+iter 0, batch 583, mean score: 7.546150207519531
+iter 0, batch 583: log finish
+
+ 84%|████████████████████████████████████████████████████████████████████████▊              | 584/698 [3:46:03<43:06, 22.69s/it]
+iter 0, batch 584, mean score: 8.286874771118164
+iter 0, batch 584: log finish
+
+ 84%|████████████████████████████████████████████████████████████████████████▉              | 585/698 [3:46:27<43:56, 23.33s/it]
+iter 0, batch 585, mean score: 6.512075424194336
+iter 0, batch 585: log finish
+
+ 84%|█████████████████████████████████████████████████████████████████████████              | 586/698 [3:46:51<43:24, 23.26s/it]
+
+ 84%|█████████████████████████████████████████████████████████████████████████▏             | 587/698 [3:47:15<43:48, 23.68s/it]
+iter 0, batch 586: log finish
+epoch 0, batch 587
+iter 0, batch 587, mean score: 5.733875274658203
+iter 0, batch 587: log finish
+
+ 84%|█████████████████████████████████████████████████████████████████████████▎             | 588/698 [3:47:37<42:22, 23.11s/it]
+
+ 84%|█████████████████████████████████████████████████████████████████████████▍             | 589/698 [3:48:01<42:13, 23.24s/it]
+iter 0, batch 588: log finish
+epoch 0, batch 589
+
+ 85%|█████████████████████████████████████████████████████████████████████████▌             | 590/698 [3:48:20<40:01, 22.23s/it]
+iter 0, batch 589: log finish
+epoch 0, batch 590
+iter 0, batch 590, mean score: 4.661625385284424
+iter 0, batch 590: log finish
+epoch 0, batch 591
+
+
+ 85%|█████████████████████████████████████████████████████████████████████████▊             | 592/698 [3:49:07<40:30, 22.93s/it]
+iter 0, batch 591: log finish
+epoch 0, batch 592
+iter 0, batch 592, mean score: 5.141275405883789
+iter 0, batch 592: log finish
+epoch 0, batch 593
+
+
+ 85%|██████████████████████████████████████████████████████████████████████████             | 594/698 [3:49:52<39:18, 22.67s/it]
+iter 0, batch 593: log finish
+epoch 0, batch 594
+iter 0, batch 594, mean score: 2.942850112915039
+iter 0, batch 594: log finish
+epoch 0, batch 595
+
+ 85%|██████████████████████████████████████████████████████████████████████████▏            | 595/698 [3:50:20<41:40, 24.28s/it]
+iter 0, batch 595: log finish
+
+ 85%|██████████████████████████████████████████████████████████████████████████▎            | 596/698 [3:50:56<46:56, 27.61s/it]
+iter 0, batch 596, mean score: 9.054699897766113
+iter 0, batch 596: log finish
+epoch 0, batch 597
+
+
+ 86%|██████████████████████████████████████████████████████████████████████████▌            | 598/698 [3:51:40<41:07, 24.67s/it]
+iter 0, batch 597: log finish
+epoch 0, batch 598
+iter 0, batch 598, mean score: 10.059575080871582
+iter 0, batch 598: log finish
+epoch 0, batch 599
+
+ 86%|██████████████████████████████████████████████████████████████████████████▋            | 599/698 [3:52:07<41:57, 25.43s/it]
+[eval] step=600, logged 5 validation generations to wandb
+iter 0, batch 599: log finish
+
+ 86%|██████████████████████████████████████████████████████████████████████████▊            | 600/698 [3:52:45<47:52, 29.31s/it]
+
+ 86%|██████████████████████████████████████████████████████████████████████████▉            | 601/698 [3:53:13<46:41, 28.88s/it]
+iter 0, batch 600: log finish
+iter 0, batch 600: model saved
+epoch 0, batch 601
+iter 0, batch 601, mean score: 4.756850242614746
+iter 0, batch 601: log finish
+
+ 86%|███████████████████████████████████████████████████████████████████████████            | 602/698 [3:53:35<42:58, 26.86s/it]
+
+ 86%|███████████████████████████████████████████████████████████████████████████▏           | 603/698 [3:53:58<40:39, 25.68s/it]
+iter 0, batch 602: log finish
+epoch 0, batch 603
+iter 0, batch 603, mean score: 7.622799873352051
+iter 0, batch 603: log finish
+
+ 87%|███████████████████████████████████████████████████████████████████████████▎           | 604/698 [3:54:20<38:29, 24.57s/it]
+iter 0, batch 604, mean score: 7.478525161743164
+iter 0, batch 604: log finish
+
+ 87%|███████████████████████████████████████████████████████████████████████████▍           | 605/698 [3:54:46<38:41, 24.97s/it]
+iter 0, batch 605, mean score: 6.1201252937316895
+iter 0, batch 605: log finish
+
+ 87%|███████████████████████████████████████████████████████████████████████████▌           | 606/698 [3:55:11<38:18, 24.98s/it]
+iter 0, batch 606, mean score: 6.816900253295898
+iter 0, batch 606: log finish
+
+ 87%|███████████████████████████████████████████████████████████████████████████▋           | 607/698 [3:55:30<35:12, 23.22s/it]
+iter 0, batch 607, mean score: 7.451174736022949
+iter 0, batch 607: log finish
+
+ 87%|███████████████████████████████████████████████████████████████████████████▊           | 608/698 [3:55:54<34:59, 23.33s/it]
+iter 0, batch 608, mean score: 5.72267484664917
+iter 0, batch 608: log finish
+
+ 87%|███████████████████████████████████████████████████████████████████████████▉           | 609/698 [3:56:15<33:36, 22.66s/it]
+iter 0, batch 609, mean score: 8.671875
+iter 0, batch 609: log finish
+
+ 87%|████████████████████████████████████████████████████████████████████████████           | 610/698 [3:56:37<32:50, 22.39s/it]
+iter 0, batch 610, mean score: 4.454100131988525
+iter 0, batch 610: log finish
+
+ 88%|████████████████████████████████████████████████████████████████████████████▏          | 611/698 [3:57:00<32:43, 22.57s/it]
+iter 0, batch 611, mean score: 8.583374977111816
+iter 0, batch 611: log finish
+
+ 88%|████████████████████████████████████████████████████████████████████████████▎          | 612/698 [3:57:25<33:39, 23.49s/it]
+iter 0, batch 612, mean score: 2.474799871444702
+iter 0, batch 612: log finish
+
+ 88%|████████████████████████████████████████████████████████████████████████████▍          | 613/698 [3:57:48<32:58, 23.27s/it]
+iter 0, batch 613, mean score: 1.9287000894546509
+iter 0, batch 613: log finish
+
+ 88%|████████████████████████████████████████████████████████████████████████████▌          | 614/698 [3:58:11<32:32, 23.25s/it]
+
+ 88%|████████████████████████████████████████████████████████████████████████████▋          | 615/698 [3:58:34<31:46, 22.97s/it]
+iter 0, batch 614: log finish
+epoch 0, batch 615
+iter 0, batch 615, mean score: 10.716800689697266
+iter 0, batch 615: log finish
+
+ 88%|████████████████████████████████████████████████████████████████████████████▊          | 616/698 [3:58:58<31:56, 23.38s/it]
+iter 0, batch 616, mean score: 5.082050323486328
+iter 0, batch 616: log finish
+
+ 88%|████████████████████████████████████████████████████████████████████████████▉          | 617/698 [3:59:21<31:18, 23.19s/it]
+iter 0, batch 617, mean score: 3.7890501022338867
+iter 0, batch 617: log finish
+
+ 89%|█████████████████████████████████████████████████████████████████████████████          | 618/698 [3:59:51<33:42, 25.28s/it]
+
+ 89%|█████████████████████████████████████████████████████████████████████████████▏         | 619/698 [4:00:13<31:57, 24.28s/it]
+iter 0, batch 618: log finish
+epoch 0, batch 619
+
+ 89%|█████████████████████████████████████████████████████████████████████████████▎         | 620/698 [4:00:45<34:51, 26.81s/it]
+iter 0, batch 619: log finish
+epoch 0, batch 620
+iter 0, batch 620, mean score: 9.68945026397705
+iter 0, batch 620: log finish
+
+ 89%|█████████████████████████████████████████████████████████████████████████████▍         | 621/698 [4:01:12<34:20, 26.76s/it]
+iter 0, batch 621, mean score: 5.732424736022949
+iter 0, batch 621: log finish
+
+ 89%|█████████████████████████████████████████████████████████████████████████████▌         | 622/698 [4:01:39<34:07, 26.94s/it]
+
+ 89%|█████████████████████████████████████████████████████████████████████████████▋         | 623/698 [4:02:01<31:49, 25.46s/it]
+iter 0, batch 622: log finish
+epoch 0, batch 623
+iter 0, batch 623, mean score: 4.79295015335083
+iter 0, batch 623: log finish
+
+ 89%|█████████████████████████████████████████████████████████████████████████████▊         | 624/698 [4:02:22<29:28, 23.90s/it]
+iter 0, batch 624, mean score: 6.8408002853393555
+iter 0, batch 624: log finish
+
+ 90%|█████████████████████████████████████████████████████████████████████████████▉         | 625/698 [4:02:51<30:55, 25.42s/it]
+iter 0, batch 625, mean score: 9.691875457763672
+iter 0, batch 625: log finish
+
+ 90%|██████████████████████████████████████████████████████████████████████████████         | 626/698 [4:03:20<31:55, 26.61s/it]
+iter 0, batch 626, mean score: 10.006824493408203
+iter 0, batch 626: log finish
+
+ 90%|██████████████████████████████████████████████████████████████████████████████▏        | 627/698 [4:03:45<30:55, 26.13s/it]
+iter 0, batch 627, mean score: 8.490249633789062
+iter 0, batch 627: log finish
+
+ 90%|██████████████████████████████████████████████████████████████████████████████▎        | 628/698 [4:04:11<30:19, 25.99s/it]
+
+ 90%|██████████████████████████████████████████████████████████████████████████████▍        | 629/698 [4:04:31<28:02, 24.39s/it]
+iter 0, batch 628: log finish
+epoch 0, batch 629
+
+ 90%|██████████████████████████████████████████████████████████████████████████████▌        | 630/698 [4:04:53<26:49, 23.67s/it]
+iter 0, batch 629: log finish
+epoch 0, batch 630
+iter 0, batch 630, mean score: 5.007699966430664
+iter 0, batch 630: log finish
+
+ 90%|██████████████████████████████████████████████████████████████████████████████▋        | 631/698 [4:05:14<25:31, 22.86s/it]
+iter 0, batch 631, mean score: 9.148449897766113
+iter 0, batch 631: log finish
+
+ 91%|██████████████████████████████████████████████████████████████████████████████▊        | 632/698 [4:05:38<25:27, 23.15s/it]
+
+ 91%|██████████████████████████████████████████████████████████████████████████████▉        | 633/698 [4:05:58<24:00, 22.16s/it]
+iter 0, batch 632: log finish
+epoch 0, batch 633
+
+ 91%|███████████████████████████████████████████████████████████████████████████████        | 634/698 [4:06:22<24:18, 22.80s/it]
+iter 0, batch 633: log finish
+epoch 0, batch 634
+iter 0, batch 634, mean score: 7.722899913787842
+iter 0, batch 634: log finish
+
+ 91%|███████████████████████████████████████████████████████████████████████████████▏       | 635/698 [4:06:45<23:59, 22.85s/it]
+iter 0, batch 635, mean score: 9.034650802612305
+iter 0, batch 635: log finish
+
+ 91%|███████████████████████████████████████████████████████████████████████████████▎       | 636/698 [4:07:10<24:17, 23.51s/it]
+iter 0, batch 636, mean score: 10.203125
+iter 0, batch 636: log finish
+
+ 91%|███████████████████████████████████████████████████████████████████████████████▍       | 637/698 [4:07:33<23:31, 23.15s/it]
+iter 0, batch 637, mean score: 7.760250091552734
+iter 0, batch 637: log finish
+
+ 91%|███████████████████████████████████████████████████████████████████████████████▌       | 638/698 [4:07:54<22:39, 22.66s/it]
+iter 0, batch 638, mean score: 9.441425323486328
+iter 0, batch 638: log finish
+
+ 92%|███████████████████████████████████████████████████████████████████████████████▋       | 639/698 [4:08:14<21:31, 21.89s/it]
+iter 0, batch 639, mean score: 10.025375366210938
+iter 0, batch 639: log finish
+
+ 92%|███████████████████████████████████████████████████████████████████████████████▊       | 640/698 [4:08:34<20:36, 21.32s/it]
+iter 0, batch 640, mean score: 5.9033002853393555
+iter 0, batch 640: log finish
+
+ 92%|███████████████████████████████████████████████████████████████████████████████▉       | 641/698 [4:08:57<20:44, 21.83s/it]
+iter 0, batch 641, mean score: 9.477524757385254
+iter 0, batch 641: log finish
+
+ 92%|████████████████████████████████████████████████████████████████████████████████       | 642/698 [4:09:25<21:55, 23.49s/it]
+iter 0, batch 642, mean score: 7.258025169372559
+iter 0, batch 642: log finish
+
+ 92%|████████████████████████████████████████████████████████████████████████████████▏      | 643/698 [4:09:47<21:17, 23.23s/it]
+iter 0, batch 643, mean score: 5.579225063323975
+iter 0, batch 643: log finish
+
+ 92%|████████████████████████████████████████████████████████████████████████████████▎      | 644/698 [4:10:13<21:35, 23.99s/it]
+iter 0, batch 644, mean score: 5.211899757385254
+iter 0, batch 644: log finish
+
+ 92%|████████████████████████████████████████████████████████████████████████████████▍      | 645/698 [4:10:39<21:37, 24.48s/it]
+iter 0, batch 645, mean score: 7.001925468444824
+iter 0, batch 645: log finish
+
+ 93%|████████████████████████████████████████████████████████████████████████████████▌      | 646/698 [4:11:01<20:43, 23.92s/it]
+
+ 93%|████████████████████████████████████████████████████████████████████████████████▋      | 647/698 [4:11:24<20:03, 23.59s/it]
+iter 0, batch 646: log finish
+epoch 0, batch 647
+
+ 93%|████████████████████████████████████████████████████████████████████████████████▊      | 648/698 [4:11:46<19:11, 23.03s/it]
+iter 0, batch 647: log finish
+epoch 0, batch 648
+iter 0, batch 648, mean score: 10.044899940490723
+iter 0, batch 648: log finish
+
+ 93%|████████████████████████████████████████████████████████████████████████████████▉      | 649/698 [4:12:12<19:40, 24.09s/it]
+iter 0, batch 649, mean score: 7.039050102233887
+iter 0, batch 649: log finish
+
+ 93%|█████████████████████████████████████████████████████████████████████████████████      | 650/698 [4:12:43<20:53, 26.12s/it]
+
+ 93%|█████████████████████████████████████████████████████████████████████████████████▏     | 651/698 [4:13:06<19:42, 25.16s/it]
+iter 0, batch 650: log finish
+epoch 0, batch 651
+iter 0, batch 651, mean score: 8.37695026397705
+iter 0, batch 651: log finish
+
+ 93%|█████████████████████████████████████████████████████████████████████████████████▎     | 652/698 [4:13:26<18:00, 23.49s/it]
+iter 0, batch 652, mean score: 9.056524276733398
+iter 0, batch 652: log finish
+
+ 94%|█████████████████████████████████████████████████████████████████████████████████▍     | 653/698 [4:13:47<17:01, 22.71s/it]
+iter 0, batch 653, mean score: 9.541025161743164
+iter 0, batch 653: log finish
+
+ 94%|█████████████████████████████████████████████████████████████████████████████████▌     | 654/698 [4:14:11<17:08, 23.37s/it]
+iter 0, batch 654, mean score: 10.070300102233887
+iter 0, batch 654: log finish
+
+ 94%|█████████████████████████████████████████████████████████████████████████████████▋     | 655/698 [4:14:36<16:59, 23.71s/it]
+
+ 94%|█████████████████████████████████████████████████████████████████████████████████▊     | 656/698 [4:15:06<17:58, 25.68s/it]
+iter 0, batch 655: log finish
+epoch 0, batch 656
+iter 0, batch 656, mean score: 7.865725517272949
+iter 0, batch 656: log finish
+
+ 94%|█████████████████████████████████████████████████████████████████████████████████▉     | 657/698 [4:15:29<16:53, 24.73s/it]
+
+ 94%|██████████████████████████████████████████████████████████████████████████████████     | 658/698 [4:15:51<15:57, 23.94s/it]
+iter 0, batch 657: log finish
+epoch 0, batch 658
+
+ 94%|██████████████████████████████████████████████████████████████████████████████████▏    | 659/698 [4:16:17<15:54, 24.48s/it]
+iter 0, batch 658: log finish
+epoch 0, batch 659
+
+ 95%|██████████████████████████████████████████████████████████████████████████████████▎    | 660/698 [4:16:40<15:21, 24.25s/it]
+iter 0, batch 659: log finish
+epoch 0, batch 660
+
+ 95%|██████████████████████████████████████████████████████████████████████████████████▍    | 661/698 [4:17:04<14:53, 24.14s/it]
+iter 0, batch 660: log finish
+epoch 0, batch 661
+
+ 95%|██████████████████████████████████████████████████████████████████████████████████▌    | 662/698 [4:17:28<14:27, 24.10s/it]
+iter 0, batch 661: log finish
+epoch 0, batch 662
+iter 0, batch 662, mean score: 8.006824493408203
+iter 0, batch 662: log finish
+
+ 95%|██████████████████████████████████████████████████████████████████████████████████▋    | 663/698 [4:17:52<13:57, 23.93s/it]
+iter 0, batch 663, mean score: 9.401874542236328
+iter 0, batch 663: log finish
+
+ 95%|██████████████████████████████████████████████████████████████████████████████████▊    | 664/698 [4:18:16<13:32, 23.89s/it]
+
+ 95%|██████████████████████████████████████████████████████████████████████████████████▉    | 665/698 [4:18:53<15:19, 27.87s/it]
+iter 0, batch 664: log finish
+epoch 0, batch 665
+
+ 95%|███████████████████████████████████████████████████████████████████████████████████    | 666/698 [4:19:21<14:56, 28.02s/it]
+iter 0, batch 665: log finish
+epoch 0, batch 666
+
+ 96%|███████████████████████████████████████████████████████████████████████████████████▏   | 667/698 [4:19:42<13:26, 26.00s/it]
+iter 0, batch 666: log finish
+epoch 0, batch 667
+
+ 96%|███████████████████████████████████████████████████████████████████████████████████▎   | 668/698 [4:20:01<11:53, 23.79s/it]
+iter 0, batch 667: log finish
+epoch 0, batch 668
+iter 0, batch 668, mean score: 6.934575080871582
+iter 0, batch 668: log finish
+
+ 96%|███████████████████████████████████████████████████████████████████████████████████▍   | 669/698 [4:20:24<11:24, 23.62s/it]
+
+ 96%|███████████████████████████████████████████████████████████████████████████████████▌   | 670/698 [4:20:49<11:08, 23.86s/it]
+iter 0, batch 669: log finish
+epoch 0, batch 670
+iter 0, batch 670, mean score: 8.259775161743164
+iter 0, batch 670: log finish
+
+ 96%|███████████████████████████████████████████████████████████████████████████████████▋   | 671/698 [4:21:10<10:20, 22.98s/it]
+iter 0, batch 671, mean score: 10.789074897766113
+iter 0, batch 671: log finish
+
+ 96%|███████████████████████████████████████████████████████████████████████████████████▊   | 672/698 [4:21:32<09:55, 22.90s/it]
+iter 0, batch 672, mean score: 9.28125
+iter 0, batch 672: log finish
+
+ 96%|███████████████████████████████████████████████████████████████████████████████████▉   | 673/698 [4:21:55<09:28, 22.72s/it]
+
+ 97%|████████████████████████████████████████████████████████████████████████████████████   | 674/698 [4:22:19<09:17, 23.23s/it]
+iter 0, batch 673: log finish
+epoch 0, batch 674
+iter 0, batch 674, mean score: 8.404274940490723
+iter 0, batch 674: log finish
+
+ 97%|████████████████████████████████████████████████████████████████████████████████████▏  | 675/698 [4:22:40<08:37, 22.51s/it]
+
+ 97%|████████████████████████████████████████████████████████████████████████████████████▎  | 676/698 [4:23:05<08:35, 23.42s/it]
+iter 0, batch 675: log finish
+epoch 0, batch 676
+
+ 97%|████████████████████████████████████████████████████████████████████████████████████▍  | 677/698 [4:23:31<08:27, 24.15s/it]
+iter 0, batch 676: log finish
+epoch 0, batch 677
+
+ 97%|████████████████████████████████████████████████████████████████████████████████████▌  | 678/698 [4:23:55<08:01, 24.07s/it]
+iter 0, batch 677: log finish
+epoch 0, batch 678
+iter 0, batch 678, mean score: 7.463874816894531
+iter 0, batch 678: log finish
+
+ 97%|████████████████████████████████████████████████████████████████████████████████████▋  | 679/698 [4:24:20<07:43, 24.38s/it]
+iter 0, batch 679, mean score: 7.281749725341797
+iter 0, batch 679: log finish
+
+ 97%|████████████████████████████████████████████████████████████████████████████████████▊  | 680/698 [4:24:44<07:15, 24.19s/it]
+iter 0, batch 680, mean score: 3.78125
+iter 0, batch 680: log finish
+
+ 98%|████████████████████████████████████████████████████████████████████████████████████▉  | 681/698 [4:25:14<07:21, 25.99s/it]
+iter 0, batch 681, mean score: 9.869125366210938
+iter 0, batch 681: log finish
+
+ 98%|█████████████████████████████████████████████████████████████████████████████████████  | 682/698 [4:25:36<06:36, 24.77s/it]
+
+ 98%|█████████████████████████████████████████████████████████████████████████████████████▏ | 683/698 [4:26:01<06:13, 24.87s/it]
+iter 0, batch 682: log finish
+epoch 0, batch 683
+iter 0, batch 683, mean score: 7.830074787139893
+iter 0, batch 683: log finish
+
+ 98%|█████████████████████████████████████████████████████████████████████████████████████▎ | 684/698 [4:26:22<05:32, 23.76s/it]
+
+ 98%|█████████████████████████████████████████████████████████████████████████████████████▍ | 685/698 [4:26:52<05:30, 25.44s/it]
+iter 0, batch 684: log finish
+epoch 0, batch 685
+iter 0, batch 685, mean score: 8.281225204467773
+iter 0, batch 685: log finish
+
+ 98%|█████████████████████████████████████████████████████████████████████████████████████▌ | 686/698 [4:27:13<04:49, 24.11s/it]
+
+ 98%|█████████████████████████████████████████████████████████████████████████████████████▋ | 687/698 [4:27:45<04:52, 26.62s/it]
+iter 0, batch 686: log finish
+epoch 0, batch 687
+iter 0, batch 687, mean score: 7.147449493408203
+iter 0, batch 687: log finish
+
+ 99%|█████████████████████████████████████████████████████████████████████████████████████▊ | 688/698 [4:28:17<04:41, 28.17s/it]
+iter 0, batch 688, mean score: 8.5
+iter 0, batch 688: log finish
+
+ 99%|█████████████████████████████████████████████████████████████████████████████████████▉ | 689/698 [4:28:41<04:01, 26.81s/it]
+iter 0, batch 689, mean score: 7.398425102233887
+iter 0, batch 689: log finish
+
+ 99%|██████████████████████████████████████████████████████████████████████████████████████ | 690/698 [4:29:05<03:27, 25.93s/it]
+iter 0, batch 690, mean score: 11.003900527954102
+iter 0, batch 690: log finish
+
+ 99%|██████████████████████████████████████████████████████████████████████████████████████▏| 691/698 [4:29:28<02:56, 25.26s/it]
+iter 0, batch 691, mean score: 6.414549827575684
+iter 0, batch 691: log finish
+
+ 99%|██████████████████████████████████████████████████████████████████████████████████████▎| 692/698 [4:29:55<02:33, 25.66s/it]
+iter 0, batch 692, mean score: 9.626949310302734
+iter 0, batch 692: log finish
+
+ 99%|██████████████████████████████████████████████████████████████████████████████████████▍| 693/698 [4:30:19<02:06, 25.21s/it]
+
+ 99%|██████████████████████████████████████████████████████████████████████████████████████▌| 694/698 [4:30:44<01:40, 25.11s/it]
+iter 0, batch 693: log finish
+epoch 0, batch 694
+iter 0, batch 694, mean score: 9.538100242614746
+iter 0, batch 694: log finish
+
+100%|██████████████████████████████████████████████████████████████████████████████████████▋| 695/698 [4:31:08<01:14, 24.91s/it]
+iter 0, batch 695, mean score: 6.12107515335083
+iter 0, batch 695: log finish
+
+100%|██████████████████████████████████████████████████████████████████████████████████████▊| 696/698 [4:31:31<00:48, 24.17s/it]
+iter 0, batch 696, mean score: 5.94920015335083
+iter 0, batch 696: log finish
+
+100%|██████████████████████████████████████████████████████████████████████████████████████▉| 697/698 [4:31:53<00:23, 23.59s/it]
+
+100%|███████████████████████████████████████████████████████████████████████████████████████| 698/698 [4:32:16<00:00, 23.40s/it]
+iter 0, batch 697: log finish
+iter 0, batch 697: model saved

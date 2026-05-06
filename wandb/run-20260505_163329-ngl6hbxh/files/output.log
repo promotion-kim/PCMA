@@ -1,0 +1,90 @@
+Training........
+epoch 0, batch 0
+  0%|                                                                                                               | 0/87 [00:00<?, ?it/s]You're using a LlamaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/generation/utils.py:1421: UserWarning: You have modified the pretrained model configuration to control generation. This is a deprecated strategy to control generation and will be removed soon, in a future version. Please use and modify the model generation configuration (see https://huggingface.co/docs/transformers/generation_strategies#default-text-generation-configuration )
+  warnings.warn(
+/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/autograd/_functions.py:316: UserWarning: MatMul8bitLt: inputs will be cast from torch.float32 to float16 during quantization
+  warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
+iter 0, batch 0, mean score: -6.101093769073486
+iter 0, batch 0: log finish
+epoch 0, batch 1
+  1%|█▏                                                                                                 | 1/87 [07:31<10:47:10, 451.52s/it]
+
+  2%|██▎                                                                                                | 2/87 [14:50<10:29:10, 444.13s/it]
+iter 0, batch 1: log finish
+epoch 0, batch 2
+
+  3%|███▍                                                                                               | 3/87 [21:52<10:07:31, 433.94s/it]
+iter 0, batch 2: log finish
+epoch 0, batch 3
+
+  5%|████▌                                                                                              | 4/87 [29:53<10:25:53, 452.46s/it]
+iter 0, batch 3: log finish
+  5%|████▌                                                                                              | 4/87 [29:53<10:25:53, 452.46s/it]Traceback (most recent call last):
+  File "/home/sjkim/MOD/experiment-PPO/ppo/morlhf_saferlhf.py", line 383, in <module>
+    response_tensors = ppo_trainer.generate(query_tensors, return_prompt=False, **generation_kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/trl/trainer/ppo_trainer.py", line 464, in generate
+    response = self._generate_batched(
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/trl/trainer/ppo_trainer.py", line 546, in _generate_batched
+    generations = self.accelerator.unwrap_model(model).generate(**padded_inputs, **generation_kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/trl/models/modeling_value_head.py", line 203, in generate
+    return self.pretrained_model.generate(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/peft/peft_model.py", line 975, in generate
+    outputs = self.base_model.generate(**kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/generation/utils.py", line 1652, in generate
+    return self.sample(
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/generation/utils.py", line 2734, in sample
+    outputs = self(
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 1038, in forward
+    outputs = self.model(
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 925, in forward
+    layer_outputs = decoder_layer(
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 635, in forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/transformers/models/llama/modeling_llama.py", line 407, in forward
+    attn_output = self.o_proj(attn_output)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/accelerate/hooks.py", line 165, in new_forward
+    output = old_forward(*args, **kwargs)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/nn/modules.py", line 797, in forward
+    out = bnb.matmul(x, self.weight, bias=self.bias, state=self.state)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/autograd/_functions.py", line 556, in matmul
+    return MatMul8bitLt.apply(A, B, out, bias, state)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/torch/autograd/function.py", line 553, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/autograd/_functions.py", line 395, in forward
+    out32, Sout32 = F.igemmlt(C32A, state.CxB, SA, state.SB)
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/functional.py", line 2320, in igemmlt
+    is_on_gpu([A, B, out])
+  File "/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/functional.py", line 426, in is_on_gpu
+    gpu_ids.add(t.device.index)
+KeyboardInterrupt

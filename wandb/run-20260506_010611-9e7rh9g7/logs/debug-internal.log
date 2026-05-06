@@ -1,0 +1,226 @@
+2026-05-06 01:06:11,500 INFO    StreamThr :2364771 [internal.py:wandb_internal():86] W&B internal server running at pid: 2364771, started at: 2026-05-06 01:06:11.499735
+2026-05-06 01:06:11,501 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status
+2026-05-06 01:06:11,509 INFO    WriterThread:2364771 [datastore.py:open_for_write():87] open: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/run-9e7rh9g7.wandb
+2026-05-06 01:06:11,509 DEBUG   SenderThread:2364771 [sender.py:send():379] send: header
+2026-05-06 01:06:11,519 DEBUG   SenderThread:2364771 [sender.py:send():379] send: run
+2026-05-06 01:06:12,584 INFO    SenderThread:2364771 [dir_watcher.py:__init__():211] watching files in: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files
+2026-05-06 01:06:12,584 INFO    SenderThread:2364771 [sender.py:_start_run_threads():1124] run started: 9e7rh9g7 with start time 1777997171.500308
+2026-05-06 01:06:12,594 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: check_version
+2026-05-06 01:06:12,594 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: check_version
+2026-05-06 01:06:12,650 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: run_start
+2026-05-06 01:06:12,654 DEBUG   HandlerThread:2364771 [system_info.py:__init__():26] System info init
+2026-05-06 01:06:12,654 DEBUG   HandlerThread:2364771 [system_info.py:__init__():41] System info init done
+2026-05-06 01:06:12,654 INFO    HandlerThread:2364771 [system_monitor.py:start():194] Starting system monitor
+2026-05-06 01:06:12,654 INFO    SystemMonitor:2364771 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2026-05-06 01:06:12,654 INFO    HandlerThread:2364771 [system_monitor.py:probe():214] Collecting system info
+2026-05-06 01:06:12,655 INFO    SystemMonitor:2364771 [interfaces.py:start():190] Started cpu monitoring
+2026-05-06 01:06:12,655 INFO    SystemMonitor:2364771 [interfaces.py:start():190] Started disk monitoring
+2026-05-06 01:06:12,656 INFO    SystemMonitor:2364771 [interfaces.py:start():190] Started gpu monitoring
+2026-05-06 01:06:12,657 INFO    SystemMonitor:2364771 [interfaces.py:start():190] Started memory monitoring
+2026-05-06 01:06:12,657 INFO    SystemMonitor:2364771 [interfaces.py:start():190] Started network monitoring
+2026-05-06 01:06:12,679 DEBUG   HandlerThread:2364771 [system_info.py:probe():150] Probing system
+2026-05-06 01:06:12,681 DEBUG   HandlerThread:2364771 [system_info.py:_probe_git():135] Probing git
+2026-05-06 01:06:12,694 DEBUG   HandlerThread:2364771 [system_info.py:_probe_git():143] Probing git done
+2026-05-06 01:06:12,695 DEBUG   HandlerThread:2364771 [system_info.py:probe():198] Probing system done
+2026-05-06 01:06:12,695 DEBUG   HandlerThread:2364771 [system_monitor.py:probe():223] {'os': 'Linux-5.14.0-162.6.1.el9_1.x86_64-x86_64-with-glibc2.34', 'python': '3.10.4', 'heartbeatAt': '2026-05-05T16:06:12.679207', 'startedAt': '2026-05-05T16:06:11.484713', 'docker': None, 'cuda': None, 'args': ('--base_model_name', 'PKU-Alignment/alpaca-7b-reproduced', '--posterior_calibrator_path', '/ext_hdd/sjkim/mod/PKU-Alignment/PKU-SafeRLHF-10K/pcma/posterior_morlhf/better_safer', '--dataset_name', 'PKU-Alignment/PKU-SafeRLHF-10K-better', '--prompt_template', 'BEGINNING OF CONVERSATION: USER: {raw_prompt} ASSISTANT:', '--train_split', 'train', '--eval_split', 'validation', '--seed', '8888', '--preference', '0.5', '--save_directory', '/ext_hdd/sjkim/mod/pcmorlhf_saferlhf', '--wandb_name', 'PKU-Alignment/PKU-SafeRLHF-10K/pcmorlhf/pc_alpha_h0.5_s0.5', '--reward_names', 'helpful,harmless', '--reward_model_names', 'PKU-Alignment/beaver-7b-v1.0-reward,PKU-Alignment/beaver-7b-v1.0-cost', '--reward_signs', '1,-1', '--feature_source', 'sft_hidden', '--feature_pooling', 'mean', '--feature_model_name', 'sentence-transformers/all-MiniLM-L6-v2', '--feature_max_length', '256', '--posterior_num_samples', '10', '--alpha_min', '0.05', '--epochs', '1', '--learning_rate', '1e-5', '--batch_size', '4', '--mini_batch_size', '1', '--gradient_accumulation_steps', '1', '--init_kl_coef', '0.2', '--target', '3', '--max_grad_norm', '0.5', '--max_prompt_length', '384', '--max_new_tokens', '128', '--reward_model_max_length', '512', '--eval_steps', '100', '--eval_num_prompts', '5', '--eval_max_new_tokens', '128', '--debug_print_alpha_every', '50', '--debug_print_alpha_n', '3'), 'state': 'running', 'program': '/home/sjkim/MOD/experiment-PPO/ppo/pcmorlhf.py', 'codePathLocal': 'ppo/pcmorlhf.py', 'codePath': 'experiment-PPO/ppo/pcmorlhf.py', 'git': {'remote': 'https://github.com/promotion-kim/PCMA.git', 'commit': '1f9ace3867da7ac20773e924a8f7bbf7d7b21280'}, 'email': 'sjkim@kaist.ac.kr', 'root': '/home/sjkim/MOD', 'host': 'loki3', 'username': 'sjkim', 'executable': '/home/sjkim/anaconda3/envs/ppo/bin/python3.10', 'cpu_count': 24, 'cpu_count_logical': 48, 'cpu_freq': {'current': 2414.3903958333335, 'min': 1000.0, 'max': 4000.0}, 'cpu_freq_per_core': [{'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 3090.739, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}, {'current': 2400.0, 'min': 1000.0, 'max': 4000.0}], 'disk': {'/': {'total': 392.65177154541016, 'used': 152.78022003173828}}, 'gpu': 'NVIDIA RTX A6000', 'gpu_count': 2, 'gpu_devices': [{'name': 'NVIDIA RTX A6000', 'memory_total': 51527024640}, {'name': 'NVIDIA RTX A6000', 'memory_total': 51527024640}], 'memory': {'total': 124.92635726928711}}
+2026-05-06 01:06:12,695 INFO    HandlerThread:2364771 [system_monitor.py:probe():224] Finished collecting system info
+2026-05-06 01:06:12,695 INFO    HandlerThread:2364771 [system_monitor.py:probe():227] Publishing system info
+2026-05-06 01:06:12,696 DEBUG   HandlerThread:2364771 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2026-05-06 01:06:13,586 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/conda-environment.yaml
+2026-05-06 01:06:15,117 DEBUG   HandlerThread:2364771 [system_info.py:_save_conda():222] Saving conda packages done
+2026-05-06 01:06:15,119 INFO    HandlerThread:2364771 [system_monitor.py:probe():229] Finished publishing system info
+2026-05-06 01:06:15,122 DEBUG   SenderThread:2364771 [sender.py:send():379] send: files
+2026-05-06 01:06:15,122 INFO    SenderThread:2364771 [sender.py:_save_file():1390] saving file wandb-metadata.json with policy now
+2026-05-06 01:06:15,253 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: python_packages
+2026-05-06 01:06:15,253 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-06 01:06:15,254 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: python_packages
+2026-05-06 01:06:15,255 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: stop_status
+2026-05-06 01:06:15,256 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-06 01:06:15,587 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/conda-environment.yaml
+2026-05-06 01:06:15,587 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/wandb-metadata.json
+2026-05-06 01:06:15,587 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/requirements.txt
+2026-05-06 01:06:15,605 DEBUG   SenderThread:2364771 [sender.py:send():379] send: telemetry
+2026-05-06 01:06:15,605 DEBUG   SenderThread:2364771 [sender.py:send():379] send: config
+2026-05-06 01:06:15,874 INFO    wandb-upload_0:2364771 [upload_job.py:push():131] Uploaded file /tmp/tmpr__co4n0wandb/n6uy3257-wandb-metadata.json
+2026-05-06 01:06:16,588 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/output.log
+2026-05-06 01:06:16,608 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:18,590 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/output.log
+2026-05-06 01:06:21,608 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:26,609 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:30,254 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-06 01:06:30,254 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: stop_status
+2026-05-06 01:06:30,254 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-06 01:06:32,569 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:38,514 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:38,608 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/output.log
+2026-05-06 01:06:43,518 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:44,613 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/config.yaml
+2026-05-06 01:06:45,254 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-06 01:06:45,254 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-06 01:06:45,254 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: stop_status
+2026-05-06 01:06:49,558 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:50,514 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: log_artifact
+2026-05-06 01:06:50,514 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: log_artifact
+2026-05-06 01:06:50,620 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/media/table/game_log_0_5899f8999e4e273683cb.table.json
+2026-05-06 01:06:50,621 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/media/table
+2026-05-06 01:06:50,621 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/media
+2026-05-06 01:06:50,982 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-06 01:06:51,120 INFO    wandb-upload_0:2364771 [upload_job.py:push():131] Uploaded file /tmp/tmpr__co4n0wandb/3pc57uhe-media/table/game_log_0_5899f8999e4e273683cb.table.json
+2026-05-06 01:06:51,986 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-06 01:06:52,332 INFO    wandb-upload_0:2364771 [upload_job.py:push():89] Uploaded file /home/sjkim/.local/share/wandb/artifacts/staging/tmpp0orvu_9
+2026-05-06 01:06:53,404 INFO    SenderThread:2364771 [sender.py:send_request_log_artifact():1456] logged artifact run-9e7rh9g7-game_log - {'id': 'QXJ0aWZhY3Q6Mjc5Njc1MDYyOQ==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzEyODk1MTc=', 'latestArtifact': None}}
+2026-05-06 01:06:53,404 DEBUG   SenderThread:2364771 [sender.py:send():379] send: files
+2026-05-06 01:06:53,404 INFO    SenderThread:2364771 [sender.py:_save_file():1390] saving file media/table/game_log_0_5899f8999e4e273683cb.table.json with policy now
+2026-05-06 01:06:53,405 DEBUG   SenderThread:2364771 [sender.py:send():379] send: history
+2026-05-06 01:06:53,405 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: summary_record
+2026-05-06 01:06:53,407 INFO    SenderThread:2364771 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-06 01:06:53,409 DEBUG   SenderThread:2364771 [sender.py:send():379] send: exit
+2026-05-06 01:06:53,409 INFO    SenderThread:2364771 [sender.py:send_exit():586] handling exit code: 1
+2026-05-06 01:06:53,409 INFO    SenderThread:2364771 [sender.py:send_exit():588] handling runtime: 38
+2026-05-06 01:06:53,411 INFO    SenderThread:2364771 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-06 01:06:53,411 INFO    SenderThread:2364771 [sender.py:send_exit():594] send defer
+2026-05-06 01:06:53,411 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: poll_exit
+2026-05-06 01:06:53,411 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,411 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 0
+2026-05-06 01:06:53,412 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,412 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 0
+2026-05-06 01:06:53,412 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 1
+2026-05-06 01:06:53,413 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,413 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 1
+2026-05-06 01:06:53,413 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,413 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 1
+2026-05-06 01:06:53,414 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 2
+2026-05-06 01:06:53,414 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,414 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 2
+2026-05-06 01:06:53,414 INFO    HandlerThread:2364771 [system_monitor.py:finish():203] Stopping system monitor
+2026-05-06 01:06:53,415 INFO    HandlerThread:2364771 [interfaces.py:finish():202] Joined cpu monitor
+2026-05-06 01:06:53,415 DEBUG   SystemMonitor:2364771 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2026-05-06 01:06:53,415 INFO    HandlerThread:2364771 [interfaces.py:finish():202] Joined disk monitor
+2026-05-06 01:06:53,415 DEBUG   SystemMonitor:2364771 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2026-05-06 01:06:53,415 DEBUG   SystemMonitor:2364771 [system_monitor.py:_start():183] Publishing last batch of metrics
+2026-05-06 01:06:53,605 INFO    HandlerThread:2364771 [interfaces.py:finish():202] Joined gpu monitor
+2026-05-06 01:06:53,605 INFO    HandlerThread:2364771 [interfaces.py:finish():202] Joined memory monitor
+2026-05-06 01:06:53,605 INFO    HandlerThread:2364771 [interfaces.py:finish():202] Joined network monitor
+2026-05-06 01:06:53,606 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,606 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 2
+2026-05-06 01:06:53,606 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 3
+2026-05-06 01:06:53,607 DEBUG   SenderThread:2364771 [sender.py:send():379] send: stats
+2026-05-06 01:06:53,607 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,608 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 3
+2026-05-06 01:06:53,608 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,608 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 3
+2026-05-06 01:06:53,609 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 4
+2026-05-06 01:06:53,609 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,610 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 4
+2026-05-06 01:06:53,610 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,610 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 4
+2026-05-06 01:06:53,611 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 5
+2026-05-06 01:06:53,611 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,611 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 5
+2026-05-06 01:06:53,613 DEBUG   SenderThread:2364771 [sender.py:send():379] send: summary
+2026-05-06 01:06:53,614 INFO    SenderThread:2364771 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-06 01:06:53,614 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,615 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 5
+2026-05-06 01:06:53,615 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 6
+2026-05-06 01:06:53,615 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,616 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 6
+2026-05-06 01:06:53,616 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,616 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 6
+2026-05-06 01:06:53,617 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 7
+2026-05-06 01:06:53,617 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:06:53,617 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:53,617 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 7
+2026-05-06 01:06:53,618 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:53,618 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 7
+2026-05-06 01:06:53,626 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/wandb-summary.json
+2026-05-06 01:06:53,987 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-06 01:06:53,991 INFO    wandb-upload_0:2364771 [upload_job.py:push():131] Uploaded file /tmp/tmpr__co4n0wandb/l3k2z4dp-media/table/game_log_0_5899f8999e4e273683cb.table.json
+2026-05-06 01:06:55,656 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 8
+2026-05-06 01:06:55,656 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: poll_exit
+2026-05-06 01:06:55,656 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:55,656 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 8
+2026-05-06 01:06:55,657 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:55,657 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 8
+2026-05-06 01:06:55,657 INFO    SenderThread:2364771 [job_builder.py:build():318] Attempting to build job artifact
+2026-05-06 01:06:55,659 INFO    SenderThread:2364771 [job_builder.py:_get_source_type():455] is repo sourced job
+2026-05-06 01:06:55,661 INFO    SenderThread:2364771 [job_builder.py:build():431] adding wandb-job metadata file
+2026-05-06 01:06:55,674 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 9
+2026-05-06 01:06:55,674 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:55,674 DEBUG   SenderThread:2364771 [sender.py:send():379] send: artifact
+2026-05-06 01:06:55,674 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 9
+2026-05-06 01:06:55,989 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-06 01:06:56,632 INFO    Thread-12 :2364771 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/output.log
+2026-05-06 01:06:56,920 INFO    wandb-upload_0:2364771 [upload_job.py:push():86] Skipped uploading /home/sjkim/.local/share/wandb/artifacts/staging/tmphdies1qv
+2026-05-06 01:06:57,171 INFO    wandb-upload_1:2364771 [upload_job.py:push():89] Uploaded file /tmp/tmpwzq7qaai/wandb-job.json
+2026-05-06 01:06:58,771 INFO    SenderThread:2364771 [sender.py:send_artifact():1468] sent artifact job-https___github.com_promotion-kim_PCMA.git_experiment-PPO_ppo_pcmorlhf.py - {'id': 'QXJ0aWZhY3Q6Mjc5Njc1MDg3MQ==', 'state': 'PENDING', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzEyODcyOTM=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6Mjc5NjcyMTAzMg==', 'versionIndex': 0}}}
+2026-05-06 01:06:58,771 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:58,771 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 9
+2026-05-06 01:06:58,772 INFO    SenderThread:2364771 [dir_watcher.py:finish():358] shutting down directory watcher
+2026-05-06 01:06:59,634 INFO    SenderThread:2364771 [dir_watcher.py:finish():388] scan: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files
+2026-05-06 01:06:59,635 INFO    SenderThread:2364771 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/config.yaml config.yaml
+2026-05-06 01:06:59,635 INFO    SenderThread:2364771 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/conda-environment.yaml conda-environment.yaml
+2026-05-06 01:06:59,637 INFO    SenderThread:2364771 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/wandb-metadata.json wandb-metadata.json
+2026-05-06 01:06:59,637 INFO    SenderThread:2364771 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/requirements.txt requirements.txt
+2026-05-06 01:06:59,639 INFO    SenderThread:2364771 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/output.log output.log
+2026-05-06 01:06:59,639 INFO    SenderThread:2364771 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/wandb-summary.json wandb-summary.json
+2026-05-06 01:06:59,645 INFO    SenderThread:2364771 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/media/table/game_log_0_5899f8999e4e273683cb.table.json media/table/game_log_0_5899f8999e4e273683cb.table.json
+2026-05-06 01:06:59,645 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 10
+2026-05-06 01:06:59,645 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: poll_exit
+2026-05-06 01:06:59,645 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:06:59,646 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 10
+2026-05-06 01:06:59,646 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:06:59,646 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 10
+2026-05-06 01:06:59,646 INFO    SenderThread:2364771 [file_pusher.py:finish():172] shutting down file pusher
+2026-05-06 01:06:59,990 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-06 01:06:59,991 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: poll_exit
+2026-05-06 01:07:00,131 INFO    wandb-upload_0:2364771 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/config.yaml
+2026-05-06 01:07:00,181 INFO    wandb-upload_1:2364771 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/conda-environment.yaml
+2026-05-06 01:07:00,237 INFO    wandb-upload_2:2364771 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/requirements.txt
+2026-05-06 01:07:00,254 INFO    wandb-upload_4:2364771 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/wandb-summary.json
+2026-05-06 01:07:00,295 INFO    wandb-upload_3:2364771 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/files/output.log
+2026-05-06 01:07:00,496 INFO    Thread-11 (_thread_body):2364771 [sender.py:transition_state():614] send defer: 11
+2026-05-06 01:07:00,496 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:07:00,497 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 11
+2026-05-06 01:07:00,497 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:07:00,497 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 11
+2026-05-06 01:07:00,498 INFO    SenderThread:2364771 [file_pusher.py:join():178] waiting for file pusher
+2026-05-06 01:07:00,498 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 12
+2026-05-06 01:07:00,498 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:07:00,499 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 12
+2026-05-06 01:07:00,499 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:07:00,499 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 12
+2026-05-06 01:07:00,499 INFO    SenderThread:2364771 [file_stream.py:finish():614] file stream finish called
+2026-05-06 01:07:00,991 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-06 01:07:01,397 INFO    SenderThread:2364771 [file_stream.py:finish():618] file stream finish is done
+2026-05-06 01:07:01,397 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 13
+2026-05-06 01:07:01,397 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: poll_exit
+2026-05-06 01:07:01,397 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:07:01,398 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 13
+2026-05-06 01:07:01,398 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: status_report
+2026-05-06 01:07:01,398 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:07:01,398 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 13
+2026-05-06 01:07:01,399 INFO    SenderThread:2364771 [sender.py:transition_state():614] send defer: 14
+2026-05-06 01:07:01,399 DEBUG   SenderThread:2364771 [sender.py:send():379] send: final
+2026-05-06 01:07:01,399 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: defer
+2026-05-06 01:07:01,399 DEBUG   SenderThread:2364771 [sender.py:send():379] send: footer
+2026-05-06 01:07:01,399 INFO    HandlerThread:2364771 [handler.py:handle_request_defer():172] handle defer: 14
+2026-05-06 01:07:01,400 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: defer
+2026-05-06 01:07:01,400 INFO    SenderThread:2364771 [sender.py:send_request_defer():610] handle sender defer: 14
+2026-05-06 01:07:01,401 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-06 01:07:01,401 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: poll_exit
+2026-05-06 01:07:01,401 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-06 01:07:01,401 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: server_info
+2026-05-06 01:07:01,401 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: poll_exit
+2026-05-06 01:07:01,401 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: get_summary
+2026-05-06 01:07:01,402 DEBUG   SenderThread:2364771 [sender.py:send_request():406] send_request: server_info
+2026-05-06 01:07:01,402 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: sampled_history
+2026-05-06 01:07:01,404 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-06 01:07:01,609 INFO    MainThread:2364771 [wandb_run.py:_footer_history_summary_info():3936] rendering history
+2026-05-06 01:07:01,609 INFO    MainThread:2364771 [wandb_run.py:_footer_history_summary_info():3968] rendering summary
+2026-05-06 01:07:01,611 INFO    MainThread:2364771 [wandb_run.py:_footer_sync_info():3895] logging synced files
+2026-05-06 01:07:01,611 DEBUG   HandlerThread:2364771 [handler.py:handle_request():146] handle_request: shutdown
+2026-05-06 01:07:01,611 INFO    HandlerThread:2364771 [handler.py:finish():866] shutting down handler
+2026-05-06 01:07:02,402 INFO    WriterThread:2364771 [datastore.py:close():296] close: /home/sjkim/MOD/experiment-PPO/wandb/run-20260506_010611-9e7rh9g7/run-9e7rh9g7.wandb
+2026-05-06 01:07:02,609 INFO    SenderThread:2364771 [sender.py:finish():1546] shutting down sender
+2026-05-06 01:07:02,609 INFO    SenderThread:2364771 [file_pusher.py:finish():172] shutting down file pusher
+2026-05-06 01:07:02,609 INFO    SenderThread:2364771 [file_pusher.py:join():178] waiting for file pusher
