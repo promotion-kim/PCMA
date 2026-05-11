@@ -1,0 +1,9 @@
+logs**
+temp_models**
+wandb**
+__pycache__
+**/output/**
+*.pt
+*.safetensors
+experiment-DPO/outputs/
+experiment-PPO/outputs/

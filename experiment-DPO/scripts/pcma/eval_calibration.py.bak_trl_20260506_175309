@@ -1,0 +1,693 @@
+
+
+# scripts/pcma/eval_implicit_calibration_nll.py
+
+from __future__ import annotations
+
+# ---------------------------------------------------------------------
+# Compatibility shim for old TRL + newer Transformers
+# ---------------------------------------------------------------------
+try:
+    import transformers
+
+    if not hasattr(transformers, "top_k_top_p_filtering"):
+        from transformers.generation.logits_process import (
+            TopKLogitsWarper,
+            TopPLogitsWarper,
+        )
+
+        def top_k_top_p_filtering(
+            logits,
+            top_k=0,
+            top_p=1.0,
+            filter_value=-float("Inf"),
+            min_tokens_to_keep=1,
+        ):
+            if top_k is not None and top_k > 0:
+                logits = TopKLogitsWarper(
+                    top_k=top_k,
+                    filter_value=filter_value,
+                    min_tokens_to_keep=min_tokens_to_keep,
+                )(None, logits)
+
+            if top_p is not None and top_p < 1.0:
+                logits = TopPLogitsWarper(
+                    top_p=top_p,
+                    filter_value=filter_value,
+                    min_tokens_to_keep=min_tokens_to_keep,
+                )(None, logits)
+
+            return logits
+
+        transformers.top_k_top_p_filtering = top_k_top_p_filtering
+
+except Exception as e:
+    print(f"[warning] transformers compatibility shim failed: {e}", flush=True)
+# ---------------------------------------------------------------------
+
+
+import json
+import random
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import List, Optional, Sequence, Tuple
+
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import tyro
+from accelerate import Accelerator
+from peft import PeftModel
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+from src.data.configs import DATASET_CONFIGS, DEFAULT_PROMPT_TEMPLATE
+from src.utils import (
+    common_prefix_length,
+    disable_progress_bar_non_local_main,
+    param_sharding_enabled,
+    print_local_main,
+    set_seed,
+)
+from src.utils.posterior_calibration import (
+    FrozenCausalLMPromptFeatureExtractor,
+    HFPromptFeatureExtractor,
+)
+
+
+disable_progress_bar_non_local_main()
+
+
+def _split_csv(x: str) -> List[str]:
+    return [v.strip() for v in x.split(",") if v.strip()]
+
+
+@dataclass
+class ScriptArguments:
+    sft_model_name: str = field(metadata={"help": "SFT/reference model"})
+    objective_adapter_names: str = field(
+        metadata={"help": "comma-separated objective adapter paths, e.g. better,safer"}
+    )
+    objective_dataset_names: str = field(
+        metadata={"help": "comma-separated objective preference datasets in same order"}
+    )
+    output_path: str = field(
+        default="outputs/pcma/calibration_nll/implicit_reward_nll.json",
+        metadata={"help": "where to save NLL comparison results"},
+    )
+
+    feature_source: str = field(default="sft_hidden", metadata={"help": "sft_hidden or hf_model"})
+    feature_model_name: str = field(default="sentence-transformers/all-MiniLM-L6-v2")
+    feature_pooling: str = field(default="mean", metadata={"help": "mean or last"})
+    prompt_template: Optional[str] = field(default=DEFAULT_PROMPT_TEMPLATE)
+
+    seed: int = 42
+    max_length: int = 512
+    feature_max_length: int = 256
+    per_device_batch_size: int = 2
+    num_workers: int = 0
+    max_examples_per_objective: Optional[int] = None
+    valid_ratio: float = 0.2
+    use_flash_attention_2: bool = False
+
+    # implicit reward scale
+    implicit_beta: float = 1.0
+    # If your theoretical definition uses beta=0.1, set --implicit_beta 0.1.
+    # If the saved calibrator was trained without beta scaling, keep this as 1.0.
+
+    # calibration fitting
+    calib_steps: int = 3000
+    calib_lr: float = 3e-3
+    calib_batch_size: int = 512
+    calib_log_every: int = 200
+
+    # priors
+    mu_std: float = 0.5
+    c_std: float = 0.03
+    u_std: float = 0.1
+    W_std: float = 0.005
+
+    # numerical stability
+    clamp_a_min: float = -6.0
+    clamp_a_max: float = 6.0
+
+
+args = tyro.cli(ScriptArguments)
+set_seed(args.seed)
+accelerator = Accelerator()
+
+tokenizer = AutoTokenizer.from_pretrained(args.sft_model_name, trust_remote_code=True)
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "right"
+
+
+def _format_prompt(example: dict) -> str:
+    if "prompt" in example and example["prompt"] is not None:
+        return example["prompt"]
+    if "raw_prompt" in example and example["raw_prompt"] is not None:
+        return args.prompt_template.format(raw_prompt=example["raw_prompt"])
+    raise KeyError("Dataset example must contain `prompt` or `raw_prompt`.")
+
+
+def _raw_prompt_for_feature(example: dict, formatted_prompt: str) -> str:
+    # Same convention as your fit_posterior.py:
+    # use raw_prompt if available; otherwise fallback to prompt.
+    return example.get("raw_prompt", formatted_prompt)
+
+
+def _tokenize_prompt_response(prompt: str, response: str) -> dict:
+    prompt_toks = tokenizer(prompt, add_special_tokens=False)
+    full_toks = tokenizer(prompt + response, add_special_tokens=False)
+
+    input_ids = full_toks["input_ids"] + [tokenizer.eos_token_id]
+    attention_mask = full_toks["attention_mask"] + [1]
+
+    prompt_len = common_prefix_length(prompt_toks["input_ids"], input_ids)
+
+    labels = input_ids.copy()
+    labels[:prompt_len] = [-100] * prompt_len
+
+    if len(input_ids) > args.max_length:
+        input_ids = input_ids[: args.max_length]
+        attention_mask = attention_mask[: args.max_length]
+        labels = labels[: args.max_length]
+
+    return {
+        "input_ids": input_ids,
+        "attention_mask": attention_mask,
+        "labels": labels,
+    }
+
+
+def _collate_logp(features: Sequence[dict]) -> dict:
+    batch = [{"input_ids": f["input_ids"], "attention_mask": f["attention_mask"]} for f in features]
+    padded = tokenizer.pad(batch, padding=True, return_tensors="pt")
+
+    max_len = padded["input_ids"].shape[1]
+    labels = []
+    for f in features:
+        lab = f["labels"] + [-100] * (max_len - len(f["labels"]))
+        labels.append(lab)
+
+    padded["labels"] = torch.tensor(labels, dtype=torch.long)
+    return padded
+
+
+@torch.no_grad()
+def _sequence_logps(model, batch: dict) -> torch.Tensor:
+    batch = {k: v.to(accelerator.device) for k, v in batch.items()}
+
+    out = model(input_ids=batch["input_ids"], attention_mask=batch["attention_mask"])
+    logits = out.logits[:, :-1, :]
+
+    labels = batch["labels"][:, 1:].clone()
+    mask = labels.ne(-100)
+    labels = labels.masked_fill(~mask, 0)
+
+    log_probs = F.log_softmax(logits, dim=-1)
+    token_logps = log_probs.gather(-1, labels.unsqueeze(-1)).squeeze(-1)
+
+    return (token_logps * mask).sum(dim=-1).detach().cpu()
+
+
+def _build_pairs(dataset, max_examples: Optional[int]) -> List[dict]:
+    pairs = []
+
+    for ex in dataset:
+        prompt = _format_prompt(ex)
+        chosen = ex.get("chosen")
+        rejected = ex.get("rejected")
+
+        if chosen is None or rejected is None:
+            raise KeyError("Preference dataset must contain `chosen` and `rejected` fields.")
+
+        pairs.append(
+            {
+                "prompt": prompt,
+                "feature_prompt": _raw_prompt_for_feature(ex, prompt),
+                "chosen": chosen,
+                "rejected": rejected,
+            }
+        )
+
+        if max_examples is not None and len(pairs) >= max_examples:
+            break
+
+    return pairs
+
+
+def _prompt_level_split(pairs: List[dict], valid_ratio: float, seed: int):
+    rng = random.Random(seed)
+
+    unique_prompts = sorted(set(p["feature_prompt"] for p in pairs))
+    rng.shuffle(unique_prompts)
+
+    n_valid = max(1, int(len(unique_prompts) * valid_ratio))
+    valid_set = set(unique_prompts[:n_valid])
+
+    train_pairs = [p for p in pairs if p["feature_prompt"] not in valid_set]
+    valid_pairs = [p for p in pairs if p["feature_prompt"] in valid_set]
+
+    return train_pairs, valid_pairs
+
+
+def _compute_objective_gaps(
+    model,
+    adapter_name: str,
+    pairs: List[dict],
+    desc: str,
+) -> Tuple[List[str], torch.Tensor]:
+    model.eval()
+    model.set_adapter(adapter_name)
+
+    feature_prompts: List[str] = []
+    items = []
+
+    for p in pairs:
+        feature_prompts.append(p["feature_prompt"])
+        items.append(_tokenize_prompt_response(p["prompt"], p["chosen"]))
+        items.append(_tokenize_prompt_response(p["prompt"], p["rejected"]))
+
+    loader = DataLoader(
+        items,
+        batch_size=args.per_device_batch_size * 2,
+        collate_fn=_collate_logp,
+        num_workers=args.num_workers,
+    )
+
+    policy_logps_all = []
+    ref_logps_all = []
+
+    for batch in tqdm(
+        loader,
+        desc=desc,
+        disable=not accelerator.is_local_main_process,
+        dynamic_ncols=True,
+    ):
+        policy_logps_all.append(_sequence_logps(model, batch))
+
+        with model.disable_adapter():
+            ref_logps_all.append(_sequence_logps(model, batch))
+
+    policy_logps = torch.cat(policy_logps_all, dim=0).view(-1, 2)
+    ref_logps = torch.cat(ref_logps_all, dim=0).view(-1, 2)
+
+    # implicit score:
+    # s_i(x,y) = beta * [log pi_i(y|x) - log pi_ref(y|x)]
+    chosen_score = args.implicit_beta * (policy_logps[:, 0] - ref_logps[:, 0])
+    rejected_score = args.implicit_beta * (policy_logps[:, 1] - ref_logps[:, 1])
+
+    # signed gap: chosen is preferred
+    signed_gap = chosen_score - rejected_score
+
+    return feature_prompts, signed_gap.float()
+
+
+class MapCalibrator(nn.Module):
+    """
+    Calibration model:
+        a_i(x) = rho(x) + delta_i(x)
+
+    modes:
+        global: a_i = u_i
+        rho:    a_i = rho(x)
+        delta:  a_i = delta_i(x)
+        full:   a_i = rho(x) + delta_i(x)
+    """
+
+    def __init__(self, feature_dim: int, num_objectives: int, mode: str):
+        super().__init__()
+        self.feature_dim = feature_dim
+        self.num_objectives = num_objectives
+        self.mode = mode
+
+        self.mu = nn.Parameter(torch.zeros(()))
+        self.c = nn.Parameter(torch.zeros(feature_dim))
+
+        self.u = nn.Parameter(torch.zeros(num_objectives))
+        self.W = nn.Parameter(torch.zeros(num_objectives, feature_dim))
+
+        self.global_u = nn.Parameter(torch.zeros(num_objectives))
+
+        P = torch.eye(num_objectives) - torch.ones(num_objectives, num_objectives) / num_objectives
+        self.register_buffer("P_perp", P)
+
+    def rho(self, features: torch.Tensor) -> torch.Tensor:
+        return self.mu + features @ self.c
+
+    def delta_all(self, features: torch.Tensor) -> torch.Tensor:
+        raw = self.u.unsqueeze(0) + features @ self.W.T
+        return raw @ self.P_perp.T
+
+    def log_precision(self, features: torch.Tensor, objective_idx: torch.Tensor) -> torch.Tensor:
+        if self.mode == "global":
+            a = self.global_u[objective_idx]
+
+        elif self.mode == "rho":
+            a = self.rho(features)
+
+        elif self.mode == "delta":
+            delta = self.delta_all(features)
+            a = delta.gather(1, objective_idx[:, None]).squeeze(1)
+
+        elif self.mode == "full":
+            rho = self.rho(features)
+            delta = self.delta_all(features)
+            delta_i = delta.gather(1, objective_idx[:, None]).squeeze(1)
+            a = rho + delta_i
+
+        else:
+            raise ValueError(f"Unknown mode: {self.mode}")
+
+        return torch.clamp(a, args.clamp_a_min, args.clamp_a_max)
+
+    def forward(self, features: torch.Tensor, objective_idx: torch.Tensor, signed_gaps: torch.Tensor):
+        a = self.log_precision(features, objective_idx)
+        return torch.exp(a) * signed_gaps
+
+    def prior_penalty(self) -> torch.Tensor:
+        penalty = torch.zeros((), device=self.mu.device)
+
+        if self.mode in ["rho", "full"]:
+            penalty = penalty + 0.5 * (self.mu / args.mu_std) ** 2
+            penalty = penalty + 0.5 * torch.sum((self.c / args.c_std) ** 2)
+
+        if self.mode in ["delta", "full"]:
+            penalty = penalty + 0.5 * torch.sum((self.u / args.u_std) ** 2)
+            penalty = penalty + 0.5 * torch.sum((self.W / args.W_std) ** 2)
+
+        if self.mode == "global":
+            penalty = penalty + 0.5 * torch.sum(self.global_u ** 2)
+
+        return penalty
+
+
+def _balanced_logits_and_labels(logits: np.ndarray):
+    """
+    Original preference pair is always chosen > rejected, so y=1.
+    For standard binary metrics, add the reversed pair:
+        logit' = -logit, y'=0.
+    This does not change the per-pair NLL.
+    """
+    logits = np.asarray(logits, dtype=np.float64)
+    all_logits = np.concatenate([logits, -logits], axis=0)
+    labels = np.concatenate([np.ones_like(logits), np.zeros_like(logits)], axis=0)
+    return all_logits, labels
+
+
+def _binary_metrics_from_signed_logits(logits: np.ndarray) -> dict:
+    logits_bal, labels = _balanced_logits_and_labels(logits)
+    probs = 1.0 / (1.0 + np.exp(-logits_bal))
+
+    eps = 1e-12
+    nll = -np.mean(labels * np.log(probs + eps) + (1.0 - labels) * np.log(1.0 - probs + eps))
+    brier = np.mean((probs - labels) ** 2)
+    acc = np.mean((probs >= 0.5) == labels)
+
+    # ECE
+    n_bins = 10
+    bins = np.linspace(0.0, 1.0, n_bins + 1)
+    ece = 0.0
+    conf = np.maximum(probs, 1.0 - probs)
+    pred = (probs >= 0.5).astype(np.float64)
+    correct = (pred == labels).astype(np.float64)
+
+    for lo, hi in zip(bins[:-1], bins[1:]):
+        mask = (conf >= lo) & (conf < hi)
+        if mask.sum() == 0:
+            continue
+        ece += mask.mean() * abs(conf[mask].mean() - correct[mask].mean())
+
+    return {
+        "nll": float(nll),
+        "brier": float(brier),
+        "ece": float(ece),
+        "acc": float(acc),
+        "mean_prob_chosen": float((1.0 / (1.0 + np.exp(-logits))).mean()),
+    }
+
+
+def _fit_calibrator(
+    mode: str,
+    train_features: torch.Tensor,
+    train_obj_idx: torch.Tensor,
+    train_gaps: torch.Tensor,
+    valid_features: torch.Tensor,
+    valid_obj_idx: torch.Tensor,
+    valid_gaps: torch.Tensor,
+    num_objectives: int,
+) -> Tuple[MapCalibrator, dict]:
+    device = accelerator.device
+    feature_dim = train_features.shape[1]
+
+    model = MapCalibrator(feature_dim, num_objectives, mode).to(device)
+    opt = torch.optim.AdamW(model.parameters(), lr=args.calib_lr, weight_decay=0.0)
+
+    train_features = train_features.to(device)
+    train_obj_idx = train_obj_idx.to(device)
+    train_gaps = train_gaps.to(device)
+
+    valid_features = valid_features.to(device)
+    valid_obj_idx = valid_obj_idx.to(device)
+    valid_gaps = valid_gaps.to(device)
+
+    n = train_gaps.shape[0]
+    best_state = None
+    best_valid_nll = float("inf")
+
+    for step in range(args.calib_steps):
+        idx = torch.randint(0, n, (min(args.calib_batch_size, n),), device=device)
+
+        logits = model(train_features[idx], train_obj_idx[idx], train_gaps[idx])
+
+        # Since signed_gap = score(chosen) - score(rejected), label is always 1.
+        nll = F.softplus(-logits).mean()
+
+        # MAP objective. Divide prior by n to keep scale similar to average NLL.
+        loss = nll + model.prior_penalty() / n
+
+        opt.zero_grad()
+        loss.backward()
+        opt.step()
+
+        if (step + 1) % args.calib_log_every == 0:
+            model.eval()
+            with torch.no_grad():
+                valid_logits = model(valid_features, valid_obj_idx, valid_gaps).detach().cpu().numpy()
+                metrics = _binary_metrics_from_signed_logits(valid_logits)
+            model.train()
+
+            if metrics["nll"] < best_valid_nll:
+                best_valid_nll = metrics["nll"]
+                best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
+
+            if accelerator.is_local_main_process:
+                print(
+                    f"[{mode}] step={step+1} "
+                    f"train_nll={nll.item():.4f} valid_nll={metrics['nll']:.4f}",
+                    flush=True,
+                )
+
+    if best_state is not None:
+        model.load_state_dict(best_state)
+
+    model.eval()
+    with torch.no_grad():
+        valid_logits = model(valid_features, valid_obj_idx, valid_gaps).detach().cpu().numpy()
+
+    metrics = _binary_metrics_from_signed_logits(valid_logits)
+    return model, metrics
+
+
+def _extract_features(model, feature_prompts: List[str]) -> torch.Tensor:
+    if args.feature_source == "sft_hidden":
+        feature_extractor = FrozenCausalLMPromptFeatureExtractor(
+            model=model,
+            tokenizer=tokenizer,
+            max_length=args.feature_max_length,
+            device=accelerator.device,
+            pooling=args.feature_pooling,
+            disable_adapter=True,
+            prompt_template=args.prompt_template,
+        )
+        features = feature_extractor.encode(
+            feature_prompts,
+            batch_size=max(1, args.per_device_batch_size),
+            device="cpu",
+        )
+
+    elif args.feature_source == "hf_model":
+        feature_extractor = HFPromptFeatureExtractor(
+            args.feature_model_name,
+            max_length=args.feature_max_length,
+            device=f"cuda:{accelerator.local_process_index}" if torch.cuda.is_available() else "cpu",
+            torch_dtype=torch.bfloat16 if torch.cuda.is_available() else None,
+        )
+        features = feature_extractor.encode(feature_prompts, batch_size=32, device="cpu")
+
+    else:
+        raise ValueError("feature_source must be either 'sft_hidden' or 'hf_model'.")
+
+    if not isinstance(features, torch.Tensor):
+        features = torch.tensor(features)
+
+    return features.float()
+
+
+def main():
+    objective_adapters = _split_csv(args.objective_adapter_names)
+    objective_datasets = _split_csv(args.objective_dataset_names)
+
+    if len(objective_adapters) != len(objective_datasets):
+        raise ValueError("objective_adapter_names and objective_dataset_names must have same length.")
+
+    num_objectives = len(objective_adapters)
+
+    print_local_main("loading SFT/reference model and objective adapters...")
+
+    base = AutoModelForCausalLM.from_pretrained(
+        args.sft_model_name,
+        use_flash_attention_2=args.use_flash_attention_2,
+        torch_dtype=torch.bfloat16,
+        **({"device_map": {"": accelerator.local_process_index}} if not param_sharding_enabled() else {}),
+    )
+    base.config.update({"use_cache": False, "pad_token_id": base.config.eos_token_id})
+
+    model = PeftModel.from_pretrained(
+        base,
+        objective_adapters[0],
+        adapter_name="obj0",
+        is_trainable=False,
+    )
+
+    for i, path in enumerate(objective_adapters[1:], start=1):
+        model.load_adapter(path, adapter_name=f"obj{i}", is_trainable=False)
+
+    model.to(accelerator.device)
+    model.eval()
+
+    all_train_prompts: List[str] = []
+    all_valid_prompts: List[str] = []
+    all_train_gaps: List[torch.Tensor] = []
+    all_valid_gaps: List[torch.Tensor] = []
+    all_train_obj_idx: List[torch.Tensor] = []
+    all_valid_obj_idx: List[torch.Tensor] = []
+
+    for i, dataset_name in enumerate(objective_datasets):
+        print_local_main(f"loading dataset for objective {i}: {dataset_name}")
+
+        rdp = DATASET_CONFIGS[dataset_name](
+            prompt_template=args.prompt_template,
+            sanity_check=False,
+        )
+        dataset = rdp.get_preference_dataset(split="train")
+        pairs = _build_pairs(dataset, args.max_examples_per_objective)
+
+        train_pairs, valid_pairs = _prompt_level_split(
+            pairs,
+            valid_ratio=args.valid_ratio,
+            seed=args.seed + i,
+        )
+
+        print_local_main(
+            f"objective={i}: train_pairs={len(train_pairs)}, valid_pairs={len(valid_pairs)}"
+        )
+
+        train_prompts, train_gaps = _compute_objective_gaps(
+            model,
+            adapter_name=f"obj{i}",
+            pairs=train_pairs,
+            desc=f"obj{i}: train gaps",
+        )
+        valid_prompts, valid_gaps = _compute_objective_gaps(
+            model,
+            adapter_name=f"obj{i}",
+            pairs=valid_pairs,
+            desc=f"obj{i}: valid gaps",
+        )
+
+        all_train_prompts.extend(train_prompts)
+        all_valid_prompts.extend(valid_prompts)
+
+        all_train_gaps.append(train_gaps)
+        all_valid_gaps.append(valid_gaps)
+
+        all_train_obj_idx.append(torch.full((len(train_gaps),), i, dtype=torch.long))
+        all_valid_obj_idx.append(torch.full((len(valid_gaps),), i, dtype=torch.long))
+
+    train_gaps = torch.cat(all_train_gaps, dim=0)
+    valid_gaps = torch.cat(all_valid_gaps, dim=0)
+
+    train_obj_idx = torch.cat(all_train_obj_idx, dim=0)
+    valid_obj_idx = torch.cat(all_valid_obj_idx, dim=0)
+
+    print_local_main("extracting train prompt features...")
+    train_features = _extract_features(model, all_train_prompts)
+
+    print_local_main("extracting valid prompt features...")
+    valid_features = _extract_features(model, all_valid_prompts)
+
+    results = {}
+
+    # Raw implicit reward baseline
+    raw_valid_logits = valid_gaps.detach().cpu().numpy()
+    results["raw_implicit_reward"] = _binary_metrics_from_signed_logits(raw_valid_logits)
+
+    # Calibration ablations
+    for mode in ["global", "rho", "delta", "full"]:
+        print_local_main(f"fitting calibration mode: {mode}")
+        _, metrics = _fit_calibrator(
+            mode=mode,
+            train_features=train_features,
+            train_obj_idx=train_obj_idx,
+            train_gaps=train_gaps,
+            valid_features=valid_features,
+            valid_obj_idx=valid_obj_idx,
+            valid_gaps=valid_gaps,
+            num_objectives=num_objectives,
+        )
+        results[mode] = metrics
+
+    out = Path(args.output_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+
+    payload = {
+        "args": vars(args),
+        "num_train_pairs": int(train_gaps.numel()),
+        "num_valid_pairs": int(valid_gaps.numel()),
+        "results": results,
+    }
+
+    with open(out, "w") as f:
+        json.dump(payload, f, indent=2)
+
+    if accelerator.is_local_main_process:
+        print(f"\nsaved results to: {out}\n")
+
+        print("| Model | Valid NLL ↓ | Brier ↓ | ECE ↓ | Acc ↑ | Mean P(chosen) ↑ |")
+        print("|---|---:|---:|---:|---:|---:|")
+        name_map = {
+            "raw_implicit_reward": "Raw implicit reward",
+            "global": "Global temperature",
+            "rho": r"$\rho(x)$ only",
+            "delta": r"$\delta_i(x)$ only",
+            "full": r"$\rho(x)+\delta_i(x)$",
+        }
+
+        for key in ["raw_implicit_reward", "global", "rho", "delta", "full"]:
+            m = results[key]
+            print(
+                f"| {name_map[key]} | "
+                f"{m['nll']:.4f} | "
+                f"{m['brier']:.4f} | "
+                f"{m['ece']:.4f} | "
+                f"{m['acc']:.4f} | "
+                f"{m['mean_prob_chosen']:.4f} |"
+            )
+
+
+if __name__ == "__main__":
+    main()
