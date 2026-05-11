@@ -1,0 +1,294 @@
+2026-05-12 03:27:59,021 INFO    StreamThr :809564 [internal.py:wandb_internal():86] W&B internal server running at pid: 809564, started at: 2026-05-12 03:27:59.021038
+2026-05-12 03:27:59,022 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status
+2026-05-12 03:27:59,029 INFO    WriterThread:809564 [datastore.py:open_for_write():87] open: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/run-7hzg9q7q.wandb
+2026-05-12 03:27:59,030 DEBUG   SenderThread:809564 [sender.py:send():379] send: header
+2026-05-12 03:27:59,037 DEBUG   SenderThread:809564 [sender.py:send():379] send: run
+2026-05-12 03:27:59,970 INFO    SenderThread:809564 [dir_watcher.py:__init__():211] watching files in: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files
+2026-05-12 03:27:59,970 INFO    SenderThread:809564 [sender.py:_start_run_threads():1124] run started: 7hzg9q7q with start time 1778524079.021814
+2026-05-12 03:27:59,979 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: check_version
+2026-05-12 03:27:59,979 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: check_version
+2026-05-12 03:28:00,036 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: run_start
+2026-05-12 03:28:00,040 DEBUG   HandlerThread:809564 [system_info.py:__init__():26] System info init
+2026-05-12 03:28:00,040 DEBUG   HandlerThread:809564 [system_info.py:__init__():41] System info init done
+2026-05-12 03:28:00,040 INFO    HandlerThread:809564 [system_monitor.py:start():194] Starting system monitor
+2026-05-12 03:28:00,040 INFO    SystemMonitor:809564 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2026-05-12 03:28:00,040 INFO    HandlerThread:809564 [system_monitor.py:probe():214] Collecting system info
+2026-05-12 03:28:00,040 INFO    SystemMonitor:809564 [interfaces.py:start():190] Started cpu monitoring
+2026-05-12 03:28:00,041 INFO    SystemMonitor:809564 [interfaces.py:start():190] Started disk monitoring
+2026-05-12 03:28:00,042 INFO    SystemMonitor:809564 [interfaces.py:start():190] Started gpu monitoring
+2026-05-12 03:28:00,042 INFO    SystemMonitor:809564 [interfaces.py:start():190] Started memory monitoring
+2026-05-12 03:28:00,043 INFO    SystemMonitor:809564 [interfaces.py:start():190] Started network monitoring
+2026-05-12 03:28:00,061 DEBUG   HandlerThread:809564 [system_info.py:probe():150] Probing system
+2026-05-12 03:28:00,063 DEBUG   HandlerThread:809564 [system_info.py:_probe_git():135] Probing git
+2026-05-12 03:28:00,072 DEBUG   HandlerThread:809564 [system_info.py:_probe_git():143] Probing git done
+2026-05-12 03:28:00,072 DEBUG   HandlerThread:809564 [system_info.py:probe():198] Probing system done
+2026-05-12 03:28:00,072 DEBUG   HandlerThread:809564 [system_monitor.py:probe():223] {'os': 'Linux-5.14.0-162.18.1.el9_1.x86_64-x86_64-with-glibc2.34', 'python': '3.10.4', 'heartbeatAt': '2026-05-11T18:28:00.061854', 'startedAt': '2026-05-11T18:27:59.008252', 'docker': None, 'cuda': None, 'args': ('--base_model_name', 'PKU-Alignment/alpaca-7b-reproduced', '--train_dataset_path', '/ext_hdd/sjkim/mod/ric_saferlhf/datasets/helpful_harmless', '--save_directory', '/ext_hdd/sjkim/mod/ric_saferlhf/logs', '--wandb_name', 'ric_saferlhf_helpful_harmless', '--training_steps', '20000', '--learning_rate', '1e-5', '--batch_size', '1', '--gradient_accumulation_steps', '8', '--load_in_8bit', 'True', '--disable_wandb', 'False'), 'state': 'running', 'program': '/home/sjkim/MOD/experiment-PPO/ric/main_ric_saferlhf.py', 'codePathLocal': 'ric/main_ric_saferlhf.py', 'codePath': 'ric/main_ric_saferlhf.py', 'git': {'remote': 'https://github.com/promotion-kim/PCMA', 'commit': '20f02206907ebd2d51a045631b66af18fbcf99fd'}, 'email': 'sjkim@kaist.ac.kr', 'root': '/home/sjkim/MOD/experiment-PPO', 'host': 'loki1', 'username': 'sjkim', 'executable': '/home/sjkim/anaconda3/envs/ppo/bin/python3.10', 'cpu_count': 18, 'cpu_count_logical': 36, 'cpu_freq': {'current': 3067.3164722222227, 'min': 1200.0, 'max': 4633.333333333333}, 'cpu_freq_per_core': [{'current': 4274.28, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4700.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4700.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4800.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 4266.241, 'min': 1200.0, 'max': 4800.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4700.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4700.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4800.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4600.0}, {'current': 3000.0, 'min': 1200.0, 'max': 4800.0}], 'disk': {'/': {'total': 424.14954376220703, 'used': 65.93444442749023}}, 'gpu': 'NVIDIA GeForce RTX 3090 Ti', 'gpu_count': 2, 'gpu_devices': [{'name': 'NVIDIA GeForce RTX 3090 Ti', 'memory_total': 25757220864}, {'name': 'NVIDIA GeForce RTX 3090', 'memory_total': 25769803776}], 'memory': {'total': 124.97666549682617}}
+2026-05-12 03:28:00,073 INFO    HandlerThread:809564 [system_monitor.py:probe():224] Finished collecting system info
+2026-05-12 03:28:00,073 INFO    HandlerThread:809564 [system_monitor.py:probe():227] Publishing system info
+2026-05-12 03:28:00,073 DEBUG   HandlerThread:809564 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2026-05-12 03:28:00,972 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/conda-environment.yaml
+2026-05-12 03:28:01,972 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/conda-environment.yaml
+2026-05-12 03:28:02,091 DEBUG   HandlerThread:809564 [system_info.py:_save_conda():222] Saving conda packages done
+2026-05-12 03:28:02,093 INFO    HandlerThread:809564 [system_monitor.py:probe():229] Finished publishing system info
+2026-05-12 03:28:02,096 DEBUG   SenderThread:809564 [sender.py:send():379] send: files
+2026-05-12 03:28:02,096 INFO    SenderThread:809564 [sender.py:_save_file():1390] saving file wandb-metadata.json with policy now
+2026-05-12 03:28:02,208 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: python_packages
+2026-05-12 03:28:02,208 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: python_packages
+2026-05-12 03:28:02,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:28:02,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:28:02,209 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:28:02,534 DEBUG   SenderThread:809564 [sender.py:send():379] send: telemetry
+2026-05-12 03:28:02,534 DEBUG   SenderThread:809564 [sender.py:send():379] send: config
+2026-05-12 03:28:02,535 DEBUG   SenderThread:809564 [sender.py:send():379] send: metric
+2026-05-12 03:28:02,535 DEBUG   SenderThread:809564 [sender.py:send():379] send: telemetry
+2026-05-12 03:28:02,535 DEBUG   SenderThread:809564 [sender.py:send():379] send: metric
+2026-05-12 03:28:02,535 WARNING SenderThread:809564 [sender.py:send_metric():1341] Seen metric with glob (shouldn't happen)
+2026-05-12 03:28:02,825 INFO    wandb-upload_0:809564 [upload_job.py:push():131] Uploaded file /tmp/tmpc296mmbuwandb/mpx1rxvl-wandb-metadata.json
+2026-05-12 03:28:02,973 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-metadata.json
+2026-05-12 03:28:02,973 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/requirements.txt
+2026-05-12 03:28:02,973 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:04,854 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:04,975 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:08,979 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:10,047 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:12,983 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:15,131 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:16,987 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:17,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:28:17,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:28:17,209 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:28:20,362 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:20,990 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:24,996 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:26,282 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:28,999 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:32,133 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:32,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:28:32,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:28:32,617 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:28:33,003 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:33,003 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/config.yaml
+2026-05-12 03:28:37,007 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:38,072 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:41,011 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:43,040 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-12 03:28:43,041 DEBUG   SenderThread:809564 [sender.py:send():379] send: metric
+2026-05-12 03:28:43,041 DEBUG   SenderThread:809564 [sender.py:send():379] send: metric
+2026-05-12 03:28:43,041 DEBUG   SenderThread:809564 [sender.py:send():379] send: metric
+2026-05-12 03:28:43,041 DEBUG   SenderThread:809564 [sender.py:send():379] send: history
+2026-05-12 03:28:43,042 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: summary_record
+2026-05-12 03:28:43,043 INFO    SenderThread:809564 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-12 03:28:44,014 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_created():271] file/dir created: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-summary.json
+2026-05-12 03:28:44,044 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:45,015 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:46,016 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:47,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:28:47,210 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:28:47,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:28:49,018 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:49,518 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:53,021 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:28:54,876 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:28:57,025 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:00,043 DEBUG   SystemMonitor:809564 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2026-05-12 03:29:00,044 DEBUG   SenderThread:809564 [sender.py:send():379] send: stats
+2026-05-12 03:29:00,044 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:01,029 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:02,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:29:02,209 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:29:02,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:29:05,033 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:05,742 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:07,034 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/config.yaml
+2026-05-12 03:29:09,036 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:11,577 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:13,040 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:17,043 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:17,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:29:17,209 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:29:17,209 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:29:17,433 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:21,046 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:22,149 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-12 03:29:22,150 DEBUG   SenderThread:809564 [sender.py:send():379] send: history
+2026-05-12 03:29:22,151 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: summary_record
+2026-05-12 03:29:22,152 INFO    SenderThread:809564 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-12 03:29:23,047 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-summary.json
+2026-05-12 03:29:23,152 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:24,048 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:25,048 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:27,050 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:29,126 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:30,045 DEBUG   SenderThread:809564 [sender.py:send():379] send: stats
+2026-05-12 03:29:31,052 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:32,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:29:32,214 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:29:32,215 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:29:34,880 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:35,054 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:39,056 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:40,109 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:43,060 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:45,833 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:47,062 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:47,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:29:47,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:29:47,213 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:29:51,065 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:51,811 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:55,068 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:29:57,736 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:29:59,072 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:00,045 DEBUG   SenderThread:809564 [sender.py:send():379] send: stats
+2026-05-12 03:30:01,703 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: partial_history
+2026-05-12 03:30:01,704 DEBUG   SenderThread:809564 [sender.py:send():379] send: history
+2026-05-12 03:30:01,704 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: summary_record
+2026-05-12 03:30:01,705 INFO    SenderThread:809564 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-12 03:30:02,074 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-summary.json
+2026-05-12 03:30:02,212 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:30:02,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:30:02,213 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:30:03,075 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:03,494 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:30:04,075 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:07,079 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:08,593 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:30:11,081 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:14,377 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:30:15,085 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:17,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:30:17,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:30:17,213 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:30:19,088 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:19,581 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:30:23,091 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:25,168 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:30:27,093 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:30,046 DEBUG   SenderThread:809564 [sender.py:send():379] send: stats
+2026-05-12 03:30:31,047 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:30:31,096 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:32,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: stop_status
+2026-05-12 03:30:32,213 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: internal_messages
+2026-05-12 03:30:32,213 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: stop_status
+2026-05-12 03:30:35,098 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:35,346 DEBUG   SenderThread:809564 [sender.py:send():379] send: exit
+2026-05-12 03:30:35,346 INFO    SenderThread:809564 [sender.py:send_exit():586] handling exit code: 255
+2026-05-12 03:30:35,346 INFO    SenderThread:809564 [sender.py:send_exit():588] handling runtime: 155
+2026-05-12 03:30:35,347 INFO    SenderThread:809564 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-12 03:30:35,348 INFO    SenderThread:809564 [sender.py:send_exit():594] send defer
+2026-05-12 03:30:35,348 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,348 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 0
+2026-05-12 03:30:35,348 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,348 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 0
+2026-05-12 03:30:35,349 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 1
+2026-05-12 03:30:35,349 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,349 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 1
+2026-05-12 03:30:35,349 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,349 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 1
+2026-05-12 03:30:35,350 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 2
+2026-05-12 03:30:35,350 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,350 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 2
+2026-05-12 03:30:35,350 INFO    HandlerThread:809564 [system_monitor.py:finish():203] Stopping system monitor
+2026-05-12 03:30:35,351 INFO    HandlerThread:809564 [interfaces.py:finish():202] Joined cpu monitor
+2026-05-12 03:30:35,351 DEBUG   SystemMonitor:809564 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2026-05-12 03:30:35,351 INFO    HandlerThread:809564 [interfaces.py:finish():202] Joined disk monitor
+2026-05-12 03:30:35,351 DEBUG   SystemMonitor:809564 [system_monitor.py:_start():183] Publishing last batch of metrics
+2026-05-12 03:30:35,427 INFO    HandlerThread:809564 [interfaces.py:finish():202] Joined gpu monitor
+2026-05-12 03:30:35,427 INFO    HandlerThread:809564 [interfaces.py:finish():202] Joined memory monitor
+2026-05-12 03:30:35,428 INFO    HandlerThread:809564 [interfaces.py:finish():202] Joined network monitor
+2026-05-12 03:30:35,428 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,428 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 2
+2026-05-12 03:30:35,428 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 3
+2026-05-12 03:30:35,429 DEBUG   SenderThread:809564 [sender.py:send():379] send: stats
+2026-05-12 03:30:35,429 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,429 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 3
+2026-05-12 03:30:35,430 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,430 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 3
+2026-05-12 03:30:35,430 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 4
+2026-05-12 03:30:35,430 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,430 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 4
+2026-05-12 03:30:35,431 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,431 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 4
+2026-05-12 03:30:35,431 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 5
+2026-05-12 03:30:35,431 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,431 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 5
+2026-05-12 03:30:35,432 DEBUG   SenderThread:809564 [sender.py:send():379] send: summary
+2026-05-12 03:30:35,433 INFO    SenderThread:809564 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2026-05-12 03:30:35,433 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,433 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 5
+2026-05-12 03:30:35,433 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 6
+2026-05-12 03:30:35,434 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,434 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 6
+2026-05-12 03:30:35,434 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,435 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 6
+2026-05-12 03:30:35,435 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 7
+2026-05-12 03:30:35,435 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: status_report
+2026-05-12 03:30:35,435 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:35,436 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 7
+2026-05-12 03:30:35,436 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:35,436 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 7
+2026-05-12 03:30:36,099 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-summary.json
+2026-05-12 03:30:36,346 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-12 03:30:37,099 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:37,181 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 8
+2026-05-12 03:30:37,181 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: poll_exit
+2026-05-12 03:30:37,181 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:37,182 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 8
+2026-05-12 03:30:37,182 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:37,182 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 8
+2026-05-12 03:30:37,182 INFO    SenderThread:809564 [job_builder.py:build():318] Attempting to build job artifact
+2026-05-12 03:30:37,184 INFO    SenderThread:809564 [job_builder.py:_get_source_type():455] is repo sourced job
+2026-05-12 03:30:37,211 INFO    SenderThread:809564 [job_builder.py:build():431] adding wandb-job metadata file
+2026-05-12 03:30:37,232 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 9
+2026-05-12 03:30:37,232 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:37,232 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 9
+2026-05-12 03:30:37,232 DEBUG   SenderThread:809564 [sender.py:send():379] send: artifact
+2026-05-12 03:30:37,346 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-12 03:30:38,100 INFO    Thread-12 :809564 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:38,469 INFO    SenderThread:809564 [sender.py:send_artifact():1468] sent artifact job-https___github.com_promotion-kim_PCMA_ric_main_ric_saferlhf.py - {'id': 'QXJ0aWZhY3Q6MjgxNTA1ODU2Mg==', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjEwMzM1MTgyODU=', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MjgxNTA2NjYwMQ==', 'versionIndex': 1}}}
+2026-05-12 03:30:38,469 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:38,469 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 9
+2026-05-12 03:30:38,469 INFO    SenderThread:809564 [dir_watcher.py:finish():358] shutting down directory watcher
+2026-05-12 03:30:39,102 INFO    SenderThread:809564 [dir_watcher.py:finish():388] scan: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files
+2026-05-12 03:30:39,102 INFO    SenderThread:809564 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/config.yaml config.yaml
+2026-05-12 03:30:39,103 INFO    SenderThread:809564 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/conda-environment.yaml conda-environment.yaml
+2026-05-12 03:30:39,103 INFO    SenderThread:809564 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-metadata.json wandb-metadata.json
+2026-05-12 03:30:39,105 INFO    SenderThread:809564 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/requirements.txt requirements.txt
+2026-05-12 03:30:39,107 INFO    SenderThread:809564 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log output.log
+2026-05-12 03:30:39,108 INFO    SenderThread:809564 [dir_watcher.py:finish():402] scan save: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-summary.json wandb-summary.json
+2026-05-12 03:30:39,108 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 10
+2026-05-12 03:30:39,110 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: poll_exit
+2026-05-12 03:30:39,112 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:39,115 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 10
+2026-05-12 03:30:39,115 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:39,115 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 10
+2026-05-12 03:30:39,116 INFO    SenderThread:809564 [file_pusher.py:finish():172] shutting down file pusher
+2026-05-12 03:30:39,348 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-12 03:30:39,349 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: poll_exit
+2026-05-12 03:30:39,656 INFO    wandb-upload_1:809564 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/conda-environment.yaml
+2026-05-12 03:30:39,682 INFO    wandb-upload_0:809564 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/config.yaml
+2026-05-12 03:30:39,698 INFO    wandb-upload_2:809564 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/requirements.txt
+2026-05-12 03:30:39,699 INFO    wandb-upload_3:809564 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/output.log
+2026-05-12 03:30:39,699 INFO    wandb-upload_4:809564 [upload_job.py:push():131] Uploaded file /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/files/wandb-summary.json
+2026-05-12 03:30:39,900 INFO    Thread-11 (_thread_body):809564 [sender.py:transition_state():614] send defer: 11
+2026-05-12 03:30:39,900 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:39,901 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 11
+2026-05-12 03:30:39,901 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:39,901 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 11
+2026-05-12 03:30:39,901 INFO    SenderThread:809564 [file_pusher.py:join():178] waiting for file pusher
+2026-05-12 03:30:39,902 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 12
+2026-05-12 03:30:39,902 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: defer
+2026-05-12 03:30:39,902 INFO    HandlerThread:809564 [handler.py:handle_request_defer():172] handle defer: 12
+2026-05-12 03:30:39,903 DEBUG   SenderThread:809564 [sender.py:send_request():406] send_request: defer
+2026-05-12 03:30:39,903 INFO    SenderThread:809564 [sender.py:send_request_defer():610] handle sender defer: 12
+2026-05-12 03:30:39,903 INFO    SenderThread:809564 [file_stream.py:finish():614] file stream finish called
+2026-05-12 03:30:40,185 WARNING StreamThr :809564 [internal.py:is_dead():414] Internal process exiting, parent pid 809376 disappeared
+2026-05-12 03:30:40,185 ERROR   StreamThr :809564 [internal.py:wandb_internal():152] Internal process shutdown.
+2026-05-12 03:30:40,349 DEBUG   HandlerThread:809564 [handler.py:handle_request():146] handle_request: poll_exit
+2026-05-12 03:30:40,349 INFO    HandlerThread:809564 [handler.py:finish():866] shutting down handler
+2026-05-12 03:30:40,349 INFO    WriterThread:809564 [datastore.py:close():296] close: /home/sjkim/MOD/experiment-PPO/wandb/run-20260512_032759-7hzg9q7q/run-7hzg9q7q.wandb
+2026-05-12 03:30:41,035 INFO    SenderThread:809564 [file_stream.py:finish():618] file stream finish is done
+2026-05-12 03:30:41,035 INFO    SenderThread:809564 [sender.py:transition_state():614] send defer: 13
+2026-05-12 03:30:41,035 INFO    SenderThread:809564 [sender.py:finish():1546] shutting down sender
+2026-05-12 03:30:41,035 INFO    SenderThread:809564 [file_pusher.py:finish():172] shutting down file pusher
+2026-05-12 03:30:41,036 INFO    SenderThread:809564 [file_pusher.py:join():178] waiting for file pusher

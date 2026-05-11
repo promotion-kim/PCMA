@@ -1,0 +1,253 @@
+{
+    "os": "Linux-5.14.0-162.18.1.el9_1.x86_64-x86_64-with-glibc2.34",
+    "python": "3.10.4",
+    "heartbeatAt": "2026-05-11T18:28:00.061854",
+    "startedAt": "2026-05-11T18:27:59.008252",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--base_model_name",
+        "PKU-Alignment/alpaca-7b-reproduced",
+        "--train_dataset_path",
+        "/ext_hdd/sjkim/mod/ric_saferlhf/datasets/helpful_harmless",
+        "--save_directory",
+        "/ext_hdd/sjkim/mod/ric_saferlhf/logs",
+        "--wandb_name",
+        "ric_saferlhf_helpful_harmless",
+        "--training_steps",
+        "20000",
+        "--learning_rate",
+        "1e-5",
+        "--batch_size",
+        "1",
+        "--gradient_accumulation_steps",
+        "8",
+        "--load_in_8bit",
+        "True",
+        "--disable_wandb",
+        "False"
+    ],
+    "state": "running",
+    "program": "/home/sjkim/MOD/experiment-PPO/ric/main_ric_saferlhf.py",
+    "codePathLocal": "ric/main_ric_saferlhf.py",
+    "codePath": "ric/main_ric_saferlhf.py",
+    "git": {
+        "remote": "https://github.com/promotion-kim/PCMA",
+        "commit": "20f02206907ebd2d51a045631b66af18fbcf99fd"
+    },
+    "email": "sjkim@kaist.ac.kr",
+    "root": "/home/sjkim/MOD/experiment-PPO",
+    "host": "loki1",
+    "username": "sjkim",
+    "executable": "/home/sjkim/anaconda3/envs/ppo/bin/python3.10",
+    "cpu_count": 18,
+    "cpu_count_logical": 36,
+    "cpu_freq": {
+        "current": 3067.3164722222227,
+        "min": 1200.0,
+        "max": 4633.333333333333
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 4274.28,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4800.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 4266.241,
+            "min": 1200.0,
+            "max": 4800.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4700.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4800.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4600.0
+        },
+        {
+            "current": 3000.0,
+            "min": 1200.0,
+            "max": 4800.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 424.14954376220703,
+            "used": 65.93444442749023
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3090 Ti",
+    "gpu_count": 2,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3090 Ti",
+            "memory_total": 25757220864
+        },
+        {
+            "name": "NVIDIA GeForce RTX 3090",
+            "memory_total": 25769803776
+        }
+    ],
+    "memory": {
+        "total": 124.97666549682617
+    }
+}

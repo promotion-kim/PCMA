@@ -408,18 +408,41 @@ def load_reward_model(reward_peft_path, gpu_id):
 def load_main_tokenizer(tokenier_name):
     DEFAULT_PAD_TOKEN = "[PAD]"
     DEFAULT_EOS_TOKEN = "</s>"
-    DEFAULT_BOS_TOKEN = "<s>" 
-    DEFAULT_UNK_TOKEN = "<unk>" 
+    DEFAULT_BOS_TOKEN = "<s>"
+    DEFAULT_UNK_TOKEN = "<unk>"
 
-    tokenizer = AutoTokenizer.from_pretrained(tokenier_name, use_fast = False)
-    tokenizer.add_special_tokens(
-        {
-            "eos_token": DEFAULT_EOS_TOKEN,
-            "bos_token": DEFAULT_BOS_TOKEN,
-            "unk_token": DEFAULT_UNK_TOKEN,
-            "pad_token": DEFAULT_PAD_TOKEN,
-        }
-    )
+    # Some LLaMA/Alpaca checkpoints do not expose a valid slow-tokenizer
+    # SentencePiece vocab_file in this environment. Prefer the fast tokenizer.
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(
+            tokenier_name,
+            use_fast=True,
+            trust_remote_code=True,
+        )
+    except Exception as e:
+        print(f"[load_main_tokenizer] fast tokenizer failed: {e}")
+        tokenizer = AutoTokenizer.from_pretrained(
+            tokenier_name,
+            use_fast=False,
+            trust_remote_code=True,
+        )
+
+    special_tokens = {}
+    if tokenizer.eos_token is None:
+        special_tokens["eos_token"] = DEFAULT_EOS_TOKEN
+    if tokenizer.bos_token is None:
+        special_tokens["bos_token"] = DEFAULT_BOS_TOKEN
+    if tokenizer.unk_token is None:
+        special_tokens["unk_token"] = DEFAULT_UNK_TOKEN
+    if tokenizer.pad_token is None:
+        # Prefer reusing eos as pad to avoid unnecessary vocab resizing.
+        tokenizer.pad_token = tokenizer.eos_token if tokenizer.eos_token is not None else DEFAULT_PAD_TOKEN
+        if tokenizer.pad_token == DEFAULT_PAD_TOKEN and DEFAULT_PAD_TOKEN not in tokenizer.get_vocab():
+            special_tokens["pad_token"] = DEFAULT_PAD_TOKEN
+
+    if special_tokens:
+        tokenizer.add_special_tokens(special_tokens)
+
     return tokenizer
 
 
@@ -641,7 +664,7 @@ def save_configs(config, path):
         os.makedirs(path, exist_ok=True)
     with open(os.path.join(path, 'training_config.txt'), 'w+') as f:
         if type(config) == dict:
-            lines = [key + ' : ' + config[key] + '\n' for key in config.keys()]
+            lines = [str(key) + ' : ' + str(config[key]) + '\n' for key in config.keys()]
             f.writelines(lines)
         else:
             f.writelines(str(config))

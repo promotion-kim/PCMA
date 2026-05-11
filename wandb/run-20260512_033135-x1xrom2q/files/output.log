@@ -1,0 +1,311 @@
+  0%|                                                                                                                                                                                      | 0/20000 [00:00<?, ?it/s]You're using a LlamaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/autograd/_functions.py:316: UserWarning: MatMul8bitLt: inputs will be cast from torch.float32 to float16 during quantization
+  warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
+/home/sjkim/anaconda3/envs/ppo/lib/python3.10/site-packages/bitsandbytes/autograd/_functions.py:316: UserWarning: MatMul8bitLt: inputs will be cast from torch.bfloat16 to float16 during quantization
+  warnings.warn(f"MatMul8bitLt: inputs will be cast from {A.dtype} to float16 during quantization")
+
+
+
+
+
+
+
+
+
+  0%|                                                                                                                                                                          | 10/20000 [00:21<11:19:40,  2.04s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▏                                                                                                                                                                         | 20/20000 [00:41<11:07:50,  2.01s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▎                                                                                                                                                                         | 30/20000 [01:01<11:06:49,  2.00s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▎                                                                                                                                                                         | 40/20000 [01:21<10:54:22,  1.97s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▍                                                                                                                                                                         | 50/20000 [01:41<10:58:19,  1.98s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▌                                                                                                                                                                         | 60/20000 [02:01<11:00:42,  1.99s/it]
+
+
+
+
+
+
+
+
+
+  0%|▌                                                                                                                                                                         | 69/20000 [02:18<10:52:04,  1.96s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▋                                                                                                                                                                         | 79/20000 [02:38<10:55:08,  1.97s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▊                                                                                                                                                                         | 89/20000 [02:58<11:12:16,  2.03s/it]
+
+
+
+
+
+
+
+
+
+
+  0%|▊                                                                                                                                                                         | 99/20000 [03:18<11:01:15,  1.99s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|▉                                                                                                                                                                        | 109/20000 [03:38<11:07:51,  2.01s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|█                                                                                                                                                                        | 119/20000 [03:58<10:49:03,  1.96s/it]
+
+
+
+
+
+
+
+
+
+  1%|█                                                                                                                                                                        | 129/20000 [04:18<11:08:46,  2.02s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|█▏                                                                                                                                                                       | 139/20000 [04:39<11:03:39,  2.00s/it]
+
+
+
+
+
+
+
+
+
+
+
+  1%|█▎                                                                                                                                                                       | 150/20000 [05:01<11:14:56,  2.04s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|█▎                                                                                                                                                                       | 160/20000 [05:21<11:09:54,  2.03s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|█▍                                                                                                                                                                       | 170/20000 [05:42<11:10:47,  2.03s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|█▌                                                                                                                                                                       | 180/20000 [06:02<11:03:34,  2.01s/it]
+
+
+
+
+
+
+
+
+
+  1%|█▌                                                                                                                                                                       | 190/20000 [06:22<11:06:20,  2.02s/it]
+
+
+
+
+
+
+
+
+
+  1%|█▋                                                                                                                                                                       | 199/20000 [06:40<11:08:10,  2.02s/it]
+
+
+
+
+
+
+
+
+
+
+
+  1%|█▊                                                                                                                                                                       | 210/20000 [07:03<11:14:36,  2.05s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|█▊                                                                                                                                                                       | 220/20000 [07:23<11:03:40,  2.01s/it]
+
+
+
+
+
+
+
+
+
+  1%|█▉                                                                                                                                                                       | 229/20000 [07:41<10:50:13,  1.97s/it]
+
+
+
+
+
+
+
+
+
+
+
+  1%|██                                                                                                                                                                       | 240/20000 [08:03<11:07:23,  2.03s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|██                                                                                                                                                                       | 250/20000 [08:24<11:05:25,  2.02s/it]
+
+
+
+
+
+
+
+
+
+
+  1%|██▏                                                                                                                                                                      | 260/20000 [08:44<11:13:27,  2.05s/it]
+
+
+
+
+
+
+
+
+
+  1%|██▎                                                                                                                                                                      | 269/20000 [09:02<11:07:02,  2.03s/it]
+
+
+
+
+
+
+
+
+  1%|██▎                                                                                                                                                                      | 279/20000 [09:22<11:24:11,  2.08s/it]
+
+
+
+

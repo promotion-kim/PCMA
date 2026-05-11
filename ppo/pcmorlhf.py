@@ -63,7 +63,7 @@ class ScriptArguments:
     target: float = field(default=3.0)
     init_kl_coef: float = field(default=0.2)
     max_grad_norm: float = field(default=0.5)
-    load_in_8bit: bool = field(default=True)
+    load_in_8bit: bool = field(default=False)
 
     # Generation / length
     max_prompt_length: int = field(default=384)
