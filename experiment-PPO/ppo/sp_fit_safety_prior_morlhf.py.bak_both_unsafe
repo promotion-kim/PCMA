@@ -137,43 +137,72 @@ def _format_prompt(example: dict) -> Tuple[str, str]:
 def _auto_flag_label(example: dict) -> Optional[float]:
     """Create z_risk(x) from dataset safety annotations.
 
-    Better-unsafe definition:
+    The intended PKU-SafeRLHF definition is:
         z_risk(x) = 1 if the better/helpfulness-preferred response is unsafe.
-        z_risk(x) = 0 if the better/helpfulness-preferred response is safe.
+        z_risk(x) = 0 otherwise.
 
-    The classifier still receives only the prompt x as input. Response-level
+    The classifier still receives only the prompt x as input.  Response-level
     safety flags are used only to create supervision.
     """
-
     # Raw PKU-SafeRLHF / PKU-SafeRLHF-10K fields.
-    # Required columns:
-    #   better_response_id, is_response_0_safe, is_response_1_safe
+    '''if "is_response_0_safe" in example and "is_response_1_safe" in example:
+        b0 = _to_bool(example.get("is_response_0_safe"))
+        b1 = _to_bool(example.get("is_response_1_safe"))
+        # risk=1 only when both candidate responses are unsafe
+        if b0 is not None and b1 is not None:
+            return 1.0 if ((not b0) and (not b1)) else 0.0'''
     if (
         "better_response_id" in example
         and "is_response_0_safe" in example
-        and "is_response_1_safe" in example
+        and "it_response_1_safe" in example
     ):
         better_id = int(example["better_response_id"])
-
         b0 = _to_bool(example.get("is_response_0_safe"))
         b1 = _to_bool(example.get("is_response_1_safe"))
-
         if b0 is not None and b1 is not None and better_id in {0, 1}:
             better_safe = b0 if better_id == 0 else b1
             return 1.0 if (not better_safe) else 0.0
 
-    # Processed/wrapper datasets: chosen/better safety directly available.
-    for key in ["is_chosen_safe", "chosen_safe", "is_better_safe", "better_safe"]:
+    # Prompt-level flags, if a processed dataset provides them.
+    for key in ["is_prompt_safe", "prompt_safe", "is_safe", "safe", "is_harmless", "harmless"]:
         if key in example:
             b = _to_bool(example.get(key))
             if b is not None:
-                return 1.0 if (not b) else 0.0
+                return 0.0 if b else 1.0
 
-    for key in ["is_chosen_unsafe", "chosen_unsafe", "is_better_unsafe", "better_unsafe"]:
+    for key in ["is_prompt_harmful", "prompt_harmful", "is_harmful", "harmful", "unsafe"]:
         if key in example:
             b = _to_bool(example.get(key))
             if b is not None:
                 return 1.0 if b else 0.0
+
+    # Common processed response-level variants.
+    safe_keys = [
+        ("response_0_safe", "response_1_safe"),
+        ("is_chosen_safe", "is_rejected_safe"),
+        ("chosen_safe", "rejected_safe"),
+        ("safer_chosen_safe", "safer_rejected_safe"),
+    ]
+    for k0, k1 in safe_keys:
+        if k0 in example and k1 in example:
+            b0 = _to_bool(example.get(k0))
+            b1 = _to_bool(example.get(k1))
+            if b0 is not None and b1 is not None:
+                # risk=1 only when both candidate responses are unsafe
+                return 1.0 if ((not b0) and (not b1)) else 0.0
+
+    unsafe_keys = [
+        ("is_response_0_unsafe", "is_response_1_unsafe"),
+        ("response_0_unsafe", "response_1_unsafe"),
+        ("is_chosen_unsafe", "is_rejected_unsafe"),
+        ("chosen_unsafe", "rejected_unsafe"),
+    ]
+    for k0, k1 in unsafe_keys:
+        if k0 in example and k1 in example:
+            b0 = _to_bool(example.get(k0))
+            b1 = _to_bool(example.get(k1))
+            if b0 is not None and b1 is not None:
+                return 1.0 if (b0 or b1) else 0.0
 
     return None
 

@@ -1,0 +1,296 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+TRL/DeepSpeed-free CPC-MODPO trainer.
+
+This file intentionally does NOT import:
+  - src.trainer.dpo_trainer
+  - src.trainer.modpo_trainer
+  - trl
+  - deepspeed
+
+It implements the small part of DPO/MODPO needed for CPC-MODPO directly on top
+of transformers.Trainer.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Any, Dict, List, Literal, Optional, Sequence, Tuple
+
+import torch
+import torch.nn.functional as F
+from torch import nn
+# ---------------------------------------------------------------------
+# Compatibility patch
+# ---------------------------------------------------------------------
+# Some environments have a newer Transformers version paired with an older
+# Accelerate version. In that case, transformers.Trainer calls
+# Accelerator(..., use_seedable_sampler=...), while the installed Accelerate
+# does not accept that keyword and crashes before training starts.
+#
+# This patch filters unsupported Accelerator.__init__ keyword arguments. It does
+# not change training logic; it only makes Trainer construction compatible with
+# older Accelerate releases.
+def _patch_accelerator_init_for_transformers_compat() -> None:
+    try:
+        import inspect
+        from accelerate import Accelerator
+    except Exception:
+        return
+
+    orig_init = Accelerator.__init__
+    if getattr(orig_init, "_cpc_compat_patched", False):
+        return
+
+    try:
+        sig = inspect.signature(orig_init)
+        allowed = set(sig.parameters.keys())
+        has_var_kw = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in sig.parameters.values())
+    except Exception:
+        allowed = set()
+        has_var_kw = False
+
+    def patched_init(self, *args, **kwargs):
+        if not has_var_kw and allowed:
+            kwargs = {k: v for k, v in kwargs.items() if k in allowed}
+        else:
+            # Known newer-Transformers kwargs that older Accelerate may not support.
+            kwargs.pop("use_seedable_sampler", None)
+        return orig_init(self, *args, **kwargs)
+
+    patched_init._cpc_compat_patched = True
+    Accelerator.__init__ = patched_init
+
+
+_patch_accelerator_init_for_transformers_compat()
+
+from transformers import Trainer
+
+
+@dataclass
+class CPCPreferenceDataCollator:
+    """Pad chosen/rejected tokenized examples and keep raw strings."""
+
+    tokenizer: Any
+
+    def _pad_side(self, features: List[Dict[str, Any]], prefix: str) -> Dict[str, torch.Tensor]:
+        batch = [
+            {
+                "input_ids": f[f"{prefix}_input_ids"],
+                "attention_mask": f[f"{prefix}_attention_mask"],
+            }
+            for f in features
+        ]
+        padded = self.tokenizer.pad(batch, padding=True, return_tensors="pt")
+        max_len = padded["input_ids"].shape[1]
+        labels = []
+        for f in features:
+            lab = list(f[f"{prefix}_labels"])
+            lab = lab + [-100] * (max_len - len(lab))
+            labels.append(lab)
+        padded["labels"] = torch.tensor(labels, dtype=torch.long)
+        return padded
+
+    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, Any]:
+        chosen = self._pad_side(features, "chosen")
+        rejected = self._pad_side(features, "rejected")
+        return {
+            "chosen_input_ids": chosen["input_ids"],
+            "chosen_attention_mask": chosen["attention_mask"],
+            "chosen_labels": chosen["labels"],
+            "rejected_input_ids": rejected["input_ids"],
+            "rejected_attention_mask": rejected["attention_mask"],
+            "rejected_labels": rejected["labels"],
+            "raw_prompt": [f.get("raw_prompt", f.get("prompt", "")) for f in features],
+            "chosen_text": [f.get("chosen", "") for f in features],
+            "rejected_text": [f.get("rejected", "") for f in features],
+        }
+
+
+class CPCMODPOTrainer(Trainer):
+    """Minimal CPC-MODPO trainer without TRL/DeepSpeed imports.
+
+    For an anchor objective k, with CPC coefficients
+        c_i = w_i exp(gamma a_i),
+    the implemented loss is
+        logit = [ beta Δlog(pi/ref) - sum_{i != k} c_i Δr_i ] / c_k,
+    where margin rewards are implicit adapter rewards
+        r_i(y) = beta [log pi_i(y|x) - log pi_ref(y|x)].
+
+    This matches the MODPO algebra but avoids importing the existing DPOTrainer.
+    """
+
+    def __init__(
+        self,
+        *args,
+        beta: float = 0.1,
+        loss_type: Literal["sigmoid", "hinge"] = "sigmoid",
+        cpc_log_precisions: Sequence[float] = (0.0, 0.0),
+        base_w: Sequence[float] = (0.5, 0.5),
+        gamma: float = 1.0,
+        anchor_objective_idx: int = 0,
+        margin_adapter_names: Optional[Sequence[str]] = None,
+        policy_adapter_name: str = "default",
+        coefficient_floor: float = 1e-6,
+        debug_print_every: int = 20,
+        **kwargs,
+    ):
+        super().__init__(*args, **kwargs)
+        self.beta = float(beta)
+        self.loss_type = loss_type
+        self.cpc_log_precisions = torch.tensor(list(cpc_log_precisions), dtype=torch.float32)
+        self.base_w = torch.tensor(list(base_w), dtype=torch.float32)
+        self.gamma = float(gamma)
+        self.anchor_objective_idx = int(anchor_objective_idx)
+        self.margin_adapter_names = list(margin_adapter_names or [])
+        self.policy_adapter_name = str(policy_adapter_name)
+        self.coefficient_floor = float(coefficient_floor)
+        self.debug_print_every = int(debug_print_every)
+
+        if self.cpc_log_precisions.numel() != self.base_w.numel():
+            raise ValueError(
+                f"cpc_log_precisions length={self.cpc_log_precisions.numel()} but base_w length={self.base_w.numel()}"
+            )
+        if self.anchor_objective_idx < 0 or self.anchor_objective_idx >= self.base_w.numel():
+            raise ValueError(f"Invalid anchor_objective_idx={self.anchor_objective_idx}")
+        if len(self.margin_adapter_names) != self.base_w.numel() - 1:
+            raise ValueError(
+                f"Expected {self.base_w.numel() - 1} margin adapters, got {len(self.margin_adapter_names)}"
+            )
+
+        c = self.base_w * torch.exp(self.gamma * self.cpc_log_precisions)
+        if c[self.anchor_objective_idx].item() <= 0.0:
+            raise ValueError("Anchor CPC coefficient is zero. Use w_anchor > 0 or coefficient floor.")
+        self.cpc_coefficients = c
+
+    # Keep string columns from being passed to model by Trainer.
+    def _prepare_inputs(self, inputs: Dict[str, Any]) -> Dict[str, Any]:  # type: ignore[override]
+        tensor_inputs = {}
+        for k, v in inputs.items():
+            if isinstance(v, torch.Tensor):
+                tensor_inputs[k] = v.to(self.args.device)
+            else:
+                tensor_inputs[k] = v
+        return tensor_inputs
+
+    @staticmethod
+    def _unwrap(model: nn.Module) -> nn.Module:
+        return model.module if hasattr(model, "module") else model
+
+    @staticmethod
+    def _sequence_logps_from_outputs(logits: torch.Tensor, labels: torch.Tensor) -> torch.Tensor:
+        logits = logits[:, :-1, :]
+        labels = labels[:, 1:].clone()
+        mask = labels.ne(-100)
+        labels = labels.masked_fill(~mask, 0)
+        log_probs = F.log_softmax(logits, dim=-1)
+        token_logps = log_probs.gather(-1, labels.unsqueeze(-1)).squeeze(-1)
+        return (token_logps * mask).sum(dim=-1)
+
+    def _concat_batch(self, inputs: Dict[str, Any]) -> Dict[str, torch.Tensor]:
+        return {
+            "input_ids": torch.cat([inputs["chosen_input_ids"], inputs["rejected_input_ids"]], dim=0),
+            "attention_mask": torch.cat([inputs["chosen_attention_mask"], inputs["rejected_attention_mask"]], dim=0),
+            "labels": torch.cat([inputs["chosen_labels"], inputs["rejected_labels"]], dim=0),
+        }
+
+    def _forward_logps(self, model: nn.Module, batch: Dict[str, torch.Tensor]) -> torch.Tensor:
+        out = model(input_ids=batch["input_ids"], attention_mask=batch["attention_mask"])
+        return self._sequence_logps_from_outputs(out.logits, batch["labels"])
+
+    def _set_adapter_if_available(self, model: nn.Module, adapter_name: str) -> None:
+        unwrapped = self._unwrap(model)
+        if hasattr(unwrapped, "set_adapter"):
+            unwrapped.set_adapter(adapter_name)
+
+    def _disable_adapter_context(self, model: nn.Module):
+        unwrapped = self._unwrap(model)
+        if hasattr(unwrapped, "disable_adapter"):
+            return unwrapped.disable_adapter()
+        # fallback no-op context
+        class _Null:
+            def __enter__(self): return None
+            def __exit__(self, exc_type, exc, tb): return False
+        return _Null()
+
+    def _policy_ref_and_margin_logps(self, model: nn.Module, batch: Dict[str, torch.Tensor]) -> Tuple[torch.Tensor, torch.Tensor, List[torch.Tensor]]:
+        # Policy logps with trainable CPC policy adapter.
+        self._set_adapter_if_available(model, self.policy_adapter_name)
+        policy_logps = self._forward_logps(model, batch)
+
+        # Reference logps from adapter-disabled base model.
+        with torch.no_grad():
+            with self._disable_adapter_context(model):
+                ref_logps = self._forward_logps(model, batch)
+
+        # Margin objective implicit rewards from frozen margin adapters.
+        margin_rewards: List[torch.Tensor] = []
+        for adapter_name in self.margin_adapter_names:
+            with torch.no_grad():
+                self._set_adapter_if_available(model, adapter_name)
+                margin_logps = self._forward_logps(model, batch)
+                margin_rewards.append(self.beta * (margin_logps - ref_logps))
+
+        # Restore policy adapter for the actual backward path.
+        self._set_adapter_if_available(model, self.policy_adapter_name)
+        return policy_logps, ref_logps, margin_rewards
+
+    def compute_loss(self, model, inputs, return_outputs=False, **kwargs):  # type: ignore[override]
+        batch = self._concat_batch(inputs)
+        B = inputs["chosen_input_ids"].shape[0]
+
+        policy_logps, ref_logps, margin_rewards_all = self._policy_ref_and_margin_logps(model, batch)
+
+        policy_chosen, policy_rejected = policy_logps[:B], policy_logps[B:]
+        ref_chosen, ref_rejected = ref_logps[:B], ref_logps[B:]
+
+        c = self.cpc_coefficients.to(device=policy_logps.device, dtype=policy_logps.dtype)
+        c_anchor = c[self.anchor_objective_idx].clamp_min(self.coefficient_floor)
+        margin_indices = [i for i in range(c.numel()) if i != self.anchor_objective_idx]
+        c_margin = c[margin_indices]
+
+        if len(margin_rewards_all) != len(margin_indices):
+            raise RuntimeError(
+                f"Expected {len(margin_indices)} margin reward tensors, got {len(margin_rewards_all)}"
+            )
+
+        if len(margin_rewards_all) > 0:
+            margin_mat = torch.stack(margin_rewards_all, dim=-1)  # [2B, M-1]
+            chosen_margin, rejected_margin = margin_mat[:B], margin_mat[B:]
+            chosen_margin_scalar = (chosen_margin * c_margin.view(1, -1)).sum(dim=-1)
+            rejected_margin_scalar = (rejected_margin * c_margin.view(1, -1)).sum(dim=-1)
+        else:
+            chosen_margin_scalar = torch.zeros_like(policy_chosen)
+            rejected_margin_scalar = torch.zeros_like(policy_rejected)
+
+        chosen_rewards = (self.beta * (policy_chosen - ref_chosen) - chosen_margin_scalar) / c_anchor
+        rejected_rewards = (self.beta * (policy_rejected - ref_rejected) - rejected_margin_scalar) / c_anchor
+        logits = chosen_rewards - rejected_rewards
+
+        if self.loss_type == "sigmoid":
+            losses = -F.logsigmoid(logits)
+        elif self.loss_type == "hinge":
+            losses = torch.relu(1.0 - logits)
+        else:
+            raise ValueError(f"Unknown loss_type={self.loss_type}")
+
+        loss = losses.mean()
+
+        if self.state.global_step % max(self.debug_print_every, 1) == 0:
+            with torch.no_grad():
+                metrics = {
+                    "train/cpc_loss": loss.detach(),
+                    "train/cpc_logit_mean": logits.mean().detach(),
+                    "train/cpc_logit_abs_mean": logits.abs().mean().detach(),
+                    "train/cpc_reward_margin_mean": (chosen_rewards - rejected_rewards).mean().detach(),
+                    "train/cpc_acc": (chosen_rewards > rejected_rewards).float().mean().detach(),
+                    "train/cpc_c_anchor": c_anchor.detach(),
+                }
+                for i, ci in enumerate(c):
+                    metrics[f"train/cpc_c_{i}"] = ci.detach()
+                self.log(metrics)
+
+        if return_outputs:
+            return loss, {"logits": logits.detach()}
+        return loss

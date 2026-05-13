@@ -10,11 +10,7 @@ import numpy as np
 from peft import PeftModel
 from accelerate import Accelerator
 
-import importlib.util
-
-def is_peft_available() -> bool:
-    return importlib.util.find_spec("peft") is not None
-
+from trl.import_utils import is_peft_available
 
 import random
 

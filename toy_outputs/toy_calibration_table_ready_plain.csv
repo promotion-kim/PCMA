@@ -1,0 +1,9 @@
+Data-generating process,Model,Test NLL,Prob. MSE to p_star,Precision MAE
+BT with objective-specific uncertainty,Fixed-$\beta$ BT,0.6210 ± 0.0037,0.0149 ± 0.0002,--
+BT with objective-specific uncertainty,Shared-precision BT,0.6213 ± 0.0035,0.0149 ± 0.0005,--
+BT with objective-specific uncertainty,Objective-specific BT,0.5760 ± 0.0047,0.0002 ± 0.0002,0.1199 ± 0.0972
+BT with objective-specific uncertainty,Oracle,0.5754 ± 0.0048,0.0000,0.0000
+Objective-specific label-flip noise,Fixed-$\beta$ BT,0.6213 ± 0.0055,0.0015 ± 0.0000,--
+Objective-specific label-flip noise,Shared-precision BT,0.6214 ± 0.0056,0.0015 ± 0.0002,--
+Objective-specific label-flip noise,Objective-specific BT,0.6172 ± 0.0057,0.0003 ± 0.0001,--
+Objective-specific label-flip noise,Oracle,0.6164 ± 0.0060,0.0000,--

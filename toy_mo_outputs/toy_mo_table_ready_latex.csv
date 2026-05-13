@@ -1,0 +1,11 @@
+dgp,model,Obj. NLL,MO NLL,"MSE($\hat p_w,p_w^\star$)",Decision Regret
+equal_noise_control,Confidence-preserving PCMA,$0.6334 \pm 0.0035$,$0.6552 \pm 0.0016$,$0.0108 \pm 0.0002$,$0.1684 \pm 0.0017$
+equal_noise_control,Oracle latent utility,--,$0.6316 \pm 0.0014$,$0.0000 \pm 0.0000$,$0.0000 \pm 0.0000$
+equal_noise_control,PCMA-normalized scalarization,--,$0.6639 \pm 0.0019$,$0.0138 \pm 0.0002$,$0.1684 \pm 0.0017$
+equal_noise_control,Shared-precision BT,$0.6331 \pm 0.0034$,$0.6550 \pm 0.0016$,$0.0107 \pm 0.0002$,$0.1680 \pm 0.0019$
+equal_noise_control,Standard scalarized BT,$0.6494 \pm 0.0049$,$0.6638 \pm 0.0019$,$0.0138 \pm 0.0001$,$0.1680 \pm 0.0019$
+objective_specific_noise,Confidence-preserving PCMA,$0.6337 \pm 0.0032$,$0.6570 \pm 0.0016$,$0.0115 \pm 0.0004$,$0.1820 \pm 0.0024$
+objective_specific_noise,Oracle latent utility,--,$0.6316 \pm 0.0014$,$0.0000 \pm 0.0000$,$0.0000 \pm 0.0000$
+objective_specific_noise,PCMA-normalized scalarization,--,$0.6722 \pm 0.0020$,$0.0163 \pm 0.0003$,$0.1820 \pm 0.0024$
+objective_specific_noise,Shared-precision BT,$0.6398 \pm 0.0032$,$0.6616 \pm 0.0017$,$0.0132 \pm 0.0003$,$0.1952 \pm 0.0032$
+objective_specific_noise,Standard scalarized BT,$0.6653 \pm 0.0051$,$0.6764 \pm 0.0021$,$0.0180 \pm 0.0002$,$0.1952 \pm 0.0032$

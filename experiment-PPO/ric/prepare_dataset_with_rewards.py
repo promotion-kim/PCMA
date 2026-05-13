@@ -223,13 +223,3 @@ else:
         train_data_all.save_to_disk(script_args.save_directory)
         print(np.array([mean_reward_lis, std_reward_lis]).reshape(2, -1).T)
         np.save(script_args.save_directory + '/all_reward_stat.npy', np.array([mean_reward_lis, std_reward_lis]).reshape(2, -1).T)
-
-
-
-
-
-
-
-
-
-

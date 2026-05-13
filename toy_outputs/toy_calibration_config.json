@@ -1,0 +1,18 @@
+{
+  "num_objectives": 2,
+  "n_train_per_objective": 1000,
+  "n_test_per_objective": 5000,
+  "b_true": [
+    1.0,
+    -1.0
+  ],
+  "flip_eps": [
+    0.05,
+    0.35
+  ],
+  "label_flip_beta": 1.5,
+  "prior_sigma_b": 2.0,
+  "lr": 0.05,
+  "steps": 2000,
+  "seed": 0
+}

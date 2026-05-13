@@ -10,13 +10,13 @@ export TOKENIZERS_PARALLELISM=false
 GPU_ID=0
 
 MODPO_JSON="/home/sjkim/MOD/experiment-DPO/outputs/generation/modpo/modpo_0.5.json"
-PCMODPO_JSON="/home/sjkim/MOD/experiment-DPO/outputs/generation/pcmodpo/pcmodpo_0.5.json"
-OUTPUT_DIR="/home/sjkim/MOD/experiment-DPO/outputs/scores/modpo_vs_pcmodpo_w0p5"
+PCMODPO_JSON="/home/sjkim/MOD/experiment-DPO/outputs/generation/cpcmodpo/cpcmodpo_0.5.json"
+OUTPUT_DIR="/home/sjkim/MOD/experiment-DPO/outputs/scores/modpo_vs_cpcmodpo_w0p5"
 
 REWARD_MODEL="PKU-Alignment/beaver-7b-v1.0-reward"
 COST_MODEL="PKU-Alignment/beaver-7b-v1.0-cost"
 
-BATCH_SIZE=2
+BATCH_SIZE=4
 MAX_LENGTH=1024
 TORCH_DTYPE="bf16"
 DEVICE_MAP="none"

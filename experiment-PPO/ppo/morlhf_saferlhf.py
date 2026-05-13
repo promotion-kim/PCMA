@@ -1,119 +1,357 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""MORLHF training on PKU-SafeRLHF prompts with Beaver reward/cost models.
+
+This version is synchronized with morlhf_saferlhf.sh.  In particular, it
+accepts --reward_model_names, --reward_signs, --reward_batch_size,
+--max_train_samples, --save_every, and --log_every.
+"""
+
 import os
 import time
 from dataclasses import dataclass, field
-from typing import Optional
-from accelerate import Accelerator
+from typing import List, Optional
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import torch
+import wandb
+from accelerate import Accelerator
+from datasets import Dataset
+from peft import LoraConfig
 from tqdm import tqdm
 from transformers import AutoTokenizer, HfArgumentParser
 from trl import AutoModelForCausalLMWithValueHead, PPOConfig, PPOTrainer, set_seed
-import numpy as np
-import pandas as pd
-from utils import print_trainable_parameters, load_main_tokenizer, Instructions, Instructions_summary, \
-                  build_dataset, build_dataset_summary             
+
 from multi_reward_models import RewardModels
 from safe_rlhf.models import AutoModelForScore
+from src.data.configs import DATASET_CONFIGS
+from utils import print_trainable_parameters
+
+
 tqdm.pandas()
-from peft import LoraConfig
-import matplotlib.pyplot as plt
-import wandb
 
-from src.data.configs import DATASET_CONFIGS, DEFAULT_PROMPT_TEMPLATE
-from datasets import Dataset
-
-# define paths for two datasets
-hhrlhf_dataset_path = 'Anthropic/hh-rlhf'
-summary_dataset_path = 'openai/summarize_from_feedback'
 
 @dataclass
 class ScriptArguments:
-    log_with: Optional[str] = field(default='wandb', metadata={"help": "use 'wandb' to log with wandb"})
-    disable_wandb: Optional[str] = field(default=False, metadata={'help': 'Whether to disable wandb or not.'})
-    save_directory: Optional[str] = field(default='./logs_morlhf/')
-    epochs: Optional[int] = field(default=1, metadata={'help': "Number of training epoches"})
-    learning_rate: Optional[float] = field(default=1e-5, metadata={"help": "the learning rate"})
-    mini_batch_size: Optional[int] = field(default=1, metadata={"help": "the PPO minibatch size"})
-    batch_size: Optional[int] = field(default=4, metadata={"help": "the batch size64"})
-    gradient_accumulation_steps: Optional[int] = field(default=1, metadata={"help": "the number of gradient accumulation steps"})
-    early_stopping: Optional[bool] = field(default=True, metadata={"help": "whether to early stop"})
-    target: Optional[float] = field(default=3, metadata={"help": "target kl divergence of adaptive control"})
-    init_kl_coef: Optional[float] = field(default=0.2,metadata={"help": "0.05 Initial KL penalty coefficient (used for adaptive and linear control)"},)
-    max_grad_norm: Optional[float] = field(default=0.5, metadata={"help": "Maximum gradient norm for gradient clipping"})
-    load_in_8bit: Optional[bool] = field(default=True, metadata={"help": "loading model in 8 bit or bfloat16"})
-    preference: Optional[float] = field(default=0.5, metadata={"help": "the weight for reward 1"})
-    wandb_name: Optional[str] = field(default='morlhf_llamma2_klreg0.2', metadata={"help": "Name for this experiment"})
-    base_model_name: Optional[str] = field(default='./merged_sft_summary', metadata={'help':"the path to the sft model; need to merge if using lora"})
-    reward_names:Optional[str] = field(default='harmless,helpful,humor') 
-    exp_type: Optional[str] = field(default='assistant', metadata={"help": "exp type, 'summary' or 'assistant' "})
-    dataset_name: Optional[str] = field(
+    # Logging / output
+    log_with: Optional[str] = field(default="wandb", metadata={"help": "Use 'wandb' to log with wandb. Set to None if disabled."})
+    disable_wandb: bool = field(default=False, metadata={"help": "Whether to disable wandb."})
+    save_directory: str = field(default="./logs_morlhf/", metadata={"help": "Root directory for checkpoints/logs."})
+    wandb_name: str = field(default="morlhf_saferlhf", metadata={"help": "Name for this experiment."})
+
+    # PPO hyperparameters
+    epochs: int = field(default=1, metadata={"help": "Number of training epochs."})
+    learning_rate: float = field(default=1e-5, metadata={"help": "Learning rate."})
+    mini_batch_size: int = field(default=1, metadata={"help": "PPO minibatch size."})
+    batch_size: int = field(default=4, metadata={"help": "PPO batch size."})
+    gradient_accumulation_steps: int = field(default=1, metadata={"help": "Gradient accumulation steps."})
+    early_stopping: bool = field(default=True, metadata={"help": "Whether to early stop based on KL target."})
+    target: float = field(default=3.0, metadata={"help": "Target KL divergence for adaptive KL control."})
+    init_kl_coef: float = field(default=0.2, metadata={"help": "Initial KL penalty coefficient."})
+    max_grad_norm: float = field(default=0.5, metadata={"help": "Maximum gradient norm for clipping."})
+
+    # Models / data
+    base_model_name: str = field(
+        default="PKU-Alignment/alpaca-7b-reproduced",
+        metadata={"help": "Base/SFT model path or HF model name."},
+    )
+    load_in_8bit: bool = field(default=True, metadata={"help": "Load policy model in 8-bit."})
+    dataset_name: str = field(
         default="PKU-Alignment/PKU-SafeRLHF-10K-better",
-        metadata={"help": "dataset name, aligned with MODPO"}
+        metadata={"help": "Dataset name used by src.data.configs.DATASET_CONFIGS."},
     )
-    prompt_template: Optional[str] = field(
+    train_split: str = field(default="train", metadata={"help": "Split used for PPO training prompts."})
+    eval_split: str = field(default="validation", metadata={"help": "Split used for periodic validation generation."})
+    prompt_template: str = field(
         default="BEGINNING OF CONVERSATION: USER: {raw_prompt} ASSISTANT:",
-        metadata={"help": "prompt template"}
+        metadata={"help": "Prompt template. Must contain {raw_prompt} for raw prompts."},
     )
-    max_prompt_length: Optional[int] = field(default=512)
-    max_new_tokens: Optional[int] = field(default=128)
-    reward_model_max_length: Optional[int] = field(default=512)
-    seed: Optional[int] = field(default=8888, metadata={"help": "random seed"})
-    train_split: Optional[str] = field(default="train", metadata={"help": "split used for PPO training prompts"})
-    eval_split: Optional[str] = field(default="validation", metadata={"help": "split used for periodic validation generation"})
-    eval_steps: Optional[int] = field(default=100, metadata={"help": "run validation generation every N PPO update steps; set <=0 to disable"})
-    eval_num_prompts: Optional[int] = field(default=5, metadata={"help": "number of validation prompts to generate for wandb table"})
-    eval_max_new_tokens: Optional[int] = field(default=128, metadata={"help": "max new tokens for periodic validation generation"})
+    max_prompt_length: int = field(default=384, metadata={"help": "Maximum tokenized prompt length."})
+    max_new_tokens: int = field(default=128, metadata={"help": "Maximum generated response length."})
+    max_train_samples: int = field(default=-1, metadata={"help": "Maximum number of training prompts. -1 means all."})
+
+    # Multi-objective reward/cost setup
+    reward_names: str = field(default="helpful,harmless", metadata={"help": "Comma-separated reward names."})
+    reward_model_names: str = field(
+        default="PKU-Alignment/beaver-7b-v1.0-reward,PKU-Alignment/beaver-7b-v1.0-cost",
+        metadata={"help": "Comma-separated reward/cost model names, aligned with reward_names."},
+    )
+    reward_signs: str = field(
+        default="1,-1",
+        metadata={"help": "Comma-separated signs. Use -1 for cost model so larger harmlessness is better."},
+    )
+    reward_model_max_length: int = field(default=512, metadata={"help": "Reward model max sequence length."})
+    reward_batch_size: int = field(default=4, metadata={"help": "Reward model scoring batch size."})
+    preference: float = field(default=0.5, metadata={"help": "Weight for the first objective. For helpful,harmless this is w_helpful."})
+
+    # Validation / logging cadence
+    eval_steps: int = field(default=0, metadata={"help": "Run validation every N PPO steps. <=0 disables validation."})
+    eval_num_prompts: int = field(default=5, metadata={"help": "Number of validation prompts to generate."})
+    eval_max_new_tokens: int = field(default=128, metadata={"help": "Max new tokens for validation generation."})
+    save_every: int = field(default=100, metadata={"help": "Save checkpoint every N PPO steps. <=0 disables periodic saving."})
+    log_every: int = field(default=1, metadata={"help": "Write local CSV/plot every N PPO steps."})
+
+    # Misc
+    seed: int = field(default=8888, metadata={"help": "Random seed."})
+    exp_type: str = field(default="assistant", metadata={"help": "Kept for compatibility with the original script."})
+    sanity_check: bool = field(default=False, metadata={"help": "Pass sanity_check to DATASET_CONFIGS when supported."})
+
+
+def split_csv(value: str) -> List[str]:
+    return [x.strip() for x in value.split(",") if x.strip()]
+
+
+def build_preference_vector(first_weight: float, num_rewards: int) -> List[float]:
+    if num_rewards == 1:
+        return [1.0]
+    if num_rewards == 2:
+        return [round(float(first_weight), 6), round(1.0 - float(first_weight), 6)]
+    # Compatibility fallback for old 3-objective MORLHF scripts.
+    return [round(1.0 / num_rewards, 6) for _ in range(num_rewards)]
+
 
 parser = HfArgumentParser(ScriptArguments)
 script_args = parser.parse_args_into_dataclasses()[0]
-exp_type = script_args.exp_type
-preference = [round(script_args.preference, 1), round(1 - script_args.preference, 1)]
-script_args.wandb_name = script_args.wandb_name + '_pref{}_{}'.format(preference[0], preference[1])
 
-tokenier_name = script_args.base_model_name
+set_seed(script_args.seed)
+
+if script_args.disable_wandb:
+    os.environ["WANDB_DISABLED"] = "true"
+    script_args.log_with = None
+
 base_model_name = script_args.base_model_name
-print('base model: ', base_model_name)
+tokenizer_name = script_args.base_model_name
+print("base model:", base_model_name, flush=True)
 
-if script_args.disable_wandb: # if you don't need the wandb log
-    os.environ['WANDB_DISABLED'] = 'true' 
-
-reward_names = [x.strip() for x in script_args.reward_names.split(',')]
+reward_names = split_csv(script_args.reward_names)
+reward_model_path_list = split_csv(script_args.reward_model_names)
+rm_tokenizer_path_list = reward_model_path_list
+reward_sign_list = [float(x) for x in split_csv(script_args.reward_signs)]
 num_rewards = len(reward_names)
-print('number of rewards: {}'.format(num_rewards))
-#######################################################################
-if num_rewards == 3:
-    preference = [round(1 / num_rewards, 2) for _ in range(num_rewards)]
-print('preference: {}'.format(preference))
-#######################################################################
-reward_path_tokenizer_dict = {
-    # helpfulness reward: higher is better
-    "helpful": ["PKU-Alignment/beaver-7b-v1.0-reward"],
+preference = build_preference_vector(script_args.preference, num_rewards)
 
-    # safety cost: higher means more unsafe, so we will multiply by -1 later
-    "harmless": ["PKU-Alignment/beaver-7b-v1.0-cost"],
-}
+if len(reward_model_path_list) != num_rewards:
+    raise ValueError(
+        f"reward_names has {num_rewards} items ({reward_names}), but reward_model_names has "
+        f"{len(reward_model_path_list)} items ({reward_model_path_list})."
+    )
+if len(reward_sign_list) != num_rewards:
+    raise ValueError(
+        f"reward_names has {num_rewards} items ({reward_names}), but reward_signs has "
+        f"{len(reward_sign_list)} items ({reward_sign_list})."
+    )
 
-reward_sign_dict = {
-    "helpful": 1.0,
-    "harmless": -1.0,
-}
+script_args.wandb_name = f"{script_args.wandb_name}_pref{preference[0]}_{preference[-1]}"
+run_dir = os.path.join(script_args.save_directory, script_args.wandb_name)
+os.makedirs(run_dir, exist_ok=True)
 
-reward_model_path_list = []
-rm_tokenizer_path_list = []
-reward_sign_list = []
+print("reward names:", reward_names, flush=True)
+print("reward model paths:", reward_model_path_list, flush=True)
+print("reward signs:", reward_sign_list, flush=True)
+print("preference:", preference, flush=True)
+print("save dir:", run_dir, flush=True)
 
-for name in reward_names:
-    if name not in reward_path_tokenizer_dict.keys():
-        raise NotImplementedError(f"Unknown reward name: {name}")
+accelerator = Accelerator()
+process_id = accelerator.local_process_index
+gpu_id = process_id
+device = accelerator.device
+print(f"process: {process_id}, accelerator device: {device}, model gpu id: {gpu_id}", flush=True)
 
-    reward_model_path_list.append(reward_path_tokenizer_dict[name][0])
-    rm_tokenizer_path_list.append(reward_path_tokenizer_dict[name][0])
-    reward_sign_list.append(reward_sign_dict.get(name, 1.0))
 
-print("reward model paths:", reward_model_path_list)
-print("reward signs:", reward_sign_list)
+def local_device_map():
+    if torch.cuda.is_available():
+        return {"": gpu_id}
+    return None
 
-os.makedirs(os.path.join(script_args.save_directory, script_args.wandb_name), exist_ok=True)
 
+class BeaverScoreModels:
+    """Wrapper for PKU Beaver reward/cost models loaded through AutoModelForScore."""
+
+    def __init__(self, model_paths, tokenizer_paths, gpu_id, max_length=1024, batch_size=4):
+        self.model_paths = model_paths
+        self.max_length = max_length
+        self.batch_size = batch_size
+        self.device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else "cpu")
+        self.models = []
+        self.tokenizers = []
+
+        print("Loading Beaver score models with AutoModelForScore...", flush=True)
+        for model_path, tokenizer_path in zip(model_paths, tokenizer_paths):
+            tokenizer = AutoTokenizer.from_pretrained(
+                tokenizer_path,
+                use_fast=True,
+                trust_remote_code=True,
+            )
+            if tokenizer.pad_token is None:
+                tokenizer.pad_token = tokenizer.eos_token
+            tokenizer.padding_side = "right"
+
+            kwargs = dict(
+                torch_dtype=torch.bfloat16,
+                trust_remote_code=True,
+            )
+            dev_map = local_device_map()
+            if dev_map is not None:
+                kwargs["device_map"] = dev_map
+
+            model = AutoModelForScore.from_pretrained(model_path, **kwargs)
+            if dev_map is None:
+                model.to(self.device)
+            model.eval()
+
+            self.tokenizers.append(tokenizer)
+            self.models.append(model)
+
+        print("Loaded Beaver score models:", model_paths, flush=True)
+
+    @torch.no_grad()
+    def get_reward_model_scores(self, queries_responses, *args, **kwargs):
+        texts = [str(query) + str(response) for query, response in queries_responses]
+        all_scores = []
+
+        for model, tokenizer in zip(self.models, self.tokenizers):
+            model_scores = []
+            for start in range(0, len(texts), self.batch_size):
+                batch_texts = texts[start : start + self.batch_size]
+                inputs = tokenizer(
+                    batch_texts,
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    max_length=self.max_length,
+                )
+                inputs = {k: v.to(self.device) for k, v in inputs.items()}
+                outputs = model(**inputs)
+
+                scores = getattr(outputs, "end_scores", None)
+                if scores is None:
+                    scores = getattr(outputs, "scores", None)
+                if scores is None:
+                    raise RuntimeError(
+                        "AutoModelForScore output has no end_scores/scores. "
+                        f"Available fields: {outputs}"
+                    )
+
+                if scores.ndim == 2 and scores.shape[-1] == 1:
+                    scores = scores.squeeze(-1)
+                elif scores.ndim >= 2:
+                    scores = scores[:, -1]
+
+                model_scores.extend(scores.float().detach().cpu().tolist())
+            all_scores.append(model_scores)
+
+        return all_scores
+
+
+# Load reward/cost models.
+if any("beaver-7b" in path for path in reward_model_path_list):
+    reward_model = BeaverScoreModels(
+        reward_model_path_list,
+        rm_tokenizer_path_list,
+        gpu_id,
+        max_length=script_args.reward_model_max_length,
+        batch_size=script_args.reward_batch_size,
+    )
+else:
+    reward_model = RewardModels(reward_model_path_list, rm_tokenizer_path_list, gpu_id)
+
+
+def collator(data):
+    return {key: [d[key] for d in data] for key in data[0]}
+
+
+tokenizer = AutoTokenizer.from_pretrained(
+    tokenizer_name,
+    use_fast=True,
+    trust_remote_code=True,
+)
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "left"
+
+
+def build_pku_prompt_dataset(args, tokenizer, split="train"):
+    if args.dataset_name not in DATASET_CONFIGS:
+        raise KeyError(f"Unknown dataset_name={args.dataset_name}. Available keys: {list(DATASET_CONFIGS.keys())}")
+
+    rdp = DATASET_CONFIGS[args.dataset_name](
+        prompt_template=args.prompt_template,
+        sanity_check=args.sanity_check,
+    )
+    pref_dataset = rdp.get_preference_dataset(split=split)
+
+    rows = []
+    seen = set()
+    for ex in pref_dataset:
+        raw_prompt = ex.get("raw_prompt") or ex.get("prompt") or ex.get("query") or ex.get("input")
+        if raw_prompt is None:
+            raw_prompt = ex.get("text")
+        if raw_prompt is None:
+            raise KeyError(f"Cannot find prompt key. Available keys: {list(ex.keys())}")
+
+        raw_prompt = str(raw_prompt)
+        query = args.prompt_template.format(raw_prompt=raw_prompt) if "{raw_prompt}" in args.prompt_template else raw_prompt
+
+        if query in seen:
+            continue
+        seen.add(query)
+
+        toks = tokenizer(
+            query,
+            truncation=True,
+            max_length=args.max_prompt_length,
+            padding=False,
+        )
+        rows.append({"query": query, "input_ids": toks["input_ids"]})
+
+    return Dataset.from_list(rows)
+
+
+train_dataset = build_pku_prompt_dataset(script_args, tokenizer, split=script_args.train_split)
+train_dataset = train_dataset.shuffle(seed=script_args.seed)
+if script_args.max_train_samples is not None and script_args.max_train_samples > 0:
+    n_train = min(script_args.max_train_samples, len(train_dataset))
+    train_dataset = train_dataset.select(range(n_train))
+
+# Build eval dataset only when periodic validation is enabled.
+eval_dataset = Dataset.from_list([])
+if script_args.eval_steps is not None and script_args.eval_steps > 0:
+    try:
+        eval_dataset = build_pku_prompt_dataset(script_args, tokenizer, split=script_args.eval_split)
+        if len(eval_dataset) > 0:
+            eval_dataset = eval_dataset.shuffle(seed=script_args.seed)
+    except Exception as exc:
+        print(f"[warn] Could not build eval split '{script_args.eval_split}': {exc}", flush=True)
+        print("[warn] Disabling periodic validation.", flush=True)
+        script_args.eval_steps = 0
+
+print(f"Size of the train set ({script_args.train_split}): {len(train_dataset)}", flush=True)
+print(f"Size of the eval set ({script_args.eval_split}): {len(eval_dataset)}", flush=True)
+
+
+class PKUInstructions:
+    def get_input(self, text):
+        if "ASSISTANT:" in text:
+            return text.split("ASSISTANT:")[0].strip() + "ASSISTANT:"
+        return text
+
+    def get_response(self, text):
+        if "ASSISTANT:" in text:
+            return text.split("ASSISTANT:", 1)[1].strip()
+        return text
+
+
+instructions = PKUInstructions()
+
+lora_config = LoraConfig(
+    r=64,
+    lora_alpha=128,
+    lora_dropout=0.05,
+    bias="none",
+    task_type="CAUSAL_LM",
+)
 
 config = PPOConfig(
     model_name=base_model_name,
@@ -127,257 +365,61 @@ config = PPOConfig(
     max_grad_norm=script_args.max_grad_norm,
     optimize_cuda_cache=True,
     init_kl_coef=script_args.init_kl_coef,
-    tracker_project_name='pcma',
-    tracker_kwargs={"wandb":{"name":script_args.wandb_name}},
+    tracker_project_name=os.environ.get("WANDB_PROJECT", "pcma"),
+    tracker_kwargs={"wandb": {"name": script_args.wandb_name}},
 )
 
-accelerator = Accelerator()
-process_id = Accelerator().local_process_index 
-gpu_id = process_id
-print('process: {}, model gpu id: {}'.format(process_id, gpu_id))
-
-class BeaverScoreModels:
-    def __init__(self, model_paths, tokenizer_paths, gpu_id, max_length=1024):
-        self.model_paths = model_paths
-        self.max_length = max_length
-        self.device = torch.device(f"cuda:{gpu_id}" if torch.cuda.is_available() else "cpu")
-
-        self.models = []
-        self.tokenizers = []
-
-        print("Loading Beaver score models with AutoModelForScore...")
-
-        for model_path, tokenizer_path in zip(model_paths, tokenizer_paths):
-            tokenizer = AutoTokenizer.from_pretrained(
-                tokenizer_path,
-                use_fast=True,
-                trust_remote_code=True,
-            )
-            if tokenizer.pad_token is None:
-                tokenizer.pad_token = tokenizer.eos_token
-            tokenizer.padding_side = "right"
-
-            model = AutoModelForScore.from_pretrained(
-                model_path,
-                torch_dtype=torch.bfloat16,
-                device_map={"": gpu_id},
-            )
-            model.eval()
-
-            self.tokenizers.append(tokenizer)
-            self.models.append(model)
-
-        print("Loaded Beaver score models:", model_paths)
-
-    @torch.no_grad()
-    def get_reward_model_scores(self, queries_responses, *args, **kwargs):
-        texts = []
-        for query, response in queries_responses:
-            texts.append(str(query) + str(response))
-
-        all_scores = []
-
-        for model, tokenizer in zip(self.models, self.tokenizers):
-            inputs = tokenizer(
-                texts,
-                return_tensors="pt",
-                padding=True,
-                truncation=True,
-                max_length=script_args.reward_model_max_length,
-            )
-            inputs = {k: v.to(self.device) for k, v in inputs.items()}
-
-            outputs = model(**inputs)
-
-            scores = getattr(outputs, "end_scores", None)
-            if scores is None:
-                scores = getattr(outputs, "scores", None)
-            if scores is None:
-                raise RuntimeError(
-                    f"AutoModelForScore output has no end_scores/scores. "
-                    f"Available fields: {outputs}"
-                )
-
-            if scores.ndim == 2 and scores.shape[-1] == 1:
-                scores = scores.squeeze(-1)
-            elif scores.ndim >= 2:
-                scores = scores[:, -1]
-
-            all_scores.append(scores.float().detach().cpu().tolist())
-
-        return all_scores
-    
-############## load reward models
-if any("beaver-7b" in path for path in reward_model_path_list):
-    reward_model = BeaverScoreModels(
-        reward_model_path_list,
-        rm_tokenizer_path_list,
-        gpu_id,
-        max_length=script_args.reward_model_max_length,
-    )
-else:
-    reward_model = RewardModels(reward_model_path_list, rm_tokenizer_path_list, gpu_id)
-
-rm_tokenizer = AutoTokenizer.from_pretrained(
-    rm_tokenizer_path_list[0],
-    use_fast=True,
+model_kwargs = dict(
+    peft_config=lora_config,
     trust_remote_code=True,
 )
-if rm_tokenizer.pad_token is None:
-    rm_tokenizer.pad_token = rm_tokenizer.eos_token
-
-def collator(data):
-    return dict((key, [d[key] for d in data]) for key in data[0])
-
-set_seed(script_args.seed)
-current_device = Accelerator().local_process_index
-print(current_device)
-
-lora_config = LoraConfig(
-    r=64, 
-    lora_alpha=128, 
-    lora_dropout=0.05,
-    bias="none",
-    task_type="CAUSAL_LM",
-)
-
-
-tokenizer = AutoTokenizer.from_pretrained(
-    tokenier_name,
-    use_fast=True,
-    trust_remote_code=True,
-)
-
-if tokenizer.pad_token is None:
-    tokenizer.pad_token = tokenizer.eos_token
-
-tokenizer.padding_side = "left"
-
-def build_pku_prompt_dataset(script_args, tokenizer, split="train"):
-    rdp = DATASET_CONFIGS[script_args.dataset_name](
-        prompt_template=script_args.prompt_template,
-        sanity_check=script_args.sanity_check if hasattr(script_args, "sanity_check") else False,
-    )
-
-    pref_dataset = rdp.get_preference_dataset(split=split)
-
-    rows = []
-    seen = set()
-
-    for ex in pref_dataset:
-        # DATASET_CONFIGS 구현에 따라 key 이름이 다를 수 있어서 방어적으로 처리
-        raw_prompt = (
-            ex.get("raw_prompt")
-            or ex.get("prompt")
-            or ex.get("query")
-            or ex.get("input")
-        )
-
-        if raw_prompt is None:
-            # 이미 prompt_template이 적용된 필드가 있을 가능성
-            raw_prompt = ex.get("text")
-
-        if raw_prompt is None:
-            raise KeyError(f"Cannot find prompt key. Available keys: {list(ex.keys())}")
-
-        raw_prompt = str(raw_prompt)
-
-        # 이미 template이 적용되어 있으면 그대로 사용
-        if "{raw_prompt}" in script_args.prompt_template:
-            query = script_args.prompt_template.format(raw_prompt=raw_prompt)
-        else:
-            query = raw_prompt
-
-        if query in seen:
-            continue
-        seen.add(query)
-
-        toks = tokenizer(
-            query,
-            truncation=True,
-            max_length=script_args.max_prompt_length,
-            padding=False,
-        )
-
-        rows.append({
-            "query": query,
-            "input_ids": toks["input_ids"],
-        })
-
-    return Dataset.from_list(rows)
-
-train_dataset = build_pku_prompt_dataset(script_args, tokenizer, split=script_args.train_split)
-eval_dataset = build_pku_prompt_dataset(script_args, tokenizer, split=script_args.eval_split)
-
-# Use deterministic shuffling for PPO prompts and validation prompt samples.
-train_dataset = train_dataset.shuffle(seed=script_args.seed)
-if len(eval_dataset) > 0:
-    eval_dataset = eval_dataset.shuffle(seed=script_args.seed)
-
-class PKUInstructions:
-    def get_input(self, text):
-        if "ASSISTANT:" in text:
-            return text.split("ASSISTANT:")[0].strip() + "ASSISTANT:"
-        return text
-
-    def get_response(self, text):
-        if "ASSISTANT:" in text:
-            return text.split("ASSISTANT:", 1)[1].strip()
-        return text
-
-instructions = PKUInstructions()
-
-print(f"Size of the train set ({script_args.train_split}): {len(train_dataset)}")
-print(f"Size of the eval set ({script_args.eval_split}): {len(eval_dataset)}")
-
+if torch.cuda.is_available():
+    model_kwargs["device_map"] = local_device_map()
 
 if script_args.load_in_8bit:
-    model = AutoModelForCausalLMWithValueHead.from_pretrained(
-        base_model_name,
-        load_in_8bit=True,
-        peft_config=lora_config,
-        device_map=gpu_id,
-    )
+    model_kwargs["load_in_8bit"] = True
 else:
-    model = AutoModelForCausalLMWithValueHead.from_pretrained(
-        base_model_name,
-        torch_dtype=torch.bfloat16,
-        peft_config=lora_config,
-        device_map=gpu_id,
-    )
+    model_kwargs["torch_dtype"] = torch.bfloat16
+
+model = AutoModelForCausalLMWithValueHead.from_pretrained(base_model_name, **model_kwargs)
 
 print_trainable_parameters(model)
 model.pretrained_model.resize_token_embeddings(len(tokenizer))
 optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=config.learning_rate)
 
 ppo_trainer = PPOTrainer(
-    config, model, tokenizer=tokenizer, dataset=train_dataset, data_collator=collator, optimizer=optimizer
+    config,
+    model,
+    tokenizer=tokenizer,
+    dataset=train_dataset,
+    data_collator=collator,
+    optimizer=optimizer,
 )
 
 generation_kwargs = {
     "max_new_tokens": script_args.max_new_tokens,
     "min_length": -1,
     "top_k": 0.0,
-    "top_p": 1.0, 
+    "top_p": 1.0,
     "do_sample": True,
     "temperature": 0.7,
     "pad_token_id": tokenizer.eos_token_id,
-    "begin_suppress_tokens": [tokenizer.eos_token_id] ,
+    "begin_suppress_tokens": [tokenizer.eos_token_id],
 }
 
 
 def _clean_responses(decoded_responses):
     cleaned = []
     for response in decoded_responses:
-        response = response.strip('[PAD] ')
-        response = response.strip('<unk>')
-        temp_resp = response.strip('<s>').strip('</s>')
-        temp_resp = temp_resp.split('\n\nHuman:')[0].strip()
-        temp_resp = temp_resp.split('\nHuman:')[0].strip()
-        temp_resp = temp_resp.split('\n\nAssistant:')[0].strip()
-        temp_resp = temp_resp.split('\nAssistant:')[0].strip()
-        temp_resp = temp_resp.split('\n\n\n')[0].strip()
-        temp_resp = temp_resp.split('###')[0].strip()
+        response = response.strip("[PAD] ")
+        response = response.strip("<unk>")
+        temp_resp = response.strip("<s>").strip("</s>")
+        temp_resp = temp_resp.split("\n\nHuman:")[0].strip()
+        temp_resp = temp_resp.split("\nHuman:")[0].strip()
+        temp_resp = temp_resp.split("\n\nAssistant:")[0].strip()
+        temp_resp = temp_resp.split("\nAssistant:")[0].strip()
+        temp_resp = temp_resp.split("\n\n\n")[0].strip()
+        temp_resp = temp_resp.split("###")[0].strip()
         cleaned.append(temp_resp)
     return cleaned
 
@@ -389,7 +431,7 @@ def _compute_scalar_rewards(queries, responses):
         for text in texts_merge
     ]
 
-    if hasattr(instructions, 'get_post'):
+    if hasattr(instructions, "get_post"):
         rewards_list = reward_model.get_reward_model_scores(queries_responses, instructions.get_post)
     else:
         rewards_list = reward_model.get_reward_model_scores(queries_responses)
@@ -400,7 +442,7 @@ def _compute_scalar_rewards(queries, responses):
         for k in range(num_rewards):
             signed_score = reward_sign_list[k] * float(rewards_list[k][j])
             scalar_reward += preference[k] * signed_score
-        scalar_rewards.append(round(scalar_reward, 4))
+        scalar_rewards.append(float(round(scalar_reward, 4)))
 
     return rewards_list, scalar_rewards
 
@@ -411,8 +453,6 @@ def run_periodic_validation(global_step):
         return
     if len(eval_dataset) == 0:
         return
-
-    # Avoid duplicated W&B tables in distributed training.
     if not accelerator.is_local_main_process:
         return
 
@@ -420,7 +460,7 @@ def run_periodic_validation(global_step):
     eval_batch = [eval_dataset[idx] for idx in range(n_eval)]
     eval_queries = [ex["query"] for ex in eval_batch]
     eval_query_tensors = [
-        torch.as_tensor(ex["input_ids"], dtype=torch.long, device=gpu_id)
+        torch.as_tensor(ex["input_ids"], dtype=torch.long, device=device)
         for ex in eval_batch
     ]
 
@@ -442,132 +482,173 @@ def run_periodic_validation(global_step):
 
     rewards_list, scalar_rewards = _compute_scalar_rewards(eval_queries, eval_responses)
 
-    columns = ["step", "idx", "prompt", "response"]
-    for name in reward_names:
-        columns.append(f"{name}_raw")
-        columns.append(f"{name}_signed")
-    columns.append("scalar_reward")
-
-    table = wandb.Table(columns=columns)
-    for row_idx, (query, response, scalar_reward) in enumerate(zip(eval_queries, eval_responses, scalar_rewards)):
-        row = [global_step, row_idx, query, response]
-        for k, name in enumerate(reward_names):
-            raw_score = float(rewards_list[k][row_idx])
-            row.append(raw_score)
-            row.append(float(reward_sign_list[k]) * raw_score)
-        row.append(float(scalar_reward))
-        table.add_data(*row)
-
     if not script_args.disable_wandb:
+        columns = ["step", "idx", "prompt", "response"]
+        for name in reward_names:
+            columns.append(f"{name}_raw")
+            columns.append(f"{name}_signed")
+        columns.append("scalar_reward")
+
+        table = wandb.Table(columns=columns)
+        for row_idx, (query, response, scalar_reward) in enumerate(zip(eval_queries, eval_responses, scalar_rewards)):
+            row = [global_step, row_idx, query, response]
+            for k, _name in enumerate(reward_names):
+                raw_score = float(rewards_list[k][row_idx])
+                row.append(raw_score)
+                row.append(float(reward_sign_list[k]) * raw_score)
+            row.append(float(scalar_reward))
+            table.add_data(*row)
+
         if wandb.run is None:
             wandb.init(
                 project=os.environ.get("WANDB_PROJECT", "pcma"),
                 entity=os.environ.get("WANDB_ENTITY", None),
                 name=script_args.wandb_name,
             )
-        wandb.log({
-            f"validation_samples/step_{global_step}": table,
-            "validation/scalar_reward_mean": float(np.mean(scalar_rewards)),
-            "validation/scalar_reward_std": float(np.std(scalar_rewards)),
-        }, step=global_step)
+        wandb.log(
+            {
+                f"validation_samples/step_{global_step}": table,
+                "validation/scalar_reward_mean": float(np.mean(scalar_rewards)),
+                "validation/scalar_reward_std": float(np.std(scalar_rewards)),
+            },
+            step=global_step,
+        )
 
-    print(f"[eval] step={global_step}, logged {n_eval} validation generations to wandb", flush=True)
+    print(f"[eval] step={global_step}, generated {n_eval} validation samples", flush=True)
 
     if was_training:
         model.train()
     model.pretrained_model.config.use_cache = False
 
 
-print("Training........")
+def save_local_training_curves(mean_scores, std_scores, save_data):
+    if len(mean_scores) == 0:
+        return
+    save_path = os.path.join(run_dir, "scores.png")
+    x = np.arange(len(mean_scores))
+    mean_arr = np.array(mean_scores)
+    std_arr = np.array(std_scores)
+
+    plt.figure()
+    plt.plot(mean_scores)
+    plt.fill_between(x, mean_arr - std_arr, mean_arr + std_arr, alpha=0.5)
+    plt.xlabel("logged PPO step")
+    plt.ylabel("scalar reward")
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
+
+    pd.DataFrame(save_data).to_csv(os.path.join(run_dir, "data.csv"), index=False)
+
+
+print("Training........", flush=True)
 model.gradient_checkpointing_disable()
 model.pretrained_model.config.use_cache = True
-epochs = script_args.epochs
+
 mean_scores = []
 std_scores = []
 save_data = {
-    'kl_mean': [],
-    'reward_mean': [],
-    'reward_std': [],
-    'text_sample':[],
-    'batch_time':[],
-    'total_time':[],
+    "kl_mean": [],
+    "reward_mean": [],
+    "reward_std": [],
+    "text_sample": [],
+    "batch_time": [],
+    "total_time": [],
 }
+
 t_start = time.time()
 global_step = 0
-for epoch in range(epochs):
-    pbar = tqdm(total=len(train_dataset) // script_args.batch_size // accelerator.num_processes)
+last_batch_idx = -1
+
+for epoch in range(script_args.epochs):
+    try:
+        pbar_total = len(ppo_trainer.dataloader)
+    except TypeError:
+        pbar_total = max(1, len(train_dataset) // max(1, script_args.batch_size * accelerator.num_processes))
+
+    pbar = tqdm(total=pbar_total, disable=not accelerator.is_local_main_process)
+
     for i, batch in enumerate(ppo_trainer.dataloader):
+        last_batch_idx = i
         t_epoch_start = time.time()
-        print('epoch {}, batch {}'.format(epoch, i))
+        print(f"epoch {epoch}, batch {i}", flush=True)
+
         query_tensors = [
-            torch.as_tensor(q, dtype=torch.long, device=gpu_id)
+            torch.as_tensor(q, dtype=torch.long, device=device)
             for q in batch["input_ids"]
         ]
 
         model.gradient_checkpointing_disable()
         model.pretrained_model.config.use_cache = True
-            
+
         with torch.no_grad():
             response_tensors = ppo_trainer.generate(query_tensors, return_prompt=False, **generation_kwargs)
 
         full_responses = tokenizer.batch_decode(response_tensors)
         clean_texts = _clean_responses(full_responses)
-        clean_response_tensors = [tokenizer.encode(text) for text in clean_texts]
-        
-        lengths = [len(clean_response_tensors[j]) for j in range(len(clean_response_tensors))]
-        response_tensors = [response_tensors[j][:np.max([lengths[j], 2])] for j in range(len(response_tensors))]
-        batch['response'] = clean_texts
+        clean_response_tensors = [tokenizer.encode(text, add_special_tokens=False) for text in clean_texts]
+        lengths = [len(x) for x in clean_response_tensors]
+        response_tensors = [
+            response_tensors[j][: max(lengths[j], 2)]
+            for j in range(len(response_tensors))
+        ]
+        batch["response"] = clean_texts
 
-        # Compute score
-        texts_merge = [q + r for q, r in zip(batch['query'], batch['response'])]
-        rewards_list, rewards = _compute_scalar_rewards(batch['query'], batch['response'])
-        rewards_tensor = [torch.tensor(r).to(gpu_id) for r in rewards]
-        print("iter {}, batch {}, mean score: {}".format(epoch, i, torch.mean(torch.tensor(rewards)).item()))
+        texts_merge = [q + r for q, r in zip(batch["query"], batch["response"])]
+        _rewards_list, rewards = _compute_scalar_rewards(batch["query"], batch["response"])
+        rewards_tensor = [torch.tensor(float(r), dtype=torch.float32, device=device) for r in rewards]
+
+        print(
+            f"iter {epoch}, batch {i}, mean score: {float(torch.tensor(rewards).mean()):.4f}",
+            flush=True,
+        )
 
         model.gradient_checkpointing_enable()
         model.pretrained_model.config.use_cache = False
         stats = ppo_trainer.step(query_tensors, response_tensors, rewards_tensor)
-        policy_kl = [stats["objective/kl"]]
-        ppo_trainer.log_stats(stats, batch, rewards)
+        ppo_trainer.log_stats(stats, batch, rewards_tensor)
 
         global_step += 1
+        policy_kl_value = float(stats.get("objective/kl", 0.0))
+
         if script_args.eval_steps > 0 and global_step % script_args.eval_steps == 0:
             run_periodic_validation(global_step)
         accelerator.wait_for_everyone()
 
-        all_rewards = accelerator.gather_for_metrics(rewards)
-        all_policy_kl = accelerator.gather_for_metrics(policy_kl)
-        if process_id == 0:
-            mean_scores.append(torch.mean(torch.tensor(all_rewards)).item())
-            std_scores.append(torch.std(torch.tensor(all_rewards)).item())
-            save_path = os.path.join(script_args.save_directory, script_args.wandb_name, 'scores.png')
-            plt.plot(mean_scores)
-            plt.fill_between(np.arange(len(mean_scores)), np.array(mean_scores)- np.array(std_scores), np.array(mean_scores) + np.array(std_scores), alpha=0.5)
-            plt.savefig(save_path)
-            t_epoch_end = time.time()
-            save_data['batch_time'].append(t_epoch_end - t_epoch_start)
-            save_data['total_time'].append(t_epoch_end - t_start)
-            save_data['kl_mean'].append(np.mean(all_policy_kl))
-            save_data['reward_mean'] = mean_scores
-            save_data['reward_std'] = std_scores
-            save_data['text_sample'].append(texts_merge[0])
-            dataframe = pd.DataFrame(save_data)
-            dataframe.to_csv(os.path.join(script_args.save_directory, script_args.wandb_name,'data.csv'))
-            print("iter {}, batch {}: log finish".format(epoch, i))
+        rewards_for_gather = torch.tensor(rewards, dtype=torch.float32, device=device)
+        kl_for_gather = torch.tensor([policy_kl_value], dtype=torch.float32, device=device)
+        all_rewards = accelerator.gather_for_metrics(rewards_for_gather).detach().cpu().numpy()
+        all_policy_kl = accelerator.gather_for_metrics(kl_for_gather).detach().cpu().numpy()
 
-        # wait for the main process
+        if process_id == 0 and script_args.log_every > 0 and global_step % script_args.log_every == 0:
+            mean_scores.append(float(np.mean(all_rewards)))
+            std_scores.append(float(np.std(all_rewards)))
+            t_epoch_end = time.time()
+            save_data["batch_time"].append(float(t_epoch_end - t_epoch_start))
+            save_data["total_time"].append(float(t_epoch_end - t_start))
+            save_data["kl_mean"].append(float(np.mean(all_policy_kl)))
+            save_data["reward_mean"].append(mean_scores[-1])
+            save_data["reward_std"].append(std_scores[-1])
+            save_data["text_sample"].append(texts_merge[0] if len(texts_merge) > 0 else "")
+            save_local_training_curves(mean_scores, std_scores, save_data)
+            print(f"iter {epoch}, batch {i}: local log finish", flush=True)
+
         accelerator.wait_for_everyone()
         pbar.update(1)
 
-        # save model
-        if ppo_trainer.accelerator.is_main_process and i % 100 == 0 and i != 0:
-            save_path = os.path.join(script_args.save_directory, script_args.wandb_name, 'batch_{}'.format(i))
+        if (
+            ppo_trainer.accelerator.is_main_process
+            and script_args.save_every > 0
+            and global_step % script_args.save_every == 0
+        ):
+            save_path = os.path.join(run_dir, f"step_{global_step}")
             ppo_trainer.save_pretrained(save_path)
-            print("iter {}, batch {}: model saved".format(epoch, i))
-    
-    # save model
-    if ppo_trainer.accelerator.is_main_process:
-        save_path = os.path.join(script_args.save_directory, script_args.wandb_name, 'batch_{}'.format(i))
-        ppo_trainer.save_pretrained(save_path)
-        print("iter {}, batch {}: model saved".format(epoch, i))
-        
+            print(f"iter {epoch}, batch {i}: model saved to {save_path}", flush=True)
+
+    pbar.close()
+
+# Final save.
+if ppo_trainer.accelerator.is_main_process:
+    save_path = os.path.join(run_dir, f"final_step_{global_step}_batch_{last_batch_idx}")
+    ppo_trainer.save_pretrained(save_path)
+    print(f"final model saved to {save_path}", flush=True)

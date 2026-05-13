@@ -9,6 +9,7 @@ import gc
 import json
 import math
 import os
+import re
 from dataclasses import dataclass
 from typing import Any, Dict, List, Sequence
 
@@ -64,6 +65,37 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument("--limit", type=int, default=-1)
+
+    parser.add_argument(
+        "--preprocess_generations",
+        action="store_true",
+        help=(
+            "Clean generated responses before scoring. This removes unrelated instruction "
+            "leakage and trims obvious repeated/degenerate continuations."
+        ),
+    )
+    parser.add_argument(
+        "--no_preprocess_generations",
+        dest="preprocess_generations",
+        action="store_false",
+        help="Disable generation preprocessing before scoring.",
+    )
+    parser.set_defaults(preprocess_generations=True)
+
+    parser.add_argument(
+        "--keep_original_generation",
+        action="store_true",
+        help="When preprocessing is enabled, keep the raw text in original_generation.",
+    )
+    parser.set_defaults(keep_original_generation=True)
+
+    parser.add_argument(
+        "--min_clean_words",
+        type=int,
+        default=4,
+        help="If cleaning leaves fewer than this many words, fall back to the original generation.",
+    )
+
     parser.add_argument("--save_scored_json", action="store_true")
     parser.add_argument("--no_save_scored_json", dest="save_scored_json", action="store_false")
     parser.set_defaults(save_scored_json=True)
@@ -99,6 +131,189 @@ def load_generation_set(name: str, path: str, limit: int = -1) -> GenerationSet:
         data = data[:limit]
 
     return GenerationSet(name=name, path=path, metadata=metadata, data=data)
+
+
+# These patterns are designed for generation artifacts observed in MODPO/CPC-MODPO outputs:
+#   answer\n##\n11. Instruction: ...
+#   answer\n### 10. Instruction: ...
+#   answer\n## See also ...
+# They are intentionally conservative: they only remove the tail from the first strong marker.
+UNRELATED_TAIL_PATTERNS = [
+    re.compile(r"\n\s*#{1,6}\s*\n\s*\d+\s*[\.)]?\s*Instruction\s*:", re.IGNORECASE),
+    re.compile(r"\n\s*#{1,6}\s*\d+\s*[\.)]?\s*Instruction\s*:", re.IGNORECASE),
+    re.compile(r"\n\s*\d+\s*[\.)]?\s*Instruction\s*:", re.IGNORECASE),
+    re.compile(r"\n\s*(?:Input|Output|Evaluation)\s*:\s*", re.IGNORECASE),
+    re.compile(r"\n\s*#{1,6}\s*See also\b", re.IGNORECASE),
+]
+
+# Long social-media-like hashtag tails are often degeneration rather than answer content.
+HASHTAG_TAIL_RE = re.compile(r"(?:\s+#[-\w]+){4,}\s*$", re.IGNORECASE)
+
+# Emoji loops often appear at the end of degenerate generations.
+EMOJI_LOOP_RE = re.compile(r"(\s*[😆🤣😈🤡😂😭😍😊👍🔥💀]+\s*){6,}$")
+
+
+def normalize_space(text: str) -> str:
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
+def strip_unrelated_tail(text: str) -> str:
+    """Cut off obvious appended dataset/instruction artifacts."""
+    cut = len(text)
+    for pattern in UNRELATED_TAIL_PATTERNS:
+        match = pattern.search(text)
+        if match:
+            cut = min(cut, match.start())
+    return text[:cut].strip()
+
+
+def strip_degenerate_tail(text: str) -> str:
+    """Remove common non-semantic tails such as hashtag spam and emoji loops."""
+    previous = None
+    cleaned = text.strip()
+    while previous != cleaned:
+        previous = cleaned
+        cleaned = HASHTAG_TAIL_RE.sub("", cleaned).strip()
+        cleaned = EMOJI_LOOP_RE.sub("", cleaned).strip()
+    return cleaned
+
+
+def dedupe_repeated_paragraphs(text: str) -> str:
+    """Remove exact repeated paragraphs while preserving first occurrences."""
+    paragraphs = [p.strip() for p in re.split(r"\n\s*\n", text) if p.strip()]
+    seen = set()
+    kept = []
+    for paragraph in paragraphs:
+        key = re.sub(r"\s+", " ", paragraph).strip().lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        kept.append(paragraph)
+    return "\n\n".join(kept).strip()
+
+
+def dedupe_consecutive_lines(text: str) -> str:
+    """Remove immediately repeated lines, which often occur in copied artifacts."""
+    lines = [line.rstrip() for line in text.split("\n")]
+    kept = []
+    prev_key = None
+    for line in lines:
+        key = re.sub(r"\s+", " ", line).strip().lower()
+        if key and key == prev_key:
+            continue
+        kept.append(line)
+        prev_key = key if key else None
+    return "\n".join(kept).strip()
+
+
+def truncate_repeated_sentence_loop(text: str, max_repeats: int = 2) -> str:
+    """
+    Truncate when the same sentence-like unit appears too many times.
+    This targets pathological loops without trying to judge semantic quality.
+    """
+    pieces = re.split(r"(?<=[.!?])\s+|\n+", text.strip())
+    kept = []
+    counts: Dict[str, int] = {}
+    for piece in pieces:
+        piece = piece.strip()
+        if not piece:
+            continue
+        key = re.sub(r"\s+", " ", piece).strip().lower()
+        counts[key] = counts.get(key, 0) + 1
+        if counts[key] > max_repeats:
+            break
+        kept.append(piece)
+    return " ".join(kept).strip()
+
+
+def truncate_repeated_ngram_tail(text: str, min_ngram: int = 5, max_ngram: int = 40, max_repeats: int = 3) -> str:
+    """
+    If the answer ends with a repeated word n-gram loop, keep only one occurrence.
+    Example: "... #nasty #talk #to #me #insults ..." repeated many times.
+    """
+    tokens = text.split()
+    if len(tokens) < min_ngram * max_repeats:
+        return text.strip()
+
+    max_ngram = min(max_ngram, len(tokens) // max_repeats)
+    for n in range(min_ngram, max_ngram + 1):
+        suffix = tokens[-n:]
+        repeats = 1
+        pos = len(tokens) - n
+        while pos - n >= 0 and tokens[pos - n : pos] == suffix:
+            repeats += 1
+            pos -= n
+        if repeats >= max_repeats:
+            return " ".join(tokens[: pos + n]).strip()
+    return text.strip()
+
+
+def clean_generation_text(generation: str, min_clean_words: int = 4) -> Dict[str, Any]:
+    """
+    Clean a generated answer before reward/cost scoring.
+
+    The goal is not to make unsafe answers safe. It only removes evaluation noise:
+    unrelated instruction leakage, obvious copied benchmark artifacts, and repeated loops.
+    """
+    original = str(generation or "").strip()
+    cleaned = normalize_space(original)
+    cleaned = strip_unrelated_tail(cleaned)
+    cleaned = strip_degenerate_tail(cleaned)
+    cleaned = dedupe_repeated_paragraphs(cleaned)
+    cleaned = dedupe_consecutive_lines(cleaned)
+    cleaned = truncate_repeated_sentence_loop(cleaned)
+    cleaned = truncate_repeated_ngram_tail(cleaned)
+    cleaned = normalize_space(cleaned)
+
+    # Avoid accidentally scoring an empty/nearly empty answer if a rule was too aggressive.
+    if len(cleaned.split()) < min_clean_words and len(original.split()) >= min_clean_words:
+        cleaned = normalize_space(original)
+
+    return {
+        "generation": cleaned,
+        "changed": cleaned != normalize_space(original),
+        "original_chars": len(original),
+        "cleaned_chars": len(cleaned),
+        "removed_chars": max(0, len(original) - len(cleaned)),
+    }
+
+
+def preprocess_generation_set(
+    gs: GenerationSet,
+    min_clean_words: int = 4,
+    keep_original_generation: bool = True,
+) -> Dict[str, Any]:
+    """Apply generation cleaning in-place and return summary statistics."""
+    changed = 0
+    removed_chars = 0
+
+    for row in gs.data:
+        original_generation = str(row.get("generation", ""))
+        result = clean_generation_text(original_generation, min_clean_words=min_clean_words)
+
+        if keep_original_generation and result["changed"]:
+            row["original_generation"] = original_generation
+
+        row["generation"] = result["generation"]
+        row["preprocess_changed"] = bool(result["changed"])
+        row["preprocess_original_chars"] = int(result["original_chars"])
+        row["preprocess_cleaned_chars"] = int(result["cleaned_chars"])
+        row["preprocess_removed_chars"] = int(result["removed_chars"])
+
+        changed += int(result["changed"])
+        removed_chars += int(result["removed_chars"])
+
+    return {
+        "name": gs.name,
+        "n": len(gs.data),
+        "changed": changed,
+        "changed_ratio": changed / max(1, len(gs.data)),
+        "removed_chars": removed_chars,
+        "avg_removed_chars": removed_chars / max(1, len(gs.data)),
+    }
 
 
 def build_score_input(row: Dict[str, Any], prompt_template: str) -> str:
@@ -422,6 +637,29 @@ def main() -> None:
         print(f"[load] path={gs.path}")
         print(f"[load] n={len(gs.data)}")
 
+    preprocess_summaries: List[Dict[str, Any]] = []
+    if args.preprocess_generations:
+        print("=" * 100)
+        print("[preprocess] cleaning unrelated tails and repeated/degenerate generations")
+        for gs in gen_sets:
+            prep_summary = preprocess_generation_set(
+                gs,
+                min_clean_words=args.min_clean_words,
+                keep_original_generation=args.keep_original_generation,
+            )
+            preprocess_summaries.append(prep_summary)
+            print(
+                f"[preprocess] {gs.name}: "
+                f"changed={prep_summary['changed']}/{prep_summary['n']} "
+                f"({prep_summary['changed_ratio']:.2%}), "
+                f"removed_chars={prep_summary['removed_chars']} "
+                f"avg_removed={prep_summary['avg_removed_chars']:.1f}"
+            )
+
+        preprocess_path = os.path.join(args.output_dir, "preprocess_summary.json")
+        write_json(preprocess_path, {"summaries": preprocess_summaries})
+        print(f"[save] {preprocess_path}")
+
     # Build all texts.
     texts_by_name: Dict[str, List[str]] = {}
     for gs in gen_sets:
@@ -494,6 +732,11 @@ def main() -> None:
                         "reward_model_name": args.reward_model_name,
                         "cost_model_name": args.cost_model_name,
                         "max_length": args.max_length,
+                        "preprocess_generations": bool(args.preprocess_generations),
+                        "preprocess_summary": next(
+                            (s for s in preprocess_summaries if s.get("name") == gs.name),
+                            None,
+                        ),
                         "n": len(scored_rows),
                     },
                     "summary": summaries[-1],
@@ -505,7 +748,14 @@ def main() -> None:
     summary_json_path = os.path.join(args.output_dir, "summary.json")
     summary_csv_path = os.path.join(args.output_dir, "summary.csv")
 
-    write_json(summary_json_path, {"summaries": summaries})
+    write_json(
+        summary_json_path,
+        {
+            "preprocess_generations": bool(args.preprocess_generations),
+            "preprocess_summaries": preprocess_summaries,
+            "summaries": summaries,
+        },
+    )
     write_summary_csv(summary_csv_path, summaries)
 
     print("=" * 100)

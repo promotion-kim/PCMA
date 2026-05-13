@@ -1,0 +1,87 @@
+{
+  "config": {
+    "num_objectives": 3,
+    "n_train_per_objective": 1000,
+    "n_test_per_objective": 5000,
+    "n_selection_prompts": 2000,
+    "n_candidates": 5,
+    "conflict_corr": -0.4,
+    "scorer_noise_sigmas": [
+      0.3,
+      1.2,
+      0.7
+    ],
+    "equal_noise_sigma": 0.7,
+    "beta_obj": 1.0,
+    "beta_mo": 1.0,
+    "calibration_strength_gamma": 0.5,
+    "prior_sigma_b": 2.0,
+    "lr": 0.05,
+    "steps": 1000,
+    "seed": 0,
+    "device": "auto"
+  },
+  "dgp_list": [
+    "objective_specific_noise",
+    "equal_noise_control"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "weights": [
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ],
+    [
+      0.5,
+      0.5,
+      0.0
+    ],
+    [
+      0.5,
+      0.0,
+      0.5
+    ],
+    [
+      0.0,
+      0.5,
+      0.5
+    ],
+    [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    [
+      0.2,
+      0.6,
+      0.2
+    ],
+    [
+      0.6,
+      0.3,
+      0.1
+    ]
+  ]
+}

@@ -26,6 +26,9 @@ from trl import set_seed
 from multi_reward_models_saferlhf_ric import SafeRLHFRewardModels
 from utils import Instructions_n, load_main_tokenizer, map_rewards_from_preference
 
+import gc
+import torch
+
 
 DEFAULT_PROMPT_TEMPLATE = "BEGINNING OF CONVERSATION: USER: {raw_prompt} ASSISTANT:"
 
