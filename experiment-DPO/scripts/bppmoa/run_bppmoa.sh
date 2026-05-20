@@ -32,7 +32,22 @@ reward_epochs=${reward_epochs:-3}
 prior_precision=${prior_precision:-1.0}
 variance_scale=${variance_scale:-1.0}
 
+# Usage:
+#   bash scripts/bppmoa/run_bppmoa.sh 0.5 full
+#   bash scripts/bppmoa/run_bppmoa.sh 0.5 constant_variance
+#   bash scripts/bppmoa/run_bppmoa.sh 0.5 map_only
 w=${1:-0.5}
+target_mode=${2:-full}
+
+case "${target_mode}" in
+  full|constant_variance|map_only) ;;
+  *)
+    echo "[error] target_mode must be one of: full, constant_variance, map_only"
+    echo "[usage] bash $0 <w_helpful> <target_mode>"
+    exit 1
+    ;;
+esac
+
 w_harmless=$(python - <<PY
 w = float("$w")
 print(f"{1.0 - w:.10g}")
@@ -42,9 +57,12 @@ PY
 bpp_root="${output_dir}/${dataset_name}/bppmoa"
 helpful_head_dir="${bpp_root}/reward_heads/better"
 harmless_head_dir="${bpp_root}/reward_heads/safer"
-target_dir="${bpp_root}/targets/w${w}"
+target_dir="${bpp_root}/targets/${target_mode}/w${w}"
 
 mkdir -p "$bpp_root"
+
+echo "[BPP-MOA] w_helpful=${w}, w_harmless=${w_harmless}, target_mode=${target_mode}"
+echo "[BPP-MOA] target_dir=${target_dir}"
 
 # Phase A: objective-specific Bayesian reward fitting with last-layer diagonal Laplace.
 if [[ ! -f "${helpful_head_dir}/laplace_head.pt" ]]; then
@@ -92,6 +110,7 @@ if [[ ! -d "${target_dir}/train" || ! -d "${target_dir}/validation" ]]; then
     --w_helpful "${w}" \
     --w_harmless "${w_harmless}" \
     --variance_scale "${variance_scale}" \
+    --target_mode "${target_mode}" \
     --prompt_template "${prompt_template}" \
     --seed "${seed}" \
     --max_length "${max_length}" \
@@ -101,7 +120,7 @@ else
 fi
 
 # Phase C: policy distillation. Hyperparameters mirror the attached MODPO run script.
-lm_run_name="${dataset_name}/bppmoa/lm/(${w})*r_better+(1-${w})*r_safer"
+lm_run_name="${dataset_name}/bppmoa/${target_mode}/lm/(${w})*r_better+(1-${w})*r_safer"
 PYTHONPATH=. $LAUNCH scripts/bppmoa/bppmoa.py \
   --sft_model_name "${sft_model_name}" \
   --bpp_dataset_dir "${target_dir}" \

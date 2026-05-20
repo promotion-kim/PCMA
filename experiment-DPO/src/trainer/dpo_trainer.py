@@ -37,7 +37,12 @@ if is_wandb_available():
     import wandb
 
 if is_deepspeed_available():
-    import deepspeed
+    try:
+        import deepspeed
+    except Exception:
+        deepspeed = None
+else:
+    deepspeed = None
 
 
 @dataclass
@@ -381,6 +386,11 @@ class DPOTrainer(Trainer):
 
     def _prepare_deepspeed(self, model: PreTrainedModelWrapper):
         # Adapted from accelerate: https://github.com/huggingface/accelerate/blob/739b135f8367becb67ffaada12fe76e3aa60fefd/src/accelerate/accelerator.py#L1473
+        if deepspeed is None:
+            raise RuntimeError(
+                "DeepSpeed is enabled, but import failed. "
+                "Install a DeepSpeed version compatible with your torch build or disable DeepSpeed."
+            )
         deepspeed_plugin = self.accelerator.state.deepspeed_plugin
         config_kwargs = deepspeed_plugin.deepspeed_config
         if model is not None:

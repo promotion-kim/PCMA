@@ -14,14 +14,57 @@ from transformers import DataCollator, PreTrainedModel, PreTrainedTokenizerBase,
 from transformers.trainer_callback import TrainerCallback
 from transformers.trainer_utils import EvalLoopOutput
 
-from trl.import_utils import is_peft_available, is_wandb_available
-from trl.models import PreTrainedModelWrapper, create_reference_model
 try:
-    from trl.trainer.utils import PeftSavingCallback
+    from trl.import_utils import is_peft_available, is_wandb_available
+    from trl.models import PreTrainedModelWrapper, create_reference_model
+    try:
+        from trl.trainer.utils import PeftSavingCallback
+    except Exception:
+        # Some TRL versions removed/relocated this callback. It's optional in this trainer.
+        PeftSavingCallback = None
+    from trl.trainer.utils import compute_accuracy, disable_dropout_in_model, pad_to_length
 except Exception:
-    # Some TRL versions removed/relocated this callback. It's optional in this trainer.
+    # Fall back to local shims when TRL import chain is incompatible with env
+    # (e.g., TRL -> DeepSpeed -> torch API mismatch).
+    import importlib.util
+
+    def is_peft_available() -> bool:
+        return importlib.util.find_spec("peft") is not None
+
+    def is_wandb_available() -> bool:
+        return importlib.util.find_spec("wandb") is not None
+
+    PreTrainedModelWrapper = PreTrainedModel
+
+    def create_reference_model(model):
+        return model
+
     PeftSavingCallback = None
-from trl.trainer.utils import compute_accuracy, disable_dropout_in_model, pad_to_length
+
+    def disable_dropout_in_model(model):
+        for module in model.modules():
+            if isinstance(module, nn.Dropout):
+                module.p = 0.0
+
+    def pad_to_length(tensor, length, pad_value, dim=-1):
+        if tensor.size(dim) >= length:
+            return tensor
+        pad_size = list(tensor.shape)
+        pad_size[dim] = length - tensor.size(dim)
+        pad_tensor = tensor.new_full(pad_size, pad_value)
+        return torch.cat([tensor, pad_tensor], dim=dim)
+
+    def compute_accuracy(eval_pred):
+        predictions, labels = eval_pred
+        if isinstance(predictions, tuple):
+            predictions = predictions[0]
+        predictions = torch.as_tensor(predictions)
+        labels = torch.as_tensor(labels)
+        preds = predictions.argmax(dim=-1)
+        mask = labels != -100
+        if mask.sum() == 0:
+            return {"accuracy": 0.0}
+        return {"accuracy": float((preds[mask] == labels[mask]).float().mean())}
 
 from src.utils import print_local_main, prepare_model_for_peft, get_batch_logps, pad_labels, common_prefix_length, PeftAsPreTrained
 
@@ -33,11 +76,122 @@ if is_wandb_available():
     import wandb
 
 if is_deepspeed_available():
-    import deepspeed
+    try:
+        import deepspeed
+    except Exception:
+        deepspeed = None
+else:
+    deepspeed = None
 
-import sys
-sys.path.append('src/trainer')
-from dpo_trainer import DPODataMapFunc, DPODataCollatorWithPadding
+@dataclass
+class DPODataMapFunc:
+    """Map raw texts to tokens, attention masks, and labels."""
+    tokenizer: PreTrainedTokenizerBase
+    label_pad_token_id: Optional[int] = -100
+    completion_only: Optional[bool] = True
+
+    def __call__(self, examples):
+        new_examples = {
+            "prompt_chosen_input_ids": [],
+            "prompt_chosen_attention_mask": [],
+            "prompt_chosen_labels": [],
+            "prompt_rejected_input_ids": [],
+            "prompt_rejected_attention_mask": [],
+            "prompt_rejected_labels": [],
+            "prompt_input_ids": [],
+            "prompt_attention_mask": [],
+            "prompt": [],
+        }
+
+        for prompt, chosen, rejected in zip(examples["prompt"], examples["chosen"], examples["rejected"]):
+            prompt_tokens = self.tokenizer(prompt)
+            prompt_chosen_tokens = self.tokenizer(prompt + chosen)
+            prompt_rejected_tokens = self.tokenizer(prompt + rejected)
+            prompt_chosen_tokens["input_ids"].append(self.tokenizer.eos_token_id)
+            prompt_chosen_tokens["attention_mask"].append(1)
+            prompt_rejected_tokens["input_ids"].append(self.tokenizer.eos_token_id)
+            prompt_rejected_tokens["attention_mask"].append(1)
+
+            prompt_len = common_prefix_length(prompt_chosen_tokens["input_ids"], prompt_rejected_tokens["input_ids"])
+
+            for k, toks in {
+                "prompt": prompt_tokens,
+                "prompt_chosen": prompt_chosen_tokens,
+                "prompt_rejected": prompt_rejected_tokens,
+            }.items():
+                for type_key, tokens in toks.items():
+                    new_examples[f"{k}_{type_key}"].append(tokens)
+
+            for k, toks in {
+                "prompt_chosen": prompt_chosen_tokens,
+                "prompt_rejected": prompt_rejected_tokens,
+            }.items():
+                labels = toks["input_ids"].copy()
+                if self.completion_only:
+                    labels[:prompt_len] = [self.label_pad_token_id] * prompt_len
+                new_examples[f"{k}_labels"].append(labels)
+
+        new_examples["prompt"] = examples["prompt"]
+        return new_examples
+
+
+@dataclass
+class DPODataCollatorWithPadding:
+    tokenizer: PreTrainedTokenizerBase
+    label_pad_token_id: Optional[int] = -100
+    pad_to_multiple_of: Optional[int] = None
+
+    def __call__(self, features: List[Dict[str, Any]], generate: Optional[bool] = False) -> Dict[str, Any]:
+        if not generate:
+            right_padding_features = []
+            for feature in features:
+                right_padding_features.append(
+                    {
+                        "input_ids": feature["prompt_chosen_input_ids"],
+                        "attention_mask": feature["prompt_chosen_attention_mask"],
+                        "labels": feature["prompt_chosen_labels"],
+                    }
+                )
+            for feature in features:
+                right_padding_features.append(
+                    {
+                        "input_ids": feature["prompt_rejected_input_ids"],
+                        "attention_mask": feature["prompt_rejected_attention_mask"],
+                        "labels": feature["prompt_rejected_labels"],
+                    }
+                )
+
+            pad_labels(right_padding_features, self.tokenizer, self.pad_to_multiple_of, self.label_pad_token_id)
+            return self.tokenizer.pad(
+                right_padding_features,
+                padding=True,
+                pad_to_multiple_of=self.pad_to_multiple_of,
+                return_tensors="pt",
+            )
+
+        left_padding_features = []
+        padding_side_default = self.tokenizer.padding_side
+        self.tokenizer.padding_side = "left"
+        for feature in features:
+            left_padding_features.append(
+                {
+                    "input_ids": feature["prompt_input_ids"],
+                    "attention_mask": feature["prompt_attention_mask"],
+                }
+            )
+        left_padding_batch = self.tokenizer.pad(
+            left_padding_features,
+            padding=True,
+            pad_to_multiple_of=self.pad_to_multiple_of,
+            return_tensors="pt",
+        )
+        self.tokenizer.padding_side = padding_side_default
+
+        return {
+            "prompt": [feature["prompt"] for feature in features],
+            "prompt_input_ids": left_padding_batch["input_ids"],
+            "prompt_attention_mask": left_padding_batch["attention_mask"],
+        }
 
 class DPOTrainer_Light(Trainer):
     def __init__(
@@ -170,7 +324,7 @@ class DPOTrainer_Light(Trainer):
                 "Your `Trainer` does not have an `accelerator` object. Consider upgrading `transformers`."
             )
 
-        if self.is_deepspeed_enabled:
+        if self.is_deepspeed_enabled and deepspeed is not None:
             self.ref_model = self._prepare_deepspeed(self.ref_model)
         else:
             self.ref_model = self.accelerator.prepare_model(self.ref_model, evaluation_mode=True)

@@ -11,7 +11,7 @@ import math
 import os
 import re
 from dataclasses import dataclass
-from typing import Any, Dict, List, Sequence
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import torch
 from tqdm import tqdm
@@ -21,6 +21,50 @@ from transformers import AutoTokenizer
 DEFAULT_REWARD_MODEL = "PKU-Alignment/beaver-7b-v1.0-reward"
 DEFAULT_COST_MODEL = "PKU-Alignment/beaver-7b-v1.0-cost"
 DEFAULT_PROMPT_TEMPLATE = "BEGINNING OF CONVERSATION: USER: {raw_prompt} ASSISTANT:"
+DEFAULT_ARMORM_MODEL = "RLHFlow/ArmoRM-Llama3-8B-v0.1"
+
+# Attribute order used by RLHFlow/ArmoRM-Llama3-8B-v0.1.
+# Source: the model card demo code.
+ARMORM_ATTRIBUTES = [
+    "helpsteer-helpfulness",
+    "helpsteer-correctness",
+    "helpsteer-coherence",
+    "helpsteer-complexity",
+    "helpsteer-verbosity",
+    "ultrafeedback-overall_score",
+    "ultrafeedback-instruction_following",
+    "ultrafeedback-truthfulness",
+    "ultrafeedback-honesty",
+    "ultrafeedback-helpfulness",
+    "beavertails-is_safe",
+    "prometheus-score",
+    "argilla-overall_quality",
+    "argilla-judge_lm",
+    "code-complexity",
+    "code-style",
+    "code-explanation",
+    "code-instruction-following",
+    "code-readability",
+]
+
+ARMORM_OBJECTIVE_ALIASES = {
+    "helpful": "helpsteer-helpfulness",
+    "helpfulness": "helpsteer-helpfulness",
+    "uf-helpfulness": "ultrafeedback-helpfulness",
+    "ultrafeedback-helpful": "ultrafeedback-helpfulness",
+    "safe": "beavertails-is_safe",
+    "safety": "beavertails-is_safe",
+    "harmless": "beavertails-is_safe",
+    "harmlessness": "beavertails-is_safe",
+    "truthful": "ultrafeedback-truthfulness",
+    "truthfulness": "ultrafeedback-truthfulness",
+    "honest": "ultrafeedback-honesty",
+    "honesty": "ultrafeedback-honesty",
+    "overall": "ultrafeedback-overall_score",
+    "overall_score": "ultrafeedback-overall_score",
+    "instruction_following": "ultrafeedback-instruction_following",
+    "instruction-following": "ultrafeedback-instruction_following",
+}
 
 
 @dataclass
@@ -34,23 +78,74 @@ class GenerationSet:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
 
+    # Single-method interface. This is the recommended interface for evaluating
+    # one generation file, including JSONL files from Reward Soup.
+    parser.add_argument(
+        "--input_json",
+        type=str,
+        default=None,
+        help="Single generation file path (.json or .jsonl). Example: rs_output_h0.0_s1.0.jsonl",
+    )
+    parser.add_argument(
+        "--name",
+        type=str,
+        default=None,
+        help="Method name for the single generation file. Example: rs, modpo, bppmoa",
+    )
+
+    # Backward-compatible multi-input interface. If exactly two inputs are given,
+    # the script also writes paired comparison output.
     parser.add_argument(
         "--input_jsons",
         type=str,
-        required=True,
-        help="Comma-separated generation json paths. Example: modpo.json,pcmodpo.json",
+        default=None,
+        help="Comma-separated generation json/jsonl paths. Example: modpo.json,pcmodpo.json",
     )
     parser.add_argument(
         "--names",
         type=str,
-        required=True,
+        default=None,
         help="Comma-separated names matching input_jsons. Example: modpo,pcmodpo",
     )
 
     parser.add_argument("--output_dir", type=str, required=True)
 
+    parser.add_argument(
+        "--reward_type",
+        type=str,
+        choices=["beaver", "armorm"],
+        default="beaver",
+        help=(
+            "Scoring backend. 'beaver' keeps the original PKU reward/cost models. "
+            "'armorm' uses RLHFlow ArmoRM and writes armorm_preference_score plus selected objective scores."
+        ),
+    )
     parser.add_argument("--reward_model_name", type=str, default=DEFAULT_REWARD_MODEL)
     parser.add_argument("--cost_model_name", type=str, default=DEFAULT_COST_MODEL)
+    parser.add_argument("--armorm_model_name", type=str, default=DEFAULT_ARMORM_MODEL)
+    parser.add_argument(
+        "--armorm_helpful_objective",
+        type=str,
+        default="helpsteer-helpfulness",
+        help=(
+            "ArmoRM objective used as helpful_score when --reward_type armorm. "
+            "Aliases such as helpful/helpfulness are allowed."
+        ),
+    )
+    parser.add_argument(
+        "--armorm_harmless_objective",
+        type=str,
+        default="beavertails-is_safe",
+        help=(
+            "ArmoRM objective used as harmless_score when --reward_type armorm. "
+            "Aliases such as harmless/safety/safe are allowed."
+        ),
+    )
+    parser.add_argument(
+        "--armorm_save_all_objectives",
+        action="store_true",
+        help="When --reward_type armorm, save all 19 ArmoRM objective rewards in each scored row.",
+    )
 
     parser.add_argument("--prompt_template", type=str, default=DEFAULT_PROMPT_TEMPLATE)
     parser.add_argument("--batch_size", type=int, default=4)
@@ -103,6 +198,30 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def resolve_input_args(args: argparse.Namespace) -> tuple[list[str], list[str]]:
+    """Resolve either --input_json/--name or --input_jsons/--names."""
+    using_single = args.input_json is not None or args.name is not None
+    using_multi = args.input_jsons is not None or args.names is not None
+
+    if using_single and using_multi:
+        raise ValueError("Use either --input_json/--name or --input_jsons/--names, not both.")
+
+    if using_single:
+        if not args.input_json:
+            raise ValueError("--input_json is required when using the single-method interface.")
+        name = args.name
+        if not name:
+            stem = os.path.basename(args.input_json)
+            name = re.sub(r"\.(jsonl|json)$", "", stem, flags=re.IGNORECASE)
+        return [args.input_json], [name]
+
+    if using_multi:
+        if not args.input_jsons or not args.names:
+            raise ValueError("Both --input_jsons and --names are required for the multi-input interface.")
+        return split_csv_arg(args.input_jsons), split_csv_arg(args.names)
+
+    raise ValueError("Provide either --input_json/--name or --input_jsons/--names.")
+
 def get_dtype(name: str):
     if name == "bf16":
         return torch.bfloat16
@@ -117,21 +236,111 @@ def split_csv_arg(x: str) -> List[str]:
     return [v.strip() for v in x.split(",") if v.strip()]
 
 
+def normalize_generation_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Normalize common generation formats into the schema expected by the scorer.
+
+    Supported examples:
+      - MODPO/BPPMOA JSON rows: {raw_prompt, generation, ...}
+      - Reward Soup JSONL rows: {raw_prompt, prompt, response, full_text, weight_helpful, weight_harmless}
+      - Generic rows: {prompt, output/answer/text, ...}
+    """
+    out = dict(row)
+
+    if out.get("generation") is None:
+        for key in ["response", "output", "answer", "completion", "generated_text"]:
+            if out.get(key) is not None:
+                out["generation"] = out[key]
+                break
+
+    # If only a full prompt is available, keep it as model_input for Beaver-style scoring.
+    if out.get("model_input") is None and out.get("prompt") is not None:
+        out["model_input"] = out["prompt"]
+
+    # Best-effort fallback: split full_text into model_input and generation if needed.
+    if out.get("generation") is None and out.get("full_text") is not None:
+        full_text = str(out["full_text"])
+        marker = "ASSISTANT:"
+        if marker in full_text:
+            before, after = full_text.rsplit(marker, 1)
+            out.setdefault("model_input", before + marker)
+            out["generation"] = after.strip()
+        else:
+            out["generation"] = full_text
+
+    if out.get("generation") is None:
+        raise ValueError(
+            "Could not find generation text in row. Expected one of: "
+            "generation, response, output, answer, completion, generated_text, full_text. "
+            f"Available keys: {sorted(out.keys())}"
+        )
+
+    return out
+
+
 def load_generation_set(name: str, path: str, limit: int = -1) -> GenerationSet:
-    with open(path, "r", encoding="utf-8") as f:
-        obj = json.load(f)
+    suffix = os.path.splitext(path)[1].lower()
 
-    metadata = obj.get("metadata", {})
-    data = obj.get("data", obj if isinstance(obj, list) else [])
+    if suffix == ".txt":
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read()
 
-    if not isinstance(data, list):
-        raise ValueError(f"Invalid generation JSON format: {path}")
+        # Expected rs_v2 format:
+        #   Prompt and response
+        #   BEGINNING OF CONVERSATION: USER: ... ASSISTANT: ...
+        chunks = re.split(r"\n\s*Prompt and response\s*\n", text)
+        data: List[Dict[str, Any]] = []
+        for chunk in chunks:
+            full_text = chunk.strip()
+            if not full_text:
+                continue
+
+            row: Dict[str, Any] = {"full_text": full_text}
+
+            m = re.search(r"ASSISTANT\s*:", full_text)
+            if m is not None:
+                split_idx = m.end()
+                row["model_input"] = full_text[:split_idx].strip() + " "
+                row["generation"] = full_text[split_idx:].strip()
+                user_m = re.search(r"USER\s*:(.*?)ASSISTANT\s*:", full_text, flags=re.DOTALL)
+                if user_m is not None:
+                    row["raw_prompt"] = user_m.group(1).strip()
+            else:
+                row["generation"] = full_text
+
+            data.append(normalize_generation_row(row))
+
+        metadata = {"format": "txt"}
+    elif suffix == ".jsonl":
+        data: List[Dict[str, Any]] = []
+        with open(path, "r", encoding="utf-8") as f:
+            for line_no, line in enumerate(f, start=1):
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    raise ValueError(f"Invalid JSONL at {path}:{line_no}: {exc}") from exc
+                if not isinstance(obj, dict):
+                    raise ValueError(f"Each JSONL line must be an object. Got {type(obj)} at line {line_no}")
+                data.append(normalize_generation_row(obj))
+        metadata = {"format": "jsonl"}
+    else:
+        with open(path, "r", encoding="utf-8") as f:
+            obj = json.load(f)
+
+        metadata = obj.get("metadata", {}) if isinstance(obj, dict) else {}
+        raw_data = obj.get("data", obj if isinstance(obj, list) else []) if isinstance(obj, dict) else obj
+
+        if not isinstance(raw_data, list):
+            raise ValueError(f"Invalid generation JSON format: {path}")
+        data = [normalize_generation_row(x) for x in raw_data]
 
     if limit is not None and limit > 0:
         data = data[:limit]
 
     return GenerationSet(name=name, path=path, metadata=metadata, data=data)
-
 
 # These patterns are designed for generation artifacts observed in MODPO/CPC-MODPO outputs:
 #   answer\n##\n11. Instruction: ...
@@ -319,9 +528,11 @@ def preprocess_generation_set(
 def build_score_input(row: Dict[str, Any], prompt_template: str) -> str:
     generation = str(row.get("generation", "")).strip()
 
-    if "model_input" in row and row["model_input"] is not None:
+    if row.get("model_input") is not None:
         model_input = str(row["model_input"])
-    elif "raw_prompt" in row and row["raw_prompt"] is not None:
+    elif row.get("prompt") is not None:
+        model_input = str(row["prompt"])
+    elif row.get("raw_prompt") is not None:
         model_input = prompt_template.format(raw_prompt=str(row["raw_prompt"]))
     else:
         model_input = ""
@@ -331,6 +542,187 @@ def build_score_input(row: Dict[str, Any], prompt_template: str) -> str:
         model_input = model_input + " "
 
     return model_input + generation
+
+
+def extract_prompt_response(row: Dict[str, Any], prompt_template: str) -> Tuple[str, str]:
+    """Return a raw user prompt and assistant response for chat-template based reward models."""
+    response = str(row.get("generation", "")).strip()
+
+    if row.get("raw_prompt") is not None:
+        prompt = str(row["raw_prompt"]).strip()
+    else:
+        model_input = ""
+        if row.get("model_input") is not None:
+            model_input = str(row["model_input"]).strip()
+        elif row.get("prompt") is not None:
+            model_input = str(row["prompt"]).strip()
+
+        match = re.search(
+            r"BEGINNING OF CONVERSATION:\s*USER:\s*(.*?)\s*ASSISTANT:\s*$",
+            model_input,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        prompt = match.group(1).strip() if match else model_input
+
+    return prompt, response
+
+def build_armorm_chat_text(row: Dict[str, Any], tokenizer: AutoTokenizer, prompt_template: str) -> str:
+    """Format a prompt/response pair with the tokenizer's chat template for ArmoRM."""
+    prompt, response = extract_prompt_response(row, prompt_template=prompt_template)
+    messages = [
+        {"role": "user", "content": prompt},
+        {"role": "assistant", "content": response},
+    ]
+    return tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=False,
+    )
+
+
+def resolve_armorm_objective(name: str) -> Tuple[str, int]:
+    """Resolve an ArmoRM objective name or common alias into (canonical_name, index)."""
+    key = str(name).strip()
+    if not key:
+        raise ValueError("Empty ArmoRM objective name.")
+
+    canonical = ARMORM_OBJECTIVE_ALIASES.get(key.lower(), key)
+    if canonical not in ARMORM_ATTRIBUTES:
+        allowed = ", ".join(ARMORM_ATTRIBUTES)
+        aliases = ", ".join(sorted(ARMORM_OBJECTIVE_ALIASES))
+        raise ValueError(
+            f"Unknown ArmoRM objective: {name!r}.\n"
+            f"Allowed objectives: {allowed}\n"
+            f"Useful aliases: {aliases}"
+        )
+    return canonical, ARMORM_ATTRIBUTES.index(canonical)
+
+
+def load_armorm_model(model_name: str, torch_dtype: torch.dtype, device_map: str, tokenizer: AutoTokenizer):
+    model_kwargs = {
+        "torch_dtype": torch_dtype,
+        "trust_remote_code": True,
+    }
+
+    if device_map != "none":
+        model_kwargs["device_map"] = device_map
+
+    from transformers import AutoModelForSequenceClassification
+
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, **model_kwargs)
+
+    # The custom ArmoRM forward supports batching only when pad_token_id is set.
+    if tokenizer.pad_token_id is not None:
+        model.config.pad_token_id = tokenizer.pad_token_id
+
+    if device_map == "none":
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.to(device)
+    else:
+        device = next(model.parameters()).device
+
+    model.eval()
+    return model, device
+
+
+@torch.no_grad()
+def score_armorm_rows(
+    rows: Sequence[Dict[str, Any]],
+    model_name: str,
+    batch_size: int,
+    max_length: int,
+    torch_dtype: torch.dtype,
+    device_map: str,
+    prompt_template: str,
+    helpful_objective: str,
+    harmless_objective: str,
+    save_all_objectives: bool,
+    desc: str,
+) -> List[Dict[str, Any]]:
+    """
+    Score rows with RLHFlow/ArmoRM-Llama3-8B-v0.1.
+
+    Returned fields intentionally preserve the old output schema:
+      - helpful_score: selected ArmoRM helpful objective
+      - harmless_score: selected ArmoRM safety/harmless objective
+      - cost_score: -harmless_score, for compatibility with older analysis code
+      - mip_0p5: 0.5 * helpful_score + 0.5 * harmless_score
+      - armorm_preference_score: MoE-gated scalar preference score from ArmoRM
+    """
+    helpful_name, helpful_idx = resolve_armorm_objective(helpful_objective)
+    harmless_name, harmless_idx = resolve_armorm_objective(harmless_objective)
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True, use_fast=True)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+    tokenizer.padding_side = "right"
+
+    model, device = load_armorm_model(
+        model_name=model_name,
+        torch_dtype=torch_dtype,
+        device_map=device_map,
+        tokenizer=tokenizer,
+    )
+
+    scored: List[Dict[str, Any]] = []
+
+    for start in tqdm(range(0, len(rows), batch_size), desc=desc, dynamic_ncols=True):
+        batch_rows = list(rows[start : start + batch_size])
+        batch_texts = [
+            build_armorm_chat_text(row, tokenizer=tokenizer, prompt_template=prompt_template)
+            for row in batch_rows
+        ]
+
+        toks = tokenizer(
+            batch_texts,
+            padding=True,
+            truncation=True,
+            max_length=max_length,
+            return_tensors="pt",
+        )
+        toks = {k: v.to(device) for k, v in toks.items()}
+
+        outputs = model(**toks)
+        if not hasattr(outputs, "rewards") or not hasattr(outputs, "score"):
+            raise RuntimeError(
+                "ArmoRM output should contain `.rewards` and `.score`. "
+                f"Got output type: {type(outputs)}"
+            )
+
+        rewards = outputs.rewards.detach().float().cpu()
+        preference_scores = outputs.score.detach().float().view(-1).cpu()
+
+        if rewards.ndim != 2 or rewards.shape[1] != len(ARMORM_ATTRIBUTES):
+            raise RuntimeError(
+                f"Unexpected ArmoRM rewards shape: {tuple(rewards.shape)}. "
+                f"Expected (batch, {len(ARMORM_ATTRIBUTES)})."
+            )
+
+        for i in range(len(batch_rows)):
+            helpful = float(rewards[i, helpful_idx].item())
+            harmless = float(rewards[i, harmless_idx].item())
+            item: Dict[str, Any] = {
+                "helpful_score": helpful,
+                "harmless_score": harmless,
+                "cost_score": -harmless,
+                "mip_0p5": 0.5 * helpful + 0.5 * harmless,
+                "armorm_preference_score": float(preference_scores[i].item()),
+                "armorm_helpful_objective": helpful_name,
+                "armorm_harmless_objective": harmless_name,
+            }
+            if save_all_objectives:
+                item["armorm_rewards"] = {
+                    attr: float(rewards[i, j].item()) for j, attr in enumerate(ARMORM_ATTRIBUTES)
+                }
+            scored.append(item)
+
+    del model
+    del tokenizer
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
+    return scored
 
 
 def extract_scores(outputs: Any) -> torch.Tensor:
@@ -476,7 +868,7 @@ def summarize_rows(name: str, rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     harmless = [float(r["harmless_score"]) for r in rows]
     mip_05 = [0.5 * h + 0.5 * s for h, s in zip(helpful, harmless)]
 
-    return {
+    summary = {
         "name": name,
         "n": len(rows),
         "helpful_mean": mean(helpful),
@@ -492,6 +884,20 @@ def summarize_rows(name: str, rows: List[Dict[str, Any]]) -> Dict[str, Any]:
         "mip_0p5_std": std(mip_05),
         "mip_0p5_stderr": stderr(mip_05),
     }
+
+    if rows and "armorm_preference_score" in rows[0]:
+        pref = [float(r["armorm_preference_score"]) for r in rows]
+        summary.update(
+            {
+                "armorm_preference_mean": mean(pref),
+                "armorm_preference_std": std(pref),
+                "armorm_preference_stderr": stderr(pref),
+                "armorm_helpful_objective": rows[0].get("armorm_helpful_objective"),
+                "armorm_harmless_objective": rows[0].get("armorm_harmless_objective"),
+            }
+        )
+
+    return summary
 
 
 def write_json(path: str, obj: Any) -> None:
@@ -518,6 +924,11 @@ def write_summary_csv(path: str, summaries: List[Dict[str, Any]]) -> None:
         "mip_0p5_mean",
         "mip_0p5_std",
         "mip_0p5_stderr",
+        "armorm_preference_mean",
+        "armorm_preference_std",
+        "armorm_preference_stderr",
+        "armorm_helpful_objective",
+        "armorm_harmless_objective",
     ]
 
     with open(path, "w", encoding="utf-8", newline="") as f:
@@ -613,8 +1024,7 @@ def write_paired_comparison(
 def main() -> None:
     args = parse_args()
 
-    input_jsons = split_csv_arg(args.input_jsons)
-    names = split_csv_arg(args.names)
+    input_jsons, names = resolve_input_args(args)
 
     if len(input_jsons) != len(names):
         raise ValueError(
@@ -668,82 +1078,144 @@ def main() -> None:
             for row in gs.data
         ]
 
-    # Score helpful reward.
-    print("=" * 100)
-    print(f"[score] helpful reward model: {args.reward_model_name}")
-    helpful_by_name = {}
-    for gs in gen_sets:
-        helpful_by_name[gs.name] = score_texts(
-            texts_by_name[gs.name],
-            model_name=args.reward_model_name,
-            batch_size=args.batch_size,
-            max_length=args.max_length,
-            torch_dtype=dtype,
-            device_map=args.device_map,
-            desc=f"helpful/{gs.name}",
-        )
-
-    # Score cost.
-    print("=" * 100)
-    print(f"[score] cost model: {args.cost_model_name}")
-    cost_by_name = {}
-    for gs in gen_sets:
-        cost_by_name[gs.name] = score_texts(
-            texts_by_name[gs.name],
-            model_name=args.cost_model_name,
-            batch_size=args.batch_size,
-            max_length=args.max_length,
-            torch_dtype=dtype,
-            device_map=args.device_map,
-            desc=f"cost/{gs.name}",
-        )
-
     summaries = []
     scored_rows_by_name: Dict[str, List[Dict[str, Any]]] = {}
 
-    for gs in gen_sets:
-        helpful_scores = helpful_by_name[gs.name]
-        cost_scores = cost_by_name[gs.name]
+    if args.reward_type == "armorm":
+        print("=" * 100)
+        print(f"[score] ArmoRM model: {args.armorm_model_name}")
+        print(f"[score] helpful objective: {args.armorm_helpful_objective}")
+        print(f"[score] harmless objective: {args.armorm_harmless_objective}")
 
-        if len(helpful_scores) != len(gs.data) or len(cost_scores) != len(gs.data):
-            raise RuntimeError(f"Score length mismatch for {gs.name}")
-
-        scored_rows = []
-        for row, helpful, cost in zip(gs.data, helpful_scores, cost_scores):
-            new_row = dict(row)
-            new_row["helpful_score"] = float(helpful)
-            new_row["cost_score"] = float(cost)
-            new_row["harmless_score"] = float(-cost)
-            new_row["mip_0p5"] = 0.5 * float(helpful) + 0.5 * float(-cost)
-            scored_rows.append(new_row)
-
-        scored_rows_by_name[gs.name] = scored_rows
-        summaries.append(summarize_rows(gs.name, scored_rows))
-
-        if args.save_scored_json:
-            out_path = os.path.join(args.output_dir, f"{gs.name}_scored.json")
-            write_json(
-                out_path,
-                {
-                    "metadata": {
-                        "name": gs.name,
-                        "source_path": gs.path,
-                        "source_metadata": gs.metadata,
-                        "reward_model_name": args.reward_model_name,
-                        "cost_model_name": args.cost_model_name,
-                        "max_length": args.max_length,
-                        "preprocess_generations": bool(args.preprocess_generations),
-                        "preprocess_summary": next(
-                            (s for s in preprocess_summaries if s.get("name") == gs.name),
-                            None,
-                        ),
-                        "n": len(scored_rows),
-                    },
-                    "summary": summaries[-1],
-                    "data": scored_rows,
-                },
+        for gs in gen_sets:
+            armorm_scores = score_armorm_rows(
+                gs.data,
+                model_name=args.armorm_model_name,
+                batch_size=args.batch_size,
+                max_length=args.max_length,
+                torch_dtype=dtype,
+                device_map=args.device_map,
+                prompt_template=args.prompt_template,
+                helpful_objective=args.armorm_helpful_objective,
+                harmless_objective=args.armorm_harmless_objective,
+                save_all_objectives=args.armorm_save_all_objectives,
+                desc=f"armorm/{gs.name}",
             )
-            print(f"[save] {out_path}")
+
+            if len(armorm_scores) != len(gs.data):
+                raise RuntimeError(f"Score length mismatch for {gs.name}")
+
+            scored_rows = []
+            for row, score_fields in zip(gs.data, armorm_scores):
+                new_row = dict(row)
+                new_row.update(score_fields)
+                scored_rows.append(new_row)
+
+            scored_rows_by_name[gs.name] = scored_rows
+            summaries.append(summarize_rows(gs.name, scored_rows))
+
+            if args.save_scored_json:
+                out_path = os.path.join(args.output_dir, f"{gs.name}_scored.json")
+                write_json(
+                    out_path,
+                    {
+                        "metadata": {
+                            "name": gs.name,
+                            "source_path": gs.path,
+                            "source_metadata": gs.metadata,
+                            "reward_type": args.reward_type,
+                            "armorm_model_name": args.armorm_model_name,
+                            "armorm_helpful_objective": summaries[-1].get("armorm_helpful_objective"),
+                            "armorm_harmless_objective": summaries[-1].get("armorm_harmless_objective"),
+                            "max_length": args.max_length,
+                            "preprocess_generations": bool(args.preprocess_generations),
+                            "preprocess_summary": next(
+                                (s for s in preprocess_summaries if s.get("name") == gs.name),
+                                None,
+                            ),
+                            "n": len(scored_rows),
+                        },
+                        "summary": summaries[-1],
+                        "data": scored_rows,
+                    },
+                )
+                print(f"[save] {out_path}")
+
+    else:
+        # Score helpful reward.
+        print("=" * 100)
+        print(f"[score] helpful reward model: {args.reward_model_name}")
+        helpful_by_name = {}
+        for gs in gen_sets:
+            helpful_by_name[gs.name] = score_texts(
+                texts_by_name[gs.name],
+                model_name=args.reward_model_name,
+                batch_size=args.batch_size,
+                max_length=args.max_length,
+                torch_dtype=dtype,
+                device_map=args.device_map,
+                desc=f"helpful/{gs.name}",
+            )
+
+        # Score cost.
+        print("=" * 100)
+        print(f"[score] cost model: {args.cost_model_name}")
+        cost_by_name = {}
+        for gs in gen_sets:
+            cost_by_name[gs.name] = score_texts(
+                texts_by_name[gs.name],
+                model_name=args.cost_model_name,
+                batch_size=args.batch_size,
+                max_length=args.max_length,
+                torch_dtype=dtype,
+                device_map=args.device_map,
+                desc=f"cost/{gs.name}",
+            )
+
+        for gs in gen_sets:
+            helpful_scores = helpful_by_name[gs.name]
+            cost_scores = cost_by_name[gs.name]
+
+            if len(helpful_scores) != len(gs.data) or len(cost_scores) != len(gs.data):
+                raise RuntimeError(f"Score length mismatch for {gs.name}")
+
+            scored_rows = []
+            for row, helpful, cost in zip(gs.data, helpful_scores, cost_scores):
+                new_row = dict(row)
+                new_row["helpful_score"] = float(helpful)
+                new_row["cost_score"] = float(cost)
+                new_row["harmless_score"] = float(-cost)
+                new_row["mip_0p5"] = 0.5 * float(helpful) + 0.5 * float(-cost)
+                scored_rows.append(new_row)
+
+            scored_rows_by_name[gs.name] = scored_rows
+            summaries.append(summarize_rows(gs.name, scored_rows))
+
+            if args.save_scored_json:
+                out_path = os.path.join(args.output_dir, f"{gs.name}_scored.json")
+                write_json(
+                    out_path,
+                    {
+                        "metadata": {
+                            "name": gs.name,
+                            "source_path": gs.path,
+                            "source_metadata": gs.metadata,
+                            "reward_type": args.reward_type,
+                            "reward_model_name": args.reward_model_name,
+                            "cost_model_name": args.cost_model_name,
+                            "max_length": args.max_length,
+                            "preprocess_generations": bool(args.preprocess_generations),
+                            "preprocess_summary": next(
+                                (s for s in preprocess_summaries if s.get("name") == gs.name),
+                                None,
+                            ),
+                            "n": len(scored_rows),
+                        },
+                        "summary": summaries[-1],
+                        "data": scored_rows,
+                    },
+                )
+                print(f"[save] {out_path}")
 
     summary_json_path = os.path.join(args.output_dir, "summary.json")
     summary_csv_path = os.path.join(args.output_dir, "summary.csv")
@@ -751,6 +1223,7 @@ def main() -> None:
     write_json(
         summary_json_path,
         {
+            "reward_type": args.reward_type,
             "preprocess_generations": bool(args.preprocess_generations),
             "preprocess_summaries": preprocess_summaries,
             "summaries": summaries,
@@ -761,6 +1234,12 @@ def main() -> None:
     print("=" * 100)
     print("[summary]")
     for s in summaries:
+        pref_text = ""
+        if "armorm_preference_mean" in s:
+            pref_text = (
+                f" | armorm_pref={s['armorm_preference_mean']:.4f} "
+                f"± {s['armorm_preference_stderr']:.4f}"
+            )
         print(
             f"{s['name']:>12s} | "
             f"n={s['n']} | "
@@ -768,6 +1247,7 @@ def main() -> None:
             f"harmless={s['harmless_mean']:.4f} ± {s['harmless_stderr']:.4f} | "
             f"cost={s['cost_mean']:.4f} | "
             f"MIP@0.5={s['mip_0p5_mean']:.4f} ± {s['mip_0p5_stderr']:.4f}"
+            f"{pref_text}"
         )
 
     print(f"[save] {summary_json_path}")

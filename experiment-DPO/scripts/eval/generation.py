@@ -63,7 +63,7 @@ class Args:
 def parse_args() -> Args:
     p = argparse.ArgumentParser()
 
-    p.add_argument("--model_type", choices=["modpo", "pcmodpo"], required=True)
+    p.add_argument("--model_type", choices=["modpo", "pcmodpo", "morlhf", "bppmoa"], required=True)
     p.add_argument("--sft_model_name", default="PKU-Alignment/alpaca-7b-reproduced")
     p.add_argument("--adapter_path", required=True)
 
@@ -330,6 +330,19 @@ def main() -> None:
         top_p=top_p,
         max_tokens=args.max_new_tokens,
         seed=args.seed,
+        stop=[
+        "BEGINNING OF CONVERSATION:",
+        "\nUSER:",
+        "\nASSISTANT:",
+        "\n###",
+        "### Instruction:",
+        "\nInstruction:",
+        "\nInput:",
+        "\nOutput:",
+        "\nAnswer:",
+        "\n## See also",
+        "\n## External links",
+        ],
     )
 
     llm = LLM(

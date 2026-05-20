@@ -44,7 +44,7 @@ seed=0
 # MODPO stage 2: language modeling with the safety reward as margin
 # r = (w)*r_better + (1-w)*r_safer
 w=${1:-0.5}
-lm_run_name="${dataset_name}/modpo/lm/($w)*r_better+(1-$w)*r_safer"
+lm_run_name="$modpo_${w}_hh"
 PYTHONPATH=. $LAUNCH scripts/modpo/modpo.py \
     --sft_model_name ${sft_model_name} \
     --margin_reward_model_name "${output_dir}/dpo/dpo-safer/best_checkpoint" \

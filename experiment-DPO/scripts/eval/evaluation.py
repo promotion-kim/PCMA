@@ -23,8 +23,8 @@ from tqdm import tqdm
 DEFAULT_REWARD_MODEL = "PKU-Alignment/beaver-7b-v1.0-reward"
 DEFAULT_COST_MODEL = "PKU-Alignment/beaver-7b-v1.0-cost"
 DEFAULT_PROMPT_TEMPLATE = "BEGINNING OF CONVERSATION: USER: {raw_prompt} ASSISTANT:"
-DEFAULT_METHODS = ["modpo", "cpcmodpo", "rs"]
-DEFAULT_WEIGHTS = ["0.1", "0.3", "0.5", "0.7", "0.9"]
+DEFAULT_METHODS = ["modpo", "morlhf", "rs", "ric", "bppmoa"]
+DEFAULT_WEIGHTS = ["0.0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0"]
 
 
 @dataclass
